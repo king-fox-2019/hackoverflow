@@ -15,7 +15,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // untuk proses async
     LOGIN_ATTEMPT({ commit }, payload) {
       const { email, password } = payload;
       axios

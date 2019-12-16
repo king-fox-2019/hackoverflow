@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --exit",
-    "dev": "NODE_ENV=development nodemon bin/http.js"
+    "dev": "NODE_ENV=development nodemon bin/www.js"
   },
   "author": "muhammad ilham",
   "license": "ISC",

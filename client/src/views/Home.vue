@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1 class="animated tada">
-      <strong id="texthe outline-darkader">{{message}}</strong>
+      <strong id="textheader">{{message}}</strong>
     </h1>
     <hr>
     <section class="mt-5">
@@ -36,7 +36,7 @@ h1 {
   margin-top: 12%;
 }
 #textheader {
-  font-family: 'Lilita One', cursive !important;
+  font-family: 'Lilita One', cursive;
   font-size: 6rem;
   color: blueviolet;
   outline-color: black !important;

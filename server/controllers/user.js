@@ -29,7 +29,7 @@ class UserController {
           if(compare(password, user.password)) {
             const payload = {
               id: user._id,
-              email: user.emit
+              email: user.email
             };
             const token = sign(payload);
             res.status(200).json({ token });

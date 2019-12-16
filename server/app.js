@@ -23,8 +23,14 @@ mongoose
   .then(_ => console.log(`Connected to ${MONGO_URI}`))
   .catch(_ => console.log(`Connection failed!`));
 
+// Routing
 const user = require('./routes/user');
+const question = require('./routes/question');
 app.use('/user', user);
+app.use('/questions', question);
 
+app.get('/test', (req, res) => {
+  res.status(200).json({ message: 'oke', });
+});
 app.use(errHandling);
 module.exports = app
