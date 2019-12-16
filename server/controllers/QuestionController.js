@@ -1,4 +1,5 @@
 const { Question } = require('../models')
+const createError = require('http-errors')
 
 class QuestionController {
   static postQuestion(req, res, next) {
@@ -38,7 +39,21 @@ class QuestionController {
     Question.findById(req.params.id)
       .populate('author', '-password')
       .then(question => {
-        res.status(200).json({ data: question })
+        if (question) res.status(200).json({ data: question })
+        else throw createError(404, 'Question not found')
+      })
+      .catch(next)
+  }
+
+  static editQuestion(req, res, next) {
+    req.question.description = req.body.description || req.question.description
+    req.question
+      .save()
+      .then(question => {
+        res.status(200).json({
+          message: 'Question updated',
+          data: question
+        })
       })
       .catch(next)
   }

@@ -252,12 +252,22 @@ PATCH /questions/:id
 
 ##### Body
 
-- description **Required**
+- description **Optional** will response OK even when no data sent
 
 ##### Response
 
 Status 200: OK
 
 ```json
-
+{
+  "message": "Question updated",
+  "data": {
+    "upvotes": [],
+    "downvotes": [],
+    "_id": "5df78f849961c4808aa1a5df",
+    "title": "What is?",
+    "description": "Why this why became why when why still why with why?",
+    "author": "5df78131eca931762cde32ff"
+  }
+}
 ```
