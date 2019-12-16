@@ -6,18 +6,20 @@ const createError = require('http-errors')
 class UserController {
   static signUp(req, res, next) {
     const { email, password } = req.body
-    User.create({ email, password }).then(user => {
-      const { _id, email } = user
-      const access_token = sign({ _id, email })
+    User.create({ email, password })
+      .then(user => {
+        const { _id, email } = user
+        const access_token = sign({ _id, email }, process.env.JWT_SECRET)
 
-      res.status(201).json({
-        message: 'Sign up success',
-        data: {
-          user,
-          access_token
-        }
+        res.status(201).json({
+          message: 'Sign up success',
+          data: {
+            user: { ...user._doc, password },
+            access_token
+          }
+        })
       })
-    })
+      .catch(next)
   }
 
   static signIn(req, res, next) {
@@ -27,7 +29,7 @@ class UserController {
         try {
           if (user && compareSync(password, user.password)) {
             const { _id, email } = user
-            const access_token = sign({ _id, email })
+            const access_token = sign({ _id, email }, process.env.JWT_SECRET)
 
             res.status(200).json({
               message: 'Sign in success',
@@ -35,12 +37,19 @@ class UserController {
                 access_token
               }
             })
-          } else throw createError(422, 'Wrong email or password')
+          } else throw {}
         } catch (err) {
-          throw err
+          throw createError(422, 'Wrong email or password')
         }
       })
       .catch(next)
+  }
+
+  static checkSession(req, res, next) {
+    res.status(200).json({
+      message: 'User authenticated',
+      data: req.user
+    })
   }
 }
 module.exports = UserController

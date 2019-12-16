@@ -1,10 +1,11 @@
 const routes = require('express').Router()
 const { authenticate } = require('../middlewares/auth')
+const { UserController } = require('../controllers')
 
-routes.post('/signup')
-routes.post('/signin')
+routes.post('/signup', UserController.signUp)
+routes.post('/signin', UserController.signIn)
 
 routes.use(authenticate)
-routes.get('/checksession')
+routes.use('/user', require('./user'))
 
 module.exports = routes

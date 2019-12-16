@@ -7,9 +7,12 @@ module.exports = {
     try {
       const payload = verify(req.headers.access_token, process.env.JWT_SECRET)
       User.findOne({ email: payload.email })
+        .select('-password')
         .then(user => {
-          if (user) next()
-          else throw createError(401, 'User banned')
+          if (user) {
+            req.user = user
+            next()
+          } else throw createError(401, 'User banned')
         })
         .catch(next)
     } catch (error) {
