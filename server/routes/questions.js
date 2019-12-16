@@ -10,5 +10,6 @@ questions.post('/', QuestionController.postQuestion)
 
 questions.use('/:id', authorizeQuestion)
 questions.patch('/:id', QuestionController.editQuestion)
+questions.delete('/:id', QuestionController.deleteQuestion)
 
 module.exports = questions

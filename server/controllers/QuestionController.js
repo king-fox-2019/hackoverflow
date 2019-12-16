@@ -57,6 +57,14 @@ class QuestionController {
       })
       .catch(next)
   }
+
+  static deleteQuestion(req, res, next) {
+    Question.findByIdAndDelete(req.params.id)
+      .then(question => {
+        res.status(200).json({ message: 'Question deleted' })
+      })
+      .catch(next)
+  }
 }
 
 module.exports = QuestionController

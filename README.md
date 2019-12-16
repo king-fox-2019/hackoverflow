@@ -276,3 +276,25 @@ Status 200: OK
   }
 }
 ```
+
+### Delete Question
+
+##### Endpoint
+
+```http
+DELETE /questions/:id
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "Question deleted"
+}
+```
