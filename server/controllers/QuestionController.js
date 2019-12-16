@@ -58,6 +58,44 @@ class QuestionController {
       .catch(next)
   }
 
+  static upvoteQuestion(req, res, next) {
+    Question.findById(req.params.id)
+      .populate('User', '-password')
+      .then(question => {
+        question.upvotes.pull(req.user._id)
+        question.downvotes.pull(req.user._id)
+        question.upvotes.push(req.user._id)
+        return question
+          .save()
+          .then(question => {
+            res.status(200).json({
+              message: 'You have upvoted',
+              data: question
+            })
+          })
+          .catch(next)
+      })
+  }
+
+  static downvoteQuestion(req, res, next) {
+    Question.findById(req.params.id)
+      .populate('User', '-password')
+      .then(question => {
+        question.upvotes.pull(req.user._id)
+        question.downvotes.pull(req.user._id)
+        question.downvotes.push(req.user._id)
+        return question
+          .save()
+          .then(question => {
+            res.status(200).json({
+              message: 'You have downvoted',
+              data: question
+            })
+          })
+          .catch(next)
+      })
+  }
+
   static deleteQuestion(req, res, next) {
     Question.findByIdAndDelete(req.params.id)
       .then(question => {

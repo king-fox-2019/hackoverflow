@@ -277,6 +277,66 @@ Status 200: OK
 }
 ```
 
+### Upvote Question
+
+##### Endpoint
+
+```http
+PATCH /questions/:id/upvote
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "You have upvoted",
+  "data": {
+    "upvotes": ["5df78131eca931762cde32ff"],
+    "downvotes": [],
+    "_id": "5df7b1b8283e419538efa3b9",
+    "title": "What is?",
+    "description": "What is what what? Why what is what? How what be what when what is what?",
+    "author": "5df78131eca931762cde32ff"
+  }
+}
+```
+
+### Downvote Question
+
+##### Endpoint
+
+```http
+PATCH /questions/:id/downvote
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "You have downvoted",
+  "data": {
+    "upvotes": [],
+    "downvotes": ["5df78131eca931762cde32ff"],
+    "_id": "5df7b1b8283e419538efa3b9",
+    "title": "What is?",
+    "description": "What is what what? Why what is what? How what be what when what is what?",
+    "author": "5df78131eca931762cde32ff"
+  }
+}
+```
+
 ### Delete Question
 
 ##### Endpoint
