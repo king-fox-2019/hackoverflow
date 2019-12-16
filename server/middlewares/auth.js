@@ -1,5 +1,6 @@
 const User = require('../model/user')
 const Question = require('../model/question')
+const Answer = require('../model/answer')
 const { verifyToken } = require('../helpers/jwt')
 
 module.exports = {
@@ -18,6 +19,22 @@ module.exports = {
         })
         .then(question => {
             if(question.author == req.decoded.id){
+                next()
+            }else{
+                throw({
+                    status: 403,
+                    message: 'You dont have permission to do that'
+                })
+            }
+        })
+        .catch(next)
+    },
+    authorizationAnswer(req,res,next){
+        Answer.findOne({
+            _id: req.params.id
+        })
+        .then(answer => {
+            if(answer.author == req.decoded.id){
                 next()
             }else{
                 throw({
