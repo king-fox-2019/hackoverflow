@@ -1,5 +1,5 @@
-import createError from 'http-errors'
+const createError = require('http-errors')
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
   next(createError(404, 'Endpoint not found'))
 }

@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV === 'development') require('dotenv').config()
-import * as express from 'express'
-import morgan from 'morgan'
-import cors from 'cors'
+const express = require('express')
+const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 app.use(cors())
@@ -13,4 +13,4 @@ app.use('/', require('./routes'))
 app.use('*', require('./middlewares/404'))
 app.use(require('./middlewares/errorHandler'))
 
-export default app
+module.exports = app

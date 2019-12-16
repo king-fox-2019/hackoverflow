@@ -1,6 +1,5 @@
-import app from '../app'
-import http from 'http'
+const app = require('../app')
+const server = require('http').createServer(app)
 const PORT = process.env.PORT || 3000
 
-const server = http.createServer(app)
 server.listen(PORT, () => console.log('listening to PORT', PORT))

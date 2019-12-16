@@ -1,10 +1,11 @@
-export default (err, req, res, next) => {
+module.exports = (err, req, res, next) => {
   let status, message
+  console.log(err.name)
 
   switch (err.name) {
     default:
-      status = 500
-      message = 'Something went wrong'
+      status = err.status || 500
+      message = err.message || 'Something went wrong'
       break
   }
 
