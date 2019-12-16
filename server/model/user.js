@@ -30,6 +30,10 @@ const userSchema = new Schema({
     avatar:{
         type: String
     }
+},
+{
+    versionKey: false,
+    timestamps: true
 })
 
 
