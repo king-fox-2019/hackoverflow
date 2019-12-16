@@ -1,18 +1,49 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1 class="animated tada">
+      <strong id="textheader">{{message}}</strong>
+    </h1>
+    <hr>
+    <section class="mt-5">
+      <b-button style="width: 200px;" class="mr-3" variant="warning">
+        ASK
+      </b-button>
+      <b-button to="questions" style="width: 200px;" variant="warning outline-dark">
+        Answer a question
+      </b-button>
+    </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'home',
+  data() {
+    return {
+      message: 'We <3 People Who Code.',
+    };
+  },
   components: {
-    HelloWorld,
   },
 };
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Lilita+One&display=swap');
+
+h1 {
+  margin-top: 12%;
+}
+#textheader {
+  font-family: 'Lilita One', cursive;
+  font-size: 6rem;
+  color: orange;
+  outline-color: black !important;
+}
+hr {
+  color: red;
+  margin-left: 30%;
+  margin-right: 30%
+}
+</style>
