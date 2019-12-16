@@ -14,4 +14,4 @@ router.get('/info', authenticate, UserController.getInfo)
 // get all user
 router.get('/', authenticate ,UserController.getAllUser)
 
-module.exports = routers
+module.exports = router
