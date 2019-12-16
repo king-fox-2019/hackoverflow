@@ -23,6 +23,7 @@ http://localhost:3000
 
 - User validation error: Typically this happens when you try to Sign Up with invalid data. Please check again the requirement for each field. Example error: `Invalid email format`, `Password required`.
 - `Wrong email or password`: This happens when you enter invalid email or password during Sign In. Please check again.
+- Question validation error: This happens when you try to post a question without all the required data. Example error: `Question title required`, `Question description required`.
 
 ## User Routes
 
@@ -107,4 +108,156 @@ Status 200:OK
     "email": "dummy@mail.com"
   }
 }
+```
+
+## Question Routes
+
+### Post Question
+
+##### Endpoint
+
+```http
+POST /questions
+```
+
+##### Body
+
+- title **Required**
+- description **Required**
+
+##### Response
+
+Status 201: Created
+
+```json
+{
+  "message": "Question posted",
+  "data": {
+    "upvotes": [],
+    "downvotes": [],
+    "_id": "5df78f849961c4808aa1a5df",
+    "title": "What is?",
+    "description": "What is what what? Why what is what? How what be what when what is what?",
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    }
+  }
+}
+```
+
+### Get All Questions
+
+##### Endpoint
+
+```http
+GET /questions
+```
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": [
+    {
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df78f849961c4808aa1a5df",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df78131eca931762cde32ff",
+        "email": "dummy@mail.com"
+      }
+    }
+  ]
+}
+```
+
+### Get All User Questions
+
+##### Endpoint
+
+```http
+GET /user/questions
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": [
+    {
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df78f849961c4808aa1a5df",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df78131eca931762cde32ff",
+        "email": "dummy@mail.com"
+      }
+    }
+  ]
+}
+```
+
+### Get One Question
+
+##### Endpoint
+
+```http
+GET /questions/:id
+```
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": {
+    "upvotes": [],
+    "downvotes": [],
+    "_id": "5df78f849961c4808aa1a5df",
+    "title": "What is?",
+    "description": "What is what what? Why what is what? How what be what when what is what?",
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    }
+  }
+}
+```
+
+### Edit Question
+
+##### Endpoint
+
+```http
+PATCH /questions/:id
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Body
+
+- description **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+
 ```
