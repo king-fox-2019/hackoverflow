@@ -13,6 +13,7 @@ http://localhost:3000
 ### 404: Not Found
 
 - `Endpoint not found`: Happens when you mistyped the routes endpoint. Check if you set it correctly.
+- `Question not found`: Happens when you try to access question that's not available (possibly deleted by the author), especially when you hit endpoint with question id. If that's not the case, then maybe you mistyped the id.
 
 ### 401: Unauthorized
 
@@ -24,6 +25,10 @@ http://localhost:3000
 - User validation error: Typically this happens when you try to Sign Up with invalid data. Please check again the requirement for each field. Example error: `Invalid email format`, `Password required`.
 - `Wrong email or password`: This happens when you enter invalid email or password during Sign In. Please check again.
 - Question validation error: This happens when you try to post a question without all the required data. Example error: `Question title required`, `Question description required`.
+
+### 403: Forbidden
+
+- `You don't have authorization to this question`: Happens when you try to manipulate (edit, delete) a question that's not posted by you. If that's not the case, then try to check whether you typed the id correctly.
 
 ## User Routes
 
