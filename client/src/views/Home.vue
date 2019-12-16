@@ -1,14 +1,14 @@
 <template>
   <div class="home">
     <h1 class="animated tada">
-      <strong id="textheader">{{message}}</strong>
+      <strong id="texthe outline-darkader">{{message}}</strong>
     </h1>
     <hr>
     <section class="mt-5">
-      <b-button style="width: 200px;" class="mr-3" variant="warning">
+      <b-button style="width: 200px;" class="mr-3" variant="info">
         ASK
       </b-button>
-      <b-button to="questions" style="width: 200px;" variant="warning outline-dark">
+      <b-button to="questions" style="width: 200px;" variant="info">
         Answer a question
       </b-button>
     </section>
@@ -36,9 +36,9 @@ h1 {
   margin-top: 12%;
 }
 #textheader {
-  font-family: 'Lilita One', cursive;
+  font-family: 'Lilita One', cursive !important;
   font-size: 6rem;
-  color: orange;
+  color: blueviolet;
   outline-color: black !important;
 }
 hr {

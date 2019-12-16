@@ -16,6 +16,13 @@ export default {
   components: {
     navbar,
   },
+  created() {
+    if (localStorage.getItem('token')) {
+      this.$store.commit('SET_ISLOGGED', true);
+    } else {
+      this.$store.commit('SET_ISLOGGED', false);
+    }
+  },
 };
 </script>
 

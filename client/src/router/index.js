@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import login from '../views/loginregister.vue';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/questions',
     name: 'questions',
     component: () => import(/* webpackChunkName: "questions" */ '../views/Questions.vue'),
+  },
+  {
+    path: '/login',
+    name: 'loginregister',
+    component: login,
   },
 ];
 

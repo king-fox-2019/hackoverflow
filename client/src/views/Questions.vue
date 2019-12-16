@@ -1,12 +1,14 @@
 <template>
   <div>
-    <b-card class="text-center">
-      <div class="bg-secondary text-light">
-        This is some content within the default <samp>&lt;b-card-body&gt;</samp> block of the
-        <samp>&lt;b-card&gt;</samp> component. Notice the padding between the card's border and this
-        gray <samp>&lt;div&gt;</samp>.
-      </div>
-    </b-card>
+    <b-jumbotron bg-variant="info" text-variant="white" border-variant="dark">
+      <template v-slot:header>Hackoverflow</template>
+
+      <template v-slot:lead>
+        We build products that empower developers and connect
+        them to solutions that enable productivity, growth, and discovery.
+      </template>
+      <hr class="my-4">
+    </b-jumbotron>
   </div>
 </template>
 
