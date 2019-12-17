@@ -1,49 +1,48 @@
 <template>
-  <div class="home">
-    <h1 class="animated tada">
-      <strong id="textheader">{{message}}</strong>
-    </h1>
-    <hr>
-    <section class="mt-5">
-      <b-button style="width: 200px;" class="mr-3" variant="info">
-        ASK
-      </b-button>
-      <b-button to="questions" style="width: 200px;" variant="info">
-        Answer a question
-      </b-button>
+  <div>
+    <section id="header">
+      <h1>
+        <strong id="textheader">{{message}}</strong>
+        <hr>
+      </h1>
+    </section>
+    <section id="routes">
+      <b-button id="button" size="lg" style="width: 15%">ASK</b-button>
+      <b-button id="button" size="lg" to="questions" >ANSWER QUESTION</b-button>
     </section>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'home',
   data() {
     return {
-      message: 'We <3 People Who Code.',
+      message: 'We <3 people who ask',
     };
-  },
-  components: {
   },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Lilita+One&display=swap');
-
-h1 {
-  margin-top: 12%;
+hr {
+  border: 1px solid yellow;
+  width: 30%;
+  border-radius: 3rem;
 }
 #textheader {
+  margin-top: 12%;
+  font-size: 5rem;
+  color: orange;
+  display: flex;
+  justify-content: center;
   font-family: 'Lilita One', cursive;
-  font-size: 6rem;
-  color: blueviolet;
-  outline-color: black !important;
+  text-shadow: 3px 3px green;
 }
-hr {
-  color: red;
-  margin-left: 30%;
-  margin-right: 30%
+#button {
+  margin: 1rem !important;
+}
+#routes {
+  display: flex;
+  justify-content: center;
 }
 </style>

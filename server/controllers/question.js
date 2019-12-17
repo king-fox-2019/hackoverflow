@@ -55,7 +55,7 @@ class QuestionController {
     Question
       .updateOne({ _id: id}, { $inc: { downVotes: 1 } })
       .then(() => {
-        res.status(200).json({ message: "Wee'll Take a look!" });
+        res.status(200).json({ message: "We'll Take a look!" });
       })
       .catch(next);
   }

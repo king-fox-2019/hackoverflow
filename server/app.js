@@ -26,8 +26,10 @@ mongoose
 // Routing
 const user = require('./routes/user');
 const question = require('./routes/question');
+const answer = require('./routes/answer');
 app.use('/user', user);
 app.use('/questions', question);
+app.use('/answer', answer);
 
 app.use(errHandling);
 module.exports = app

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <navbar/>
+    <div id="nav">
+      <navbar/>
+    </div>
     <router-view/>
   </div>
 </template>
@@ -11,41 +13,15 @@ import navbar from '@/components/navbar.vue';
 export default {
   data() {
     return {
+      message: 'Hello world',
     };
   },
   components: {
     navbar,
   },
-  created() {
-    if (localStorage.getItem('token')) {
-      this.$store.commit('SET_ISLOGGED', true);
-    } else {
-      this.$store.commit('SET_ISLOGGED', false);
-    }
-    this.$store.dispatch('getAllQuestion');
-  },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+@import url('https://fonts.googleapis.com/css?family=Lilita+One&display=swap');
 </style>
