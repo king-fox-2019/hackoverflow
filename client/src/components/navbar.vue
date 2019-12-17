@@ -13,7 +13,7 @@
             </template>
             <section v-if="$store.state.logged">
               <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
             </section>
             <section v-else>
               <b-dropdown-item to="login">LOGIN / REGISTER</b-dropdown-item>
@@ -30,6 +30,12 @@ export default {
     return {
       message: 'Hello world',
     };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$store.dispatch('logged', false);
+    },
   },
 };
 </script>

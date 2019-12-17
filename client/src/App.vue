@@ -19,6 +19,13 @@ export default {
   components: {
     navbar,
   },
+  created() {
+    if (localStorage.getItem('token')) {
+      this.$store.dispatch('logged', true);
+    } else {
+      this.$store.dispatch('logged', false);
+    }
+  },
 };
 </script>
 

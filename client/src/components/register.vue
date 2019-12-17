@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="register">
     <b-form-input class="input" type="text" v-model="fullname"
     placeholder="Enter your fullname"></b-form-input>
     <b-form-input class="input" v-model="email"
@@ -19,6 +19,16 @@ export default {
       email: '',
       password: '',
     };
+  },
+  methods: {
+    register() {
+      const payload = {
+        fullname: this.fullname,
+        email: this.email,
+        password: this.password,
+      };
+      this.$store.dispatch('register', payload);
+    },
   },
 };
 </script>
