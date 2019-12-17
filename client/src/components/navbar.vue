@@ -16,7 +16,7 @@
               <b-dropdown-item href="#">Sign Out</b-dropdown-item>
             </section>
             <section v-else>
-              <b-dropdown-item href="#">LOGIN / REGISTER</b-dropdown-item>
+              <b-dropdown-item to="login">LOGIN / REGISTER</b-dropdown-item>
             </section>
           </b-nav-item-dropdown>
         </b-navbar-nav>

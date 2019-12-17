@@ -7,7 +7,7 @@
       </h1>
     </section>
     <section id="routes">
-      <b-button id="button" size="lg" style="width: 15%">ASK</b-button>
+      <b-button id="button" v-show="$store.state.logged" size="lg" style="width: 15%">ASK</b-button>
       <b-button id="button" size="lg" to="questions" >ANSWER QUESTION</b-button>
     </section>
   </div>
