@@ -31,8 +31,7 @@ class QuestionController {
   }
 
   static getAllUserQuestions(req, res, next) {
-    Question.find({ author: req.user._id })
-      .populate('author', '-password')
+    Question.find({ author: req.user._id }, '-author')
       .then(questions => {
         res.status(200).json({ data: questions })
       })

@@ -217,11 +217,7 @@ Status 200: OK
       "downvotes": [],
       "_id": "5df78f849961c4808aa1a5df",
       "title": "What is?",
-      "description": "What is what what? Why what is what? How what be what when what is what?",
-      "author": {
-        "_id": "5df78131eca931762cde32ff",
-        "email": "dummy@mail.com"
-      }
+      "description": "What is what what? Why what is what? How what be what when what is what?"
     }
   ]
 }
