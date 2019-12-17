@@ -22,6 +22,7 @@ export default {
     } else {
       this.$store.commit('SET_ISLOGGED', false);
     }
+    this.$store.dispatch('getAllQuestion');
   },
 };
 </script>

@@ -32,16 +32,32 @@ class QuestionController {
       .catch(next);
   }
   static remove(req, res, next) {
-
-  }
-  static updateQuestion() {
+    const { id } = req.params
+    Question
+      .deleteOne({ _id: id })
+      .then(() => {
+        res.status(200).json({ message: 'Question Deleted!' });
+      })
+      .catch(next);
 
   }
   static upVotes(req, res, next) {
-
+    const { id } = req.params
+    Question
+      .updateOne({ _id: id}, { $inc: { upVotes: 1 } })
+      .then(() => {
+        res.status(200).json({ message: 'Thank You!' });
+      })
+      .catch(next);
   }
   static downVotes(req, res, next) {
-    
+    const { id } = req.params
+    Question
+      .updateOne({ _id: id}, { $inc: { downVotes: 1 } })
+      .then(() => {
+        res.status(200).json({ message: "Wee'll Take a look!" });
+      })
+      .catch(next);
   }
 }
 

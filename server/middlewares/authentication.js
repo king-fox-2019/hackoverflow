@@ -1,12 +1,12 @@
 "use strict";
 
 const { User } = require("../models");
-const jwt = require("../helpers/jsonwebtoken");
+const { verify } = require('../helpers/jsonwebtoken');
 
 module.exports = (req, res, next) => {
   const token = req.headers.token || null;
   if (token) {
-    let decoded = jwt.verify(token);
+    let decoded = verify(token);
     let { id } = decoded;
     User.findById(id)
       .then(user => {
@@ -22,5 +22,11 @@ module.exports = (req, res, next) => {
         }
       })
       .catch(next);
+  } else {
+    next({
+      isThrow: true,
+      status: 401,
+      message: 'Please Login'
+    })
   }
 };

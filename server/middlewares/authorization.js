@@ -1,16 +1,16 @@
 'use strict'; 
-const { Article } = require('../models');
+const { Question } = require('../models');
 
 module.exports = (req, res, next) => {
-    let { id } = req.body
-    Article
-        .findById(id)
+    let { id } = req.params
+    Question
+        .findOne(id)
         .populate({
-            path: 'user',
-            select: '-passowrd'
+            path: 'userId',
+            select: '-password'
         })
         .then((data) => {
-            if (data.author._id == req.token.id ) {
+            if (data.userId._id == req.token.id ) {
                 next();
             } else {
                 next({ isThrow: true, status: 401, message: "Product" });

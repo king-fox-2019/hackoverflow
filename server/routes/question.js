@@ -8,7 +8,9 @@ const router = require('express').Router();
 router.get('/', controller.getAllQuestions);
 router.use(auth);
 router.post('/', controller.askQuestion);
-router.put('/', controller.updateQuestion);
+router.patch('/upvotes/:id', controller.upVotes);
+router.patch('/downvotes/:id', controller.downVotes);
+router.use(authorization);
 router.delete('/:id', controller.remove);
 
 module.exports = router;
