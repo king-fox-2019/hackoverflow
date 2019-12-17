@@ -286,7 +286,10 @@ Status 200: OK
     "_id": "5df78f849961c4808aa1a5df",
     "title": "What is?",
     "description": "Why this why became why when why still why with why?",
-    "author": "5df78131eca931762cde32ff"
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    }
   }
 }
 ```
@@ -317,7 +320,10 @@ Status 200: OK
     "_id": "5df7b1b8283e419538efa3b9",
     "title": "What is?",
     "description": "What is what what? Why what is what? How what be what when what is what?",
-    "author": "5df78131eca931762cde32ff"
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    }
   }
 }
 ```
@@ -348,7 +354,10 @@ Status 200: OK
     "_id": "5df7b1b8283e419538efa3b9",
     "title": "What is?",
     "description": "What is what what? Why what is what? How what be what when what is what?",
-    "author": "5df78131eca931762cde32ff"
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    }
   }
 }
 ```
