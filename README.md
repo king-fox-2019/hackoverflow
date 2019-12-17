@@ -10,6 +10,14 @@ http://localhost:3000
 
 ## Errors
 
+### Response Format
+
+```json
+{
+  "message": ["...", "..."]
+}
+```
+
 ### 404: Not Found
 
 - `Endpoint not found`: Happens when you mistyped the routes endpoint. Check if you set it correctly.
@@ -129,6 +137,7 @@ POST /questions
 
 - title **Required**
 - description **Required**
+- tags **Optional** can be comma-separated string or array of strings.
 
 ##### Response
 
@@ -138,6 +147,7 @@ Status 201: Created
 {
   "message": "Question posted",
   "data": {
+    "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -167,6 +177,7 @@ Status 200: OK
 {
   "data": [
     {
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df78f849961c4808aa1a5df",
@@ -201,6 +212,7 @@ Status 200: OK
 {
   "data": [
     {
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df78f849961c4808aa1a5df",
@@ -230,6 +242,7 @@ Status 200: OK
 ```json
 {
   "data": {
+    "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -267,6 +280,7 @@ Status 200: OK
 {
   "message": "Question updated",
   "data": {
+    "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -297,6 +311,7 @@ Status 200: OK
 {
   "message": "You have upvoted",
   "data": {
+    "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": ["5df78131eca931762cde32ff"],
     "downvotes": [],
     "_id": "5df7b1b8283e419538efa3b9",
@@ -327,6 +342,7 @@ Status 200: OK
 {
   "message": "You have downvoted",
   "data": {
+    "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": [],
     "downvotes": ["5df78131eca931762cde32ff"],
     "_id": "5df7b1b8283e419538efa3b9",

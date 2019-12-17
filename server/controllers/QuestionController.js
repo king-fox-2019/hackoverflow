@@ -3,8 +3,12 @@ const createError = require('http-errors')
 
 class QuestionController {
   static postQuestion(req, res, next) {
-    const { title, description } = req.body
-    Question.create({ title, description, author: req.user._id })
+    const { title, description, tags } = req.body
+    let allTags
+    if (tags)
+      allTags =
+        typeof tags == 'string' ? tags.split(',').map(t => t.trim()) : tags
+    Question.create({ title, description, tags: allTags, author: req.user._id })
       .then(question => {
         return question.populate('author', '-password').execPopulate()
       })
@@ -46,7 +50,14 @@ class QuestionController {
   }
 
   static editQuestion(req, res, next) {
-    req.question.description = req.body.description || req.question.description
+    const { description, tags } = req.body
+    req.question.description = description || req.question.description
+    req.question.tags = tags
+      ? typeof tags == 'string'
+        ? tags.split(',').map(t => t.trim())
+        : tags
+      : req.question.tags
+
     req.question
       .save()
       .then(question => {

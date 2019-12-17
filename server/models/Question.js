@@ -4,7 +4,8 @@ const questionSchema = new Schema(
   {
     author: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     },
     title: {
       type: String,
@@ -14,6 +15,11 @@ const questionSchema = new Schema(
       type: String,
       required: [true, 'Question description required']
     },
+    tags: [
+      {
+        type: String
+      }
+    ],
     upvotes: [
       {
         type: Schema.Types.ObjectId,
