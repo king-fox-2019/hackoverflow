@@ -20,6 +20,12 @@ const questionSchema = new Schema(
         type: String
       }
     ],
+    answers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Answer'
+      }
+    ],
     upvotes: [
       {
         type: Schema.Types.ObjectId,
@@ -36,7 +42,7 @@ const questionSchema = new Schema(
   { versionKey: false }
 )
 
-questionSchema.post('deleteOne', function(doc) {
+questionSchema.post('remove', function(doc) {
   return models.Answer.deleteMany({ question: doc.id })
 })
 

@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, models } = require('mongoose')
 
 const answerSchema = new Schema(
   {
@@ -31,5 +31,17 @@ const answerSchema = new Schema(
   },
   { versionKey: false }
 )
+
+answerSchema.post('save', function(doc) {
+  return models.Question.findByIdAndUpdate(doc.question, {
+    $push: { answers: doc._id }
+  })
+})
+
+answerSchema.post('remove', function(doc) {
+  return models.Question.findByIdAndUpdate(doc.question, {
+    $pull: { answers: doc._id }
+  })
+})
 
 module.exports = model('Answer', answerSchema)

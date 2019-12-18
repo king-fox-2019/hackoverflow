@@ -5,7 +5,8 @@ const NODE_ENV = process.env.NODE_ENV
 mongoose
   .connect(`${URI}${NODE_ENV ? '-' + NODE_ENV : ''}`, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   })
   .then(() =>
     console.log(

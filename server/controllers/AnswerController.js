@@ -57,7 +57,7 @@ class Answerontroller {
         populate: { path: 'author', select: '-password' }
       })
       .then(answer => {
-        if (!answer) createError(404, 'Answer not found')
+        if (!answer) throw createError(404, 'Answer not found')
         else res.status(200).json({ data: answer })
       })
       .catch(next)
