@@ -23,7 +23,7 @@ Vue.use(Toasted, {
 })
 
 router.beforeEach((to, from, next) => {
-  let loader = Vue.$loading.show()
+  const loader = Vue.$loading.show()
   store
     .dispatch('checkSession', localStorage.getItem('access_token'))
     .then(() => {

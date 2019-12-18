@@ -22,7 +22,21 @@ class QuestionController {
   }
 
   static getAllQuestions(req, res, next) {
-    Question.find()
+    let { search } = req.query
+    const query = {}
+
+    if (search) {
+      const pattern = search
+        .split('')
+        .map(x => {
+          return `(?=.*${x})`
+        })
+        .join('')
+      search = new RegExp(`${pattern}`, 'gi')
+      query.$or = [{ title: search }, { tags: search }]
+    }
+
+    Question.find(query)
       .populate('author', '-password')
       .then(questions => {
         res.status(200).json({ data: questions })

@@ -17,20 +17,20 @@
       <b-row>
         <b-col>
           <h1>All Question</h1>
-          <b-form inline>
+          <b-form inline @submit.prevent="getQuestions">
             <b-input
               class="mb-2 mr-sm-2 mb-sm-0"
               v-model="searchQuerry"
               placeholder="Search Question"
             ></b-input>
 
-            <b-button variant="primary" @click="getQuestions">Search</b-button>
+            <b-button variant="primary" type="submit">Search</b-button>
           </b-form>
         </b-col>
       </b-row>
       <hr class="mt-3 mb-4 border-primary" />
-      <b-row>
-        <b-col cols="12" sm="8">
+      <b-row class="w-100">
+        <b-col cols="12" ref="questionList">
           <ul class="list-unstyled">
             <b-media
               class="my-4"
@@ -40,7 +40,7 @@
             >
               <template v-slot:aside>
                 <div
-                  class="stat-box d-flex align-items-center justify-content-around border border-primary rounded"
+                  class="stat-box d-flex flex-column flex-lg-row align-items-center justify-content-around border border-primary rounded"
                 >
                   <div class="text-center">
                     <h1 class="text-accent mb-0">
@@ -48,7 +48,7 @@
                     </h1>
                     <small class="text-muted">votes</small>
                   </div>
-                  <div class="text-center ">
+                  <div class="text-center">
                     <h1 class="text-accent mb-0">0</h1>
                     <small class="text-muted">answers</small>
                   </div>
@@ -86,7 +86,10 @@ export default {
   },
   methods: {
     getQuestions() {
-      this.$store.dispatch('getAllQuestions')
+      const loader = this.$loading.show({ container: this.$refs.questionList })
+      this.$store
+        .dispatch('getAllQuestions', this.searchQuerry || undefined)
+        .finally(() => loader.hide())
     }
   },
   created() {
@@ -97,7 +100,7 @@ export default {
 
 <style lang="scss" scoped>
 .stat-box {
-  width: 13rem;
-  height: 5rem;
+  width: 12vw;
+  min-width: 5rem;
 }
 </style>
