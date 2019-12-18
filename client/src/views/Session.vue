@@ -33,21 +33,17 @@
           <div
             class="d-flex flex-wrap align-items-center justify-content-between"
           >
-            <b-button type="submit" variant="primary">{{
-              isSignUp ? 'Sign Up' : 'Sign In'
-            }}</b-button>
-            <small class="text-muted" v-if="isSignUp"
-              >Already have an account?
-              <router-link :to="`/session?&on=signin`"
-                >Sign In</router-link
-              ></small
-            >
-            <small class="text-muted" v-else
-              >Don't have an account?
-              <router-link :to="`/session?&on=signup`"
-                >Sign Up</router-link
-              ></small
-            >
+            <b-button type="submit" variant="primary">
+              {{ isSignUp ? 'Sign Up' : 'Sign In' }}
+            </b-button>
+            <small class="text-muted" v-if="isSignUp">
+              Already have an account?
+              <router-link :to="`/session?&on=signin`">Sign In</router-link>
+            </small>
+            <small class="text-muted" v-else>
+              Don't have an account?
+              <router-link :to="`/session?&on=signup`">Sign Up</router-link>
+            </small>
           </div>
         </b-form>
       </b-col>
@@ -103,11 +99,11 @@ export default {
         .then(({ data }) => {
           this.$toasted.show(data.message)
         })
-        .catch(({ response }) => {
+        .catch(({ response }) =>
           response.data.message.forEach(msg =>
             this.$toasted.show(msg, { type: 'error' })
           )
-        })
+        )
         .finally(() => {
           loader.hide()
           this.password = ''

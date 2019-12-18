@@ -7,12 +7,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     onSession: null,
+    id: '',
     email: '',
     questions: []
   },
   mutations: {
     SET_SESSION(state, session) {
       state.onSession = session
+    },
+    SET_ID(state, id) {
+      state.id = id
     },
     SET_EMAIL(state, email) {
       state.email = email
@@ -27,6 +31,7 @@ export default new Vuex.Store({
         localStorage.setItem('access_token', response.data.data.access_token)
         commit('SET_SESSION', true)
         commit('SET_EMAIL', response.data.data.email)
+        commit('SET_ID', response.data.data._id)
         return response
       })
     },
@@ -35,6 +40,7 @@ export default new Vuex.Store({
         localStorage.setItem('access_token', response.data.data.access_token)
         commit('SET_SESSION', true)
         commit('SET_EMAIL', response.data.data.email)
+        commit('SET_ID', response.data.data._id)
         return response
       })
     },
@@ -44,11 +50,13 @@ export default new Vuex.Store({
         .then(response => {
           commit('SET_SESSION', true)
           commit('SET_EMAIL', response.data.data.email)
+          commit('SET_ID', response.data.data._id)
           return response
         })
         .catch(response => {
           commit('SET_SESSION', false)
           commit('SET_EMAIL', '')
+          commit('SET_ID', '')
           return response
         })
     },
@@ -56,6 +64,7 @@ export default new Vuex.Store({
       localStorage.clear()
       commit('SET_SESSION', false)
       commit('SET_EMAIL', '')
+      commit('SET_ID', '')
     },
     getAllQuestions({ commit }, searchQuery) {
       return server
@@ -63,6 +72,21 @@ export default new Vuex.Store({
         .then(({ data }) => {
           commit('SET_QUESTIONS', data.data)
         })
+    },
+    getQuestionDetail(context, id) {
+      return server.get(`questions/${id}`)
+    },
+    onVoteQuestion(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(`questions/${payload.id}/${payload.side}vote`, null, {
+        headers: { access_token }
+      })
+    },
+    onVoteAnswer(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(`answers/${payload.id}/${payload.side}vote`, null, {
+        headers: { access_token }
+      })
     }
   },
   modules: {}

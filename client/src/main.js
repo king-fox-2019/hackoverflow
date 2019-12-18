@@ -9,6 +9,15 @@ import Toasted from 'vue-toasted'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import '@/assets/scss/main.scss'
 
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faCaretUp, faCaretDown)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+dom.watch()
+
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(Loading, {

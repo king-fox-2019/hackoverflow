@@ -34,6 +34,6 @@ export default {
 <style lang="scss">
 #app {
   height: 100vh;
-  padding-top: 3rem;
+  padding-top: 3.5rem;
 }
 </style>

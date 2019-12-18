@@ -9,7 +9,8 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue')
+    component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+    children: [{ path: 'search' }]
   },
   {
     path: '/session',
@@ -19,6 +20,12 @@ const routes = [
     meta: {
       guest: true
     }
+  },
+  {
+    path: '/questions/:id',
+    name: 'questionDetail',
+    component: () =>
+      import(/* webpackChunkName: "question" */ '@/views/Question.vue')
   }
 ]
 
