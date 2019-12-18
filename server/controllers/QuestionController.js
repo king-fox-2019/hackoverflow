@@ -42,8 +42,8 @@ class QuestionController {
     Question.findById(req.params.id)
       .populate('author', '-password')
       .then(question => {
-        if (question) res.status(200).json({ data: question })
-        else throw createError(404, 'Question not found')
+        if (!question) throw createError(404, 'Question not found')
+        else res.status(200).json({ data: question })
       })
       .catch(next)
   }
@@ -69,47 +69,67 @@ class QuestionController {
   }
 
   static upvoteQuestion(req, res, next) {
+    let message
     Question.findById(req.params.id)
-      .populate('User', '-password')
+      .populate('author', '-password')
       .then(question => {
-        question.upvotes.pull(req.user._id)
-        question.downvotes.pull(req.user._id)
-        question.upvotes.push(req.user._id)
-        return question
-          .save()
-          .then(question => {
-            res.status(200).json({
-              message: 'You have upvoted',
-              data: question
-            })
-          })
-          .catch(next)
+        if (!question) throw createError(404, 'Question not found')
+        else {
+          if (question.upvotes.includes(req.user._id)) {
+            message = 'Your upvote has been removed'
+            question.upvotes.pull(req.user._id)
+          } else {
+            question.upvotes.push(req.user._id)
+            message = 'You have upvoted'
+          }
+
+          question.downvotes.pull(req.user._id)
+          return question.save()
+        }
       })
+      .then(question => {
+        res.status(200).json({
+          message,
+          data: question
+        })
+      })
+      .catch(next)
   }
 
   static downvoteQuestion(req, res, next) {
+    let message
     Question.findById(req.params.id)
-      .populate('User', '-password')
+      .populate('author', '-password')
       .then(question => {
-        question.upvotes.pull(req.user._id)
-        question.downvotes.pull(req.user._id)
-        question.downvotes.push(req.user._id)
-        return question
-          .save()
-          .then(question => {
-            res.status(200).json({
-              message: 'You have downvoted',
-              data: question
-            })
-          })
-          .catch(next)
+        if (!question) throw createError(404, 'Question not found')
+        else {
+          if (question.downvotes.includes(req.user._id)) {
+            message = 'Your downvote has been removed'
+            question.downvotes.pull(req.user._id)
+          } else {
+            question.downvotes.push(req.user._id)
+            message = 'You have downvoted'
+          }
+
+          question.upvotes.pull(req.user._id)
+          return question.save()
+        }
       })
+      .then(question => {
+        res.status(200).json({
+          message,
+          data: question
+        })
+      })
+      .catch(next)
   }
 
   static deleteQuestion(req, res, next) {
-    Question.findByIdAndDelete(req.params.id)
+    req.question
+      .remove()
       .then(question => {
-        res.status(200).json({ message: 'Question deleted' })
+        if (!question) throw createError(404, 'Question not found')
+        else res.status(200).json({ message: 'Question deleted' })
       })
       .catch(next)
   }

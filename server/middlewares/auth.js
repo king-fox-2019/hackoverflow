@@ -1,4 +1,4 @@
-const { User, Question } = require('../models')
+const { User, Question, Answer } = require('../models')
 const { verify } = require('jsonwebtoken')
 const createError = require('http-errors')
 
@@ -22,7 +22,6 @@ module.exports = {
 
   authorizeQuestion(req, res, next) {
     Question.findById(req.params.id)
-      .populate('User', '-password')
       .then(question => {
         if (!question) throw createError(404, 'Question not found')
         else if (question.author == req.user.id) {
@@ -33,6 +32,19 @@ module.exports = {
             403,
             "You don't have authorization to this question"
           )
+      })
+      .catch(next)
+  },
+
+  authorizeAnswer(req, res, next) {
+    Answer.findById(req.params.id)
+      .then(answer => {
+        if (!answer) throw createError(404, 'Answer not found')
+        else if (answer.author == req.user.id) {
+          req.question = answer
+          next()
+        } else
+          throw createError(403, "You don't have authorization to this answer")
       })
       .catch(next)
   }

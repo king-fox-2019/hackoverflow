@@ -1,13 +1,14 @@
 const questions = require('express').Router()
-const { QuestionController } = require('../controllers')
+const { QuestionController, AnswerController } = require('../controllers')
 const { authenticate, authorizeQuestion } = require('../middlewares/auth')
 
 questions.get('/', QuestionController.getAllQuestions)
 questions.get('/:id', QuestionController.getOneQuestion)
-questions.use('/:id/answers', require('./answers'))
+questions.get('/:id/answers', AnswerController.getAllQuestionAnswers)
 
 questions.use(authenticate)
 questions.post('/', QuestionController.postQuestion)
+questions.post('/:id/answers', authenticate, AnswerController.postAnswer)
 questions.patch('/:id/upvote', QuestionController.upvoteQuestion)
 questions.patch('/:id/downvote', QuestionController.downvoteQuestion)
 

@@ -1,16 +1,15 @@
-const answers = require('express').Router({ mergeParams: true })
-const { authenticate } = require('../middlewares/auth')
+const answers = require('express').Router()
 const { AnswerController } = require('../controllers')
+const { authenticate } = require('../middlewares/auth')
 
-answers.get('/', AnswerController.getAllQuestionAnswers)
-answers.get('/:answerId', AnswerController.getOneAnswer)
+answers.get('/:id', AnswerController.getOneAnswer)
 
 answers.use(authenticate)
-answers.post('/', AnswerController.postAnswer)
-answers.patch('/:answerId/upvote')
-answers.patch('/:answerId/downvote')
+answers.patch('/:id/upvote')
+answers.patch('/:id/downvote')
 
-answers.patch('/:answerId')
-answers.delete('/:answerId')
+
+answers.patch('/:id')
+answers.delete('/:id')
 
 module.exports = answers

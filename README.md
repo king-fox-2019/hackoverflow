@@ -21,7 +21,8 @@ http://localhost:3000
 ### 404: Not Found
 
 - `Endpoint not found`: Happens when you mistyped the routes endpoint. Check if you set it correctly.
-- `Question not found`: Happens when you try to access question that's not available (possibly deleted by the author), especially when you hit endpoint with question id. If that's not the case, then maybe you mistyped the id.
+- `Question not found`: Happens when you try to access question that's not available (possibly deleted by the author), oftenly happens when you hit endpoint with question id (Get One Question, Upvote Question) or when you try to Post Answer to deleted question. If that's not the case, then maybe you mistyped the id.
+- `Answer not found`: Happens when you try to access answer that's not available (possibly deleted by the author), especially when you hit endpoint with answer id. If that's not the case, then maybe you mistyped the id.
 
 ### 401: Unauthorized
 
@@ -38,6 +39,7 @@ http://localhost:3000
 ### 403: Forbidden
 
 - `You don't have authorization to this question`: Happens when you try to manipulate (edit, delete) a question that's not posted by you. If that's not the case, then try to check whether you typed the id correctly.
+- `You don't have authorization to this answer`: Happens when you try to manipulate (edit, delete) an answer that's not posted by you. If that's not the case, then try to check whether you typed the id correctly.
 
 ## User Routes
 
@@ -133,6 +135,10 @@ Status 200:OK
 ```http
 POST /questions
 ```
+
+##### Header
+
+- access_token **Required**
 
 ##### Body
 
@@ -275,7 +281,7 @@ PATCH /questions/:id
 
 ##### Body
 
-- description **Optional** will response OK even when no data sent
+- description **Optional** will response OK even when othing changed
 
 ##### Response
 
@@ -297,6 +303,8 @@ Status 200: OK
 
 ### Upvote Question
 
+When you already upvoted the question, hitting this endpoint again will remove your vote. When you already downvoted the question, this endpoint will change your downvote  to upvote.
+
 ##### Endpoint
 
 ```http
@@ -317,7 +325,7 @@ Status 200: OK
 
 ```json
 {
-  "message": "You have upvoted",
+  "message": "[You have upvoted] [Your upvote has been removed]",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": ["5df78131eca931762cde32ff"],
@@ -334,6 +342,8 @@ Status 200: OK
 ```
 
 ### Downvote Question
+
+When you already downvotes the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote  to downvote.
 
 ##### Endpoint
 
@@ -355,7 +365,7 @@ Status 200: OK
 
 ```json
 {
-  "message": "You have downvoted",
+  "message": "[You have downvoted] [Your downvote has been removed]",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
     "upvotes": [],
@@ -526,13 +536,12 @@ Status 200: OK
 ##### Endpoint
 
 ```http
-GET /questions/:questionId/answers/:answerId
+GET /answers/:id
 ```
 
 ##### Param
 
-- questionId **Required** id of the question
-- answerId **Required** id of the answer
+- id **Required** id of the answer
 
 ##### Response
 
@@ -543,16 +552,24 @@ Status 200: OK
   "data": {
     "upvote": [],
     "downvote": [],
-    "_id": "5df9a01a470cc574ea2f5d11",
+    "_id": "5df9b36096c55281e32eb386",
+    "author": {
+      "_id": "5df9acb9bb060d7ed12882af",
+      "email": "dummy@mail.com"
+    },
     "question": {
-      "tags": [],
+      "tags": [
+        "javascript",
+        "vue js",
+        "mongoose"
+      ],
       "upvotes": [],
       "downvotes": [],
-      "_id": "5df7b1b8283e419538efa3b9",
+      "_id": "5df9b32a96c55281e32eb384",
       "title": "What is?",
       "description": "What is what what? Why what is what? How what be what when what is what?",
       "author": {
-        "_id": "5df78131eca931762cde32ff",
+        "_id": "5df9acb9bb060d7ed12882af",
         "email": "dummy@mail.com"
       }
     },

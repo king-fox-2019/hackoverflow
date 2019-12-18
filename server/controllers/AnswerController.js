@@ -1,13 +1,17 @@
-const { Answer } = require('../models')
+const { Answer, Question } = require('../models')
 
 class Answerontroller {
   static postAnswer(req, res, next) {
-    const { content } = req.body
-    Answer.create({
-      author: req.user._id,
-      question: req.params.id,
-      content
-    })
+    Question.findById(req.params.id)
+      .then(question => {
+        if (!question) throw createError(404, 'Question not found')
+        else
+          return Answer.create({
+            author: req.user._id,
+            question: req.params.id,
+            content: req.body.content
+          })
+      })
       .then(answer => {
         return answer
           .populate('author', '-password')
@@ -45,14 +49,66 @@ class Answerontroller {
   }
 
   static getOneAnswer(req, res, next) {
-    Answer.findById(req.params.answerId)
+    Answer.findById(req.params.id)
       .populate('author', '-password')
       .populate({
         path: 'question',
         populate: { path: 'author', select: '-password' }
       })
       .then(answer => {
-        res.status(200).json({ data: answer })
+        if (!answer) createError(404, 'Answer not found')
+        else res.status(200).json({ data: answer })
+      })
+      .catch(next)
+  }
+
+  static editAnswer(req, res, next) {
+    req.answer.content = req.body.content || req.answer.content
+    req.answer
+      .save()
+      .then(answer => {
+        return answer.populate({
+          path: 'question',
+          populate: { path: 'author', select: 'password' }
+        })
+      })
+      .then(answer => {
+        res.status(200).json({
+          message: 'Answer updated',
+          data: { ...answer, author: undefined }
+        })
+      })
+      .catch(next)
+  }
+
+  static upvoteAnswer(req, res, next) {
+    let message
+    Answer.findById(req.params.id)
+      .populate('author', '-password')
+      .populate({
+        path: 'question',
+        populate: { path: 'author', select: '-password' }
+      })
+      .then(answer => {
+        if (!answer) throw createError(404, 'Answer not found')
+        else {
+          if (answer.upvotes.includes(req.user._id)) {
+            message = 'Your upvote has been removed'
+            answer.upvotes.pull(req.user._id)
+          } else {
+            answer.upvotes.push(req.user._id)
+            message = 'You have upvoted'
+          }
+
+          answer.downvotes.pull(req.user._id)
+          return answer.save()
+        }
+      })
+      .then(question => {
+        res.status(200).json({
+          message,
+          data: question
+        })
       })
       .catch(next)
   }
