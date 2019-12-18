@@ -58,6 +58,36 @@ class Controller {
             })
             .catch(next);
     }
+
+    static increaseVote(req, res, next) {
+        Tanya.findById(req.params.id)
+            .then((pertanyaan) => {
+                if (!pertanyaan.upVotes.includes(req.decode.id)) {
+                    return Tanya.findByIdAndUpdate(req.params.id, {
+                        $push: { upVotes: req.decode.id }
+                    }, { new: true })
+                }
+            })
+            .then((pertanyaan) => {
+                res.status(200).json(pertanyaan)
+            })
+            .catch(next);
+    }
+
+    static decreseVote(req, res, next) {
+        Tanya.findById(req.params.id)
+            .then((pertanyaan) => {
+                if (!pertanyaan.downVotes.includes(req.decode.id)) {
+                    return Tanya.findByIdAndUpdate(req.params.id, {
+                        $pull: { downVotes: req.decode.id }
+                    }, { new: true })
+                }
+            })
+            .then((pertanyaan) => {
+                res.status(200).json(pertanyaan)
+            })
+            .catch(next);
+    }
 }
 
 module.exports = Controller
