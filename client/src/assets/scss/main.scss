@@ -1,2 +1,17 @@
-@import "node_modules/bootstrap/scss/bootstrap";
-@import "node_modules/bootstrap-vue/src/index.scss";
+$primary: #7871aa;
+$secondary: #5d707f;
+$accent: #4e5283;
+// $info: $green !default;
+$success: #e7e247;
+$danger: #ff595e;
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'accent': $accent,
+  'success': $success,
+  'danger': $danger
+);
+
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
