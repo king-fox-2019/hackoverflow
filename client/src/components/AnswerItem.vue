@@ -1,8 +1,12 @@
 <template>
   <div class="answer">
     <div class="row">
+      <div class="col-sm-1 text-right" v-if="$store.state.isLogin">
+        <span @click="upvote"><i class="fa fa-arrow-up"></i></span>
+        <span><i class="fa fa-arrow-down"></i></span>
+      </div>
       <div class="col-sm-1 status">
-        <div class="number">8</div>
+        <div class="number">{{answer.votes.length}}</div>
         Vote
       </div>
       <div class="col-sm-10 p-2">
@@ -13,10 +17,40 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
   name: 'AnswerItem',
   props: {
     answer: Object
+  },
+  methods: {
+    upvote () {
+      console.log('======================sebelum axios', this)
+      // this.$emit('refresh')
+      axios({
+        method: 'PATCH',
+        url: `/answer`,
+        data: {
+          answer: this.answer._id
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log('============ setelah axios', this)
+          // this.$emit('refresh')
+          this.$store.dispatch('fetchData')
+        })
+        .catch(err => {
+          // this.$emit('refresh')
+          this.$swal.fire(
+            'already voted',
+            err.message,
+            'error'
+          )
+        })
+    }
   }
 }
 </script>

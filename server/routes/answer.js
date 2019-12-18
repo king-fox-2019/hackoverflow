@@ -5,5 +5,6 @@ const router = require('express').Router(),
 router.get('/:id', AnswerController.all)
 router.use(authenticate)
 router.post('/', AnswerController.create)
+router.patch('/', AnswerController.upvote)
 
 module.exports = router

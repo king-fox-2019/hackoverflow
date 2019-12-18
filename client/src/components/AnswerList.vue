@@ -1,6 +1,6 @@
 <template>
   <div class="answer-list">
-    <AnswerItem v-for="answer in updatedAnswers" :key="answer.id" :answer="answer"/>
+    <AnswerItem v-for="answer in updatedAnswers" :key="answer.id" :answer="answer" @refresh="refresh"/>
   </div>
 </template>
 
@@ -24,6 +24,11 @@ export default {
   },
   components: {
     AnswerItem
+  },
+  methods: {
+    refresh () {
+      this.$emit('refresh')
+    }
   },
   created () {
     axios({

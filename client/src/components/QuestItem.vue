@@ -1,12 +1,16 @@
 <template>
   <div class="question-item">
     <div class="row">
+      <div class="col-sm-1 text-right" v-if="$store.state.isLogin">
+        <span @click="upvote"><i class="fa fa-arrow-up"></i></span>
+        <span><i class="fa fa-arrow-down"></i></span>
+      </div>
       <div class="col-sm-1 status">
-        <div class="number">8</div>
+        <div class="number">{{question.votes.length}}</div>
         Vote
       </div>
       <div class="col-sm-1 status">
-        <div class="number">8</div>
+        <div class="number">{{question.answers.length}}</div>
         Answer
       </div>
       <div class="col-sm-9 p-2">
@@ -19,7 +23,7 @@
         </div>
       </div>
     </div>
-    <AnswerList v-if="showAnswer" :question="question._id"/>
+    <AnswerList v-if="showAnswer" :question="question._id" @refresh="refresh"/>
     <b-modal :id="`modal-${question._id}`" title="Add answer" hide-footer>
       <div class="box">
         <form action="" @submit.prevent="addAnswer" method="post">
@@ -38,6 +42,7 @@
 
 <script>
 import AnswerList from './AnswerList'
+import axios from '../config/api'
 export default {
   name: 'QuestItem',
   components: {
@@ -53,6 +58,31 @@ export default {
     question: Object
   },
   methods: {
+    refresh () {
+      this.viewAnswer()
+    },
+    upvote () {
+      axios({
+        method: 'PATCH',
+        url: `/question`,
+        data: {
+          question: this.question._id
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('fetchData')
+        })
+        .catch(err => {
+          this.$swal.fire(
+            'sumting wong',
+            err,
+            'error'
+          )
+        })
+    },
     viewAnswer () {
       this.showAnswer = !this.showAnswer
     },

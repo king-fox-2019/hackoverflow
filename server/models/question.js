@@ -13,6 +13,10 @@ const questionSchema = new Schema({
   votes: [{ 
     type: Schema.Types.ObjectId,
     ref: 'User' 
+  }],
+  answers: [{ 
+    type: Schema.Types.ObjectId,
+    ref: 'Answer' 
   }]
 })
 

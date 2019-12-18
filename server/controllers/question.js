@@ -15,6 +15,21 @@ class QuestionController {
       })
       .catch(next)
   }
+  static upvote(req, res, next) {
+    let { question } = req.body
+    Question.findOne({ _id: question})
+      .then(question => {
+        if(question.votes.includes(req.loggedUser.id)) {
+          next({status: 401, message: "already voted"})
+        } else {
+          Question.updateOne({ _id: question}, { $push: { votes: req.loggedUser.id } })
+            .then(n => {
+              res.status(200).json({message: 'success upvote'})
+            })
+        }
+      })
+      .catch(next)
+  }
 }
 
 module.exports = QuestionController
