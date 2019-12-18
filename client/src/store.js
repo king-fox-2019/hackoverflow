@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     onSession: null,
-    email: ''
+    email: '',
+    questions: []
   },
   mutations: {
     SET_SESSION(state, session) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     SET_EMAIL(state, email) {
       state.email = email
+    },
+    SET_QUESTIONS(state, questions) {
+      state.questions = questions
     }
   },
   actions: {
@@ -46,6 +50,18 @@ export default new Vuex.Store({
           commit('SET_SESSION', false)
           commit('SET_EMAIL', '')
           return response
+        })
+    },
+    onSignOut({ commit }) {
+      localStorage.clear()
+      commit('SET_SESSION', false)
+      commit('SET_EMAIL', '')
+    },
+    getAllQuestions({ commit }, searchQuery) {
+      return server
+        .get(`questions${searchQuery ? '?search=' + searchQuery : ''}`)
+        .then(({ data }) => {
+          commit('SET_QUESTIONS', data.data)
         })
     }
   },
