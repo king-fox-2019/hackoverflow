@@ -11,6 +11,9 @@ import Navigation from './components/Navbar'
 export default {
   components: {
     Navigation
+  },
+  created () {
+    this.$store.dispatch('checkLogin')
   }
 }
 </script>

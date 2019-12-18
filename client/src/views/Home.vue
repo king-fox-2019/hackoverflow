@@ -19,6 +19,9 @@ export default {
   name: 'home',
   components: {
     Main
+  },
+  created () {
+    this.$store.dispatch('fetchData')
   }
 }
 </script>

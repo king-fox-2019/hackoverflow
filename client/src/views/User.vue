@@ -12,12 +12,16 @@
         <hr />
         <form action="" method="post" @submit.prevent="register">
           <div class="form-group">
-            <label for="email">Email</label>
-            <input required autofocus id="email" type="text" class="form-control" v-model="registerEmail"/>
+            <label for="emailRegister">Email</label>
+            <input required autofocus id="emailRegister" type="text" class="form-control" v-model="registerEmail"/>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
-            <input required id="password" type="password" class="form-control" v-model="registerPassword"/>
+            <label for="username">Username</label>
+            <input required autofocus id="username" type="text" class="form-control" v-model="registerUsername"/>
+          </div>
+          <div class="form-group">
+            <label for="passwordRegister">Password</label>
+            <input required id="passwordRegister" type="password" class="form-control" v-model="registerPassword"/>
           </div>
           <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
@@ -54,65 +58,76 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
-  name: 'Register',
+  name: 'User',
   data: function () {
     return {
       email: '',
       password: '',
       registerEmail: '',
+      registerUsername: '',
       registerPassword: '',
       confirmPassword: ''
     }
   },
   methods: {
-    setLogin: function () {
-      // let payload = {
-      //   email: this.email,
-      //   password: this.password
-      // }
-      // this.$store
-      //   .dispatch('login', payload)
-      //   .then(_ => {
-      //     this.email = ''
-      //     this.password = ''
-      //     this.$router.push('/products')
-      //   })
-      //   .catch(({ response }) => {
-      //     this.$swal.fire(
-      //       'Access Denied',
-      //       'wrong email or password',
-      //       'error'
-      //     )
-      //   })
+    setLogin () {
+      let payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store
+        .dispatch('login', payload)
+        .then(() => {
+          this.email = ''
+          this.password = ''
+          this.$router.push('/')
+        })
+        .catch(({ response }) => {
+          this.$swal.fire(
+            'Access Denied',
+            'wrong email or password',
+            'error'
+          )
+        })
     },
     register: function () {
       if (this.confirmPassword !== this.registerPassword) {
-        // handle error
         return this.$swal.fire(
           'Access Denied',
           'confirm password',
           'error'
         )
       } else {
-        // axios({
-        //   method: 'POST',
-        //   url: `/user/register`,
-        //   data: {
-        //     email: this.registerEmail,
-        //     password: this.registerPassword
-        //   }
-        // })
-        //   .then(({ data }) => {
-        //     this.$router.push('/products')
-        //   })
-        //   .catch(() => {
-        //     this.$swal.fire(
-        //       'Access Denied',
-        //       'wrong email or password',
-        //       'error'
-        //     )
-        //   })
+        axios({
+          method: 'POST',
+          url: `/user/register`,
+          data: {
+            email: this.registerEmail,
+            username: this.registerUsername,
+            password: this.registerPassword
+          }
+        })
+          .then(({ data }) => {
+            this.registerEmail = ''
+            this.registerUsername = ''
+            this.confirmPassword = ''
+            this.registerPassword = ''
+            this.$swal.fire(
+              'welcome',
+              'please login',
+              'success'
+            )
+            console.log(data)
+          })
+          .catch(() => {
+            this.$swal.fire(
+              'Access Denied',
+              'wrong email or password',
+              'error'
+            )
+          })
       }
     }
   }

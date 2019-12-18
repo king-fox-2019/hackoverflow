@@ -7,7 +7,7 @@
           For a guide and recipes on how to configure / customize this project,<br>
           check out the
         </p>
-        <QuestItem/>
+        <QuestItem v-for="question in $store.state.questions" :key="question.id" :question="question"/>
       </div>
       <div class="col-md-3">
         <h3>Iklans</h3>
