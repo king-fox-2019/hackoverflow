@@ -2,7 +2,7 @@
   <div class="home">
     <!-- <img src="../assets/stack-overflow-background.png" style="width: 100vw; margin-top: 1px;"> -->
     <div class="dive-in-button">
-      <b-button @click.prevent="toMainPage" style="margin: 620px auto;" variant="dark"> Start Exploring </b-button>
+      <b-button @click.prevent="toMainPage" style="margin: 700px auto;" variant="dark"> Start Exploring </b-button>
     </div>
     <footer class="py-3 bg-dark">
       <div class="container">

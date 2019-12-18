@@ -54,13 +54,13 @@ class AnswerController {
       .then(result => {
         let arrUpVotes = result.upvotes
         let arrDownVotes = result.downvotes
-        if (arrUpVotes.indexOf(req.loggedUser._id) === -1) {
-          arrUpVotes.push(req.loggedUser._id)
-          if (arrDownVotes.indexOf(req.loggedUser._id) !== -1) {
-            arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser._id), 1)
+        if (arrUpVotes.indexOf(req.loggedUser.id) === -1) {
+          arrUpVotes.push(req.loggedUser.id)
+          if (arrDownVotes.indexOf(req.loggedUser.id) !== -1) {
+            arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser.id), 1)
           }
         } else {
-          arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser._id), 1)
+          arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser.id), 1)
         }
         return Answer.updateOne({ _id: id }, { upvotes: arrUpVotes, downvotes: arrDownVotes })
       })
@@ -75,13 +75,13 @@ class AnswerController {
       .then(result => {
         let arrUpVotes = result.upvotes
         let arrDownVotes = result.downvotes
-        if (arrDownVotes.indexOf(req.loggedUser._id) === -1) {
-          arrDownVotes.push(req.loggedUser._id)
-          if (arrUpVotes.indexOf(req.loggedUser._id) !== -1) {
-            arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser._id), 1)
+        if (arrDownVotes.indexOf(req.loggedUser.id) === -1) {
+          arrDownVotes.push(req.loggedUser.id)
+          if (arrUpVotes.indexOf(req.loggedUser.id) !== -1) {
+            arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser.id), 1)
           }
         } else {
-          arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser._id), 1)
+          arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser.id), 1)
         }
         return Answer.updateOne({ _id: id }, { upvotes: arrUpVotes, downvotes: arrDownVotes })
       })

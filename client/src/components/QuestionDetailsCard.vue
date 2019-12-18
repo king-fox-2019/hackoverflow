@@ -145,6 +145,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          this.$store.dispatch('getQuestionDetails', this.$route.params.id)
           Swal.fire({
             icon: 'success',
             title: 'Upvoted!',
@@ -166,6 +167,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          this.$store.dispatch('getQuestionDetails', this.$route.params.id)
           Swal.fire({
             icon: 'success',
             title: 'Downvoted!',
@@ -187,6 +189,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          this.$store.dispatch('getQuestionDetails', this.$route.params.id)
           Swal.fire({
             icon: 'success',
             title: 'Upvoted!',
@@ -208,6 +211,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          this.$store.dispatch('getQuestionDetails', this.$route.params.id)
           Swal.fire({
             icon: 'success',
             title: 'Downvoted!',
