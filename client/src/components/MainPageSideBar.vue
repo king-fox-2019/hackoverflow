@@ -4,7 +4,7 @@
     <hr class="test">
     <form @submit.prevent="addUserTag">
       <div class="form-group">
-        <label for="tags">Tags</label>
+        <span for="tags">Add Watched Tags</span>
         <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags" />
       </div>
       <b-button type="submit" variant="warning"> <i class="far fa-plus-square"></i> </b-button>
@@ -12,8 +12,10 @@
     <br>
     <hr class="test">
     <div>
-      <h5> Watched Tags </h5>
-      <UserTags v-for="(userTag, i) in user.tags" :key=i :UserTags=userTag></UserTags>
+      <span> Watched Tags </span>
+      <br>
+      <br>
+      <UserTags v-for="(userTag, i) in user.tags" :key=i :UserTag=userTag></UserTags>
     </div>
   </div>
 </template>
@@ -63,6 +65,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
+          this.$store.dispatch('fetchUserData')
         })
         .catch(err => {
           console.log(err)

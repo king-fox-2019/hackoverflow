@@ -1,5 +1,5 @@
 <template>
-  <div @click.prevent="toQuestionDetailPage(QuestionData._id)" style="cursor:pointer;">
+  <div>
     <b-row align-v="center" no-gutters class="p-3 border-bottom border-top">
       <b-col md="1">
         <p class="text-center m-1 p-1">
@@ -13,10 +13,23 @@
           <br />answers
         </p>
       </b-col>
-      <b-col md="9" class="font-weight-bold text-break pl-4">
-        <p class="mb-1">{{ QuestionData.title }}</p>
-        <div style="display: flex; justify-content: flex-start;">
-          <QuestionTags v-for="(tag, i) in QuestionData.tags" :key=i :QuestionTag=tag></QuestionTags>
+      <b-col md="10" class="font-weight-bold text-break pl-4">
+        <div @click.prevent="toQuestionDetailPage(QuestionData._id)" style="cursor:pointer; display: flex; justify-content: flex-start;">
+          <p class="mb-1">{{ QuestionData.title }}</p>
+        </div>
+        <br>
+        <div style="display: flex; justify-content: space-between;">
+          <div>
+            <QuestionTags v-for="(tag, i) in QuestionData.tags" :key=i :QuestionTag=tag></QuestionTags>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: flex-start; align-items: flex-end">
+              <small> Posted by: {{ QuestionData.user_id.username}} </small>
+            </div>
+            <div style="display: flex; justify-content: flex-start; align-items: flex-end">
+              <small> on {{ new Date(QuestionData.createdAt).toDateString() }} </small>
+            </div>
+          </div>
         </div>
       </b-col>
     </b-row>

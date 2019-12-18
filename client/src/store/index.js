@@ -161,6 +161,19 @@ export default new Vuex.Store({
           console.log(err)
           Swal.fire('Errors', `Internal server error`, `error`)
         })
+    },
+    getFilteredQuestions ({ commit }, payload) {
+      axios({
+        url: `/questions?tags=${payload}`,
+        method: 'GET'
+      })
+        .then(({ data }) => {
+          commit('setQuestions', data)
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire('Errors', `Internal server error`, `error`)
+        })
     }
   },
   modules: {
