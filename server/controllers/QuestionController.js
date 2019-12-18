@@ -1,4 +1,4 @@
-const { Question } = require('../models')
+const { Question, Answer } = require('../models')
 const createError = require('http-errors')
 
 class QuestionController {
@@ -62,7 +62,7 @@ class QuestionController {
       .then(question => {
         res.status(200).json({
           message: 'Question updated',
-          data: question
+          data: { ...question._doc, author: undefined }
         })
       })
       .catch(next)

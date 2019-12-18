@@ -33,6 +33,7 @@ http://localhost:3000
 - User validation error: Typically this happens when you try to Sign Up with invalid data. Please check again the requirement for each field. Example error: `Invalid email format`, `Password required`.
 - `Wrong email or password`: This happens when you enter invalid email or password during Sign In. Please check again.
 - Question validation error: This happens when you try to post a question without all the required data. Example error: `Question title required`, `Question description required`.
+- `Answer content required`: This happens when you try to post an answer without sending answer's content.
 
 ### 403: Forbidden
 
@@ -231,6 +232,10 @@ Status 200: OK
 GET /questions/:id
 ```
 
+##### Param
+
+- id **Required** id of the question
+
 ##### Response
 
 Status 200: OK
@@ -264,6 +269,10 @@ PATCH /questions/:id
 
 - access_token **Required**
 
+##### Param
+
+- id **Required** id of the question
+
 ##### Body
 
 - description **Optional** will response OK even when no data sent
@@ -281,11 +290,7 @@ Status 200: OK
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
     "title": "What is?",
-    "description": "Why this why became why when why still why with why?",
-    "author": {
-      "_id": "5df78131eca931762cde32ff",
-      "email": "dummy@mail.com"
-    }
+    "description": "Why this why became why when why still why with why?"
   }
 }
 ```
@@ -301,6 +306,10 @@ PATCH /questions/:id/upvote
 ##### Header
 
 - access_token **Required**
+
+##### Param
+
+- id **Required** id of the question
 
 ##### Response
 
@@ -336,6 +345,10 @@ PATCH /questions/:id/downvote
 
 - access_token **Required**
 
+##### Param
+
+- id **Required** id of the question
+
 ##### Response
 
 Status 200: OK
@@ -370,6 +383,10 @@ DELETE /questions/:id
 
 - access_token **Required**
 
+##### Param
+
+- id **Required** id of the question
+
 ##### Response
 
 Status 200: OK
@@ -377,5 +394,169 @@ Status 200: OK
 ```json
 {
   "message": "Question deleted"
+}
+```
+
+## Answer Routes
+
+### Post Answer
+
+##### Endpoint
+
+```http
+POST /questions/:id/answers
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Param
+
+- id **Required** id of the question
+
+##### Response
+
+Status 201: Created
+
+```json
+{
+  "message": "Answer posted",
+  "data": {
+    "upvote": [],
+    "downvote": [],
+    "_id": "5df99a617b5ccd72f984530e",
+    "author": {
+      "_id": "5df78131eca931762cde32ff",
+      "email": "dummy@mail.com"
+    },
+    "question": {
+      "tags": [],
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df7b1b8283e419538efa3b9",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df78131eca931762cde32ff",
+        "email": "dummy@mail.com"
+      }
+    },
+    "content": "This is the answer of the what that's still what for the what of what"
+  }
+}
+```
+
+### Get All Question's Answers
+
+##### Endpoint
+
+```http
+GET /questions/:id/answers
+```
+
+##### Param
+
+- id **Required** id of the question
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": [
+    {
+      "upvote": [],
+      "downvote": [],
+      "_id": "5df99a617b5ccd72f984530e",
+      "author": {
+        "_id": "5df78131eca931762cde32ff",
+        "email": "dummy@mail.com"
+      },
+      "content": "This is the answer of the what that's still what for the what of what"
+    }
+  ]
+}
+```
+
+### Get All User's Answers
+
+##### Endpoint
+
+```http
+GET /user/answers
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": [
+    {
+      "upvote": [],
+      "downvote": [],
+      "_id": "5df9a01a470cc574ea2f5d11",
+      "question": {
+        "tags": [],
+        "upvotes": [],
+        "downvotes": [],
+        "_id": "5df7b1b8283e419538efa3b9",
+        "title": "What is?",
+        "description": "What is what what? Why what is what? How what be what when what is what?",
+        "author": {
+          "_id": "5df78131eca931762cde32ff",
+          "email": "dummy@mail.com"
+        }
+      },
+      "content": "This is the answer of the what that's still what for the what of what"
+    }
+  ]
+}
+```
+
+### Get One Answer
+
+##### Endpoint
+
+```http
+GET /questions/:questionId/answers/:answerId
+```
+
+##### Param
+
+- questionId **Required** id of the question
+- answerId **Required** id of the answer
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "data": {
+    "upvote": [],
+    "downvote": [],
+    "_id": "5df9a01a470cc574ea2f5d11",
+    "question": {
+      "tags": [],
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df7b1b8283e419538efa3b9",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df78131eca931762cde32ff",
+        "email": "dummy@mail.com"
+      }
+    },
+    "content": "This is the answer of the what that's still what for the what of what"
+  }
 }
 ```

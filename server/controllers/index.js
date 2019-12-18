@@ -1,4 +1,5 @@
 module.exports = {
   UserController: require('./UserController'),
-  QuestionController: require('./QuestionController')
+  QuestionController: require('./QuestionController'),
+  AnswerController: require('./AnswerController')
 }

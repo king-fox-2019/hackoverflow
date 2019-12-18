@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, models } = require('mongoose')
 
 const questionSchema = new Schema(
   {
@@ -35,5 +35,9 @@ const questionSchema = new Schema(
   },
   { versionKey: false }
 )
+
+questionSchema.post('deleteOne', function(doc) {
+  return models.Answer.deleteMany({ question: doc.id })
+})
 
 module.exports = model('Question', questionSchema)

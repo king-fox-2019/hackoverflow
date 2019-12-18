@@ -4,6 +4,7 @@ const { authenticate, authorizeQuestion } = require('../middlewares/auth')
 
 questions.get('/', QuestionController.getAllQuestions)
 questions.get('/:id', QuestionController.getOneQuestion)
+questions.use('/:id/answers', require('./answers'))
 
 questions.use(authenticate)
 questions.post('/', QuestionController.postQuestion)
