@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const MongoURI = process.env.MongoURI
+const MongoURI = 'mongodb://localhost:27017/hacktiv-overflow'
 
 mongoose.connect(MongoURI,{
     useCreateIndex: true,

@@ -1,13 +1,14 @@
 const User = require('../models/user')
-const { genToken, verifyToken } = require('../helpers/jwt')
+const { genToken } = require('../helpers/jwt')
 const { dehash } = require('../helpers/bcrypt')
 
 class Controller {
     static register(req, res, next) {
+        // console.log(req.body);
         User.findOne({ email: req.body.email })
             .then((user) => {
                 for (const key in req.body) if (!req.body[key]) req.body[key] = undefined
-
+                // console.log(user, req.body);
                 let dataHandle = {
                     username: req.body.username,
                     email: req.body.email,
@@ -15,18 +16,23 @@ class Controller {
                     image: req.body.image,
                     aboutMe: req.body.aboutMe
                 }
-                if (!user) return User.create(dataHandle)
-                else next({ status: 400, msg: "Email has used" })
-            })
-            .then((user) => {
-                let userDataSent = {
-                    id: user._id,
-                    username: user.username,
-                    answer: user.answer,
-                    profilePicture: user.profilePicture
+                if (user) {
+                    next({ status: 400, msg: "Email has used" })
                 }
-                let token = genToken(userDataSent)
-                res.status(201).json(userDataSent, token)
+                else {
+                    return User.create(dataHandle)
+                        .then((user) => {
+                            console.log(user);
+                            let userDataSent = {
+                                id: user.id,
+                                username: user.username,
+                                answer: user.answer,
+                                profilePicture: user.profilePicture
+                            }
+                            let token = genToken(userDataSent)
+                            res.status(201).json({userDataSent, token})
+                        })
+                }
             })
             .catch(next);
     }
@@ -45,9 +51,9 @@ class Controller {
                             profilePicture: user.profilePicture
                         }
                         let token = genToken(userDataSent)
-                        res.status(200).json(userDataSent, token)
+                        res.status(200).json({userDataSent, token})
                     } else {
-                        next({ status: 403, msg: 'Password Incorrect' })
+                        next({ status: 401, msg: 'Password Incorrect' })
                     }
                 }
             })
@@ -62,6 +68,13 @@ class Controller {
                 res.status(200).json(user)
             })
             .catch(next);
+    }
+
+    static getAllUser(req, res, next) {
+        User.find()
+            .then((result) => {
+                res.status(200).json(result)
+            }).catch(next);
     }
 
 }

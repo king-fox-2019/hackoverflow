@@ -24,7 +24,7 @@ class Controller {
     }
 
     static getAllQuestion(req, res, next) {
-        Tanya.find()
+        Tanya.find({}, null, {sort: '-date'}).populate('asker')
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })
@@ -40,7 +40,7 @@ class Controller {
     }
 
     static getSingleQuestion(req, res, next) {
-        Tanya.findById(req.params.id)
+        Tanya.findById(req.params.id).populate('asker')
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })
@@ -74,7 +74,7 @@ class Controller {
             .catch(next);
     }
 
-    static decreseVote(req, res, next) {
+    static decreaseVote(req, res, next) {
         Tanya.findById(req.params.id)
             .then((pertanyaan) => {
                 if (!pertanyaan.downVotes.includes(req.decode.id)) {

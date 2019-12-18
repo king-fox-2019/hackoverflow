@@ -2,8 +2,28 @@ const Jawab = require('../models/answer')
 
 class Controller {
 
+    static getall(req,res,next){
+        Jawab.find()
+        .then((jawaban) => {
+            res.status(200).json(jawaban)
+        })
+        .catch(next);
+    }
+
+    static createAnswer(req, res, next) {
+        Jawab.create({
+            body: req.body.body,
+            question: req.params.id,
+            user: req.decode.id
+        })
+        .then((jawaban) => {
+            res.status(201).json(jawaban)
+        })
+        .catch(next);
+    }
+
     static showQuestionAnswers(req, res, next) {
-        Jawab.find({ question: req.params.id })
+        Jawab.find({ question: req.params.id }).populate('user')
             .then((jawaban) => {
                 res.status(200).json(jawaban)
             })
@@ -35,7 +55,7 @@ class Controller {
             .catch(next);
     }
 
-    static decreseVote(req, res, next) {
+    static decreaseVote(req, res, next) {
         Jawab.findById(req.params.id)
             .then((jawaban) => {
                 if (!jawaban.downVotes.includes(req.decode.id)) {
