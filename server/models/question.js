@@ -27,7 +27,7 @@ const questionSchema = new Schema(
       default: []
     },
     tags: [{
-      type: String,
+      type: String
     }]
   }
 )

@@ -53,7 +53,7 @@ class UserController {
     console.log(req.body.tags);
     let tags = req.body.tags
     let id = req.loggedUser.id
-    User.findByIdAndUpdate({ _id: id }, { tags })
+    User.updateOne({ _id: id }, { $push: { tags } })
       .then(_ => {
         res.status(200).json({ message: 'tags updated' })
       })

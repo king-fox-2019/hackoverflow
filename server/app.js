@@ -13,7 +13,7 @@ const errorHandler = require('./middlewares/errorHandler')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-mongoose.connect(process.env.URL_MONGOOSE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true }, function (err) {
+mongoose.connect(process.env.URL_MONGOOSE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, function (err) {
   if (err) {
     console.log(err);
     console.log(`ಥ_ಥ Failed to connect to db`)

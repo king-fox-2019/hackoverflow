@@ -3,7 +3,7 @@ const Question = require('../models/question')
 class QuestionController {
   static create(req, res, next) {
     const user_id = req.loggedUser.id
-    let tags = req.body.tags.split(',')
+    let tags = req.body.tags
     let objQuestion = {
       title: req.body.title,
       desc: req.body.desc,
@@ -57,7 +57,7 @@ class QuestionController {
   static updateQuestion(req, res, next) {
     let { id } = req.params
     let { title, desc } = req.body
-    let tags = req.body.tags.split(',')
+    let tags = req.body.tags
     Question.findByIdAndUpdate({ _id: id }, { title, desc, tags })
       .then(result => {
         res.status(200).json(result)
@@ -80,13 +80,14 @@ class QuestionController {
       .then(result => {
         let arrUpVotes = result.upvotes
         let arrDownVotes = result.downvotes
-        if (arrUpVotes.indexOf(req.loggedUser._id) === -1) {
-          arrUpVotes.push(req.loggedUser._id)
-          if (arrDownVotes.indexOf(req.loggedUser._id) !== -1) {
-            arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser._id), 1)
+        if (arrUpVotes.indexOf(req.loggedUser.id) === -1) {
+          arrUpVotes.push(req.loggedUser.id)
+          if (arrDownVotes.indexOf(req.loggedUser.id) !== -1) {
+            arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser.id), 1)
           }
         } else {
-          arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser._id), 1)
+
+          arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser.id), 1)
         }
         return Question.updateOne({ _id: id }, { upvotes: arrUpVotes, downvotes: arrDownVotes })
       })
@@ -101,13 +102,13 @@ class QuestionController {
       .then(result => {
         let arrUpVotes = result.upvotes
         let arrDownVotes = result.downvotes
-        if (arrDownVotes.indexOf(req.loggedUser._id) === -1) {
-          arrDownVotes.push(req.loggedUser._id)
-          if (arrUpVotes.indexOf(req.loggedUser._id) !== -1) {
-            arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser._id), 1)
+        if (arrDownVotes.indexOf(req.loggedUser.id) === -1) {
+          arrDownVotes.push(req.loggedUser.id)
+          if (arrUpVotes.indexOf(req.loggedUser.id) !== -1) {
+            arrUpVotes.splice(arrUpVotes.indexOf(req.loggedUser.id), 1)
           }
         } else {
-          arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser._id), 1)
+          arrDownVotes.splice(arrDownVotes.indexOf(req.loggedUser.id), 1)
         }
         return Question.updateOne({ _id: id }, { upvotes: arrUpVotes, downvotes: arrDownVotes })
       })
@@ -116,7 +117,6 @@ class QuestionController {
       })
       .catch(next)
   }
-
 }
 
 module.exports = QuestionController
