@@ -10,10 +10,10 @@ const answerSchema = new Schema({
     type: String,
     required: [true, 'Description cannot be empty']
   },
-  upvote: {
+  upVotes: {
     type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   },
-  downvote: {
+  downVotes: {
     type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   },
   questionId: {
