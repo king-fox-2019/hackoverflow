@@ -7,6 +7,7 @@ const router = require('express').Router();
 
 router.get('/', controller.getAllQuestions);
 router.use(auth);
+router.get('/my', controller.myQuestions);
 router.post('/', controller.askQuestion);
 router.patch('/upvotes/:id', controller.upVotes);
 router.patch('/downvotes/:id', controller.downVotes);

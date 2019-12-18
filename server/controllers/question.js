@@ -31,8 +31,16 @@ class QuestionController {
       })
       .catch(next);
   }
+  static myQuestions(req, res, next) {
+    const { id } = req.token;
+    Question
+      .find({ userId: id })
+      .then((questions) => {
+        res.status(200).json(questions);
+      })
+  }
   static remove(req, res, next) {
-    const { id } = req.params
+    const { id } = req.params;
     Question
       .deleteOne({ _id: id })
       .then(() => {

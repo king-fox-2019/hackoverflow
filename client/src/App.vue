@@ -25,6 +25,7 @@ export default {
     } else {
       this.$store.dispatch('logged', false);
     }
+    this.$store.dispatch('fetchQuestions');
   },
 };
 </script>
