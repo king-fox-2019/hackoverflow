@@ -28,6 +28,7 @@ class QuestionController {
     }
     Question.find(searchQuery)
       .populate('answers')
+      .populate('user_id')
       .then(questions => {
         res.status(200).json(questions)
       })

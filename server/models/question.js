@@ -29,6 +29,10 @@ const questionSchema = new Schema(
     tags: [{
       type: String
     }]
+  },
+  {
+    timestamps: true,
+    versionKey: false
   }
 )
 
