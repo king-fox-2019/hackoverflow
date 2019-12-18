@@ -281,7 +281,7 @@ PATCH /questions/:id
 
 ##### Body
 
-- description **Optional** will response OK even when othing changed
+- description **Optional** will response OK even when nothing changed
 
 ##### Response
 
@@ -343,7 +343,7 @@ Status 200: OK
 
 ### Downvote Question
 
-When you already downvotes the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote  to downvote.
+When you already downvoted the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote  to downvote.
 
 ##### Endpoint
 
@@ -433,8 +433,8 @@ Status 201: Created
 {
   "message": "Answer posted",
   "data": {
-    "upvote": [],
-    "downvote": [],
+    "upvotes": [],
+    "downvotes": [],
     "_id": "5df99a617b5ccd72f984530e",
     "author": {
       "_id": "5df78131eca931762cde32ff",
@@ -477,8 +477,8 @@ Status 200: OK
 {
   "data": [
     {
-      "upvote": [],
-      "downvote": [],
+      "upvotes": [],
+      "downvotes": [],
       "_id": "5df99a617b5ccd72f984530e",
       "author": {
         "_id": "5df78131eca931762cde32ff",
@@ -510,8 +510,8 @@ Status 200: OK
 {
   "data": [
     {
-      "upvote": [],
-      "downvote": [],
+      "upvotes": [],
+      "downvotes": [],
       "_id": "5df9a01a470cc574ea2f5d11",
       "question": {
         "tags": [],
@@ -550,8 +550,178 @@ Status 200: OK
 ```json
 {
   "data": {
-    "upvote": [],
-    "downvote": [],
+    "upvotes": [],
+    "downvotes": [],
+    "_id": "5df9b36096c55281e32eb386",
+    "author": {
+      "_id": "5df9acb9bb060d7ed12882af",
+      "email": "dummy@mail.com"
+    },
+    "question": {
+      "tags": [
+        "javascript",
+        "vue js",
+        "mongoose"
+      ],
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df9b32a96c55281e32eb384",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df9acb9bb060d7ed12882af",
+        "email": "dummy@mail.com"
+      }
+    },
+    "content": "This is the answer of the what that's still what for the what of what"
+  }
+}
+```
+
+
+
+### Edit Answer
+
+##### Endpoint
+
+```http
+PATCH /answers/:id
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Param
+
+- id **Required** id of the answer
+
+##### Body
+
+- content **Optional** will response OK even when nothing changed
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "Answer updated",
+  "data": {
+    "upvotes": [],
+    "downvotes": [],
+    "_id": "5df9b36096c55281e32eb386",
+    "question": {
+      "tags": [
+        "javascript",
+        "vue js",
+        "mongoose"
+      ],
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df9b32a96c55281e32eb384",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df9acb9bb060d7ed12882af",
+        "email": "dummy@mail.com"
+      }
+    },
+    "content": "This is the true answer of truthy the truth that truely trust true the truthy"
+  }
+}
+```
+
+
+
+### Upvote Answer
+
+When you already upvoted the answer, hitting this endpoint again will remove your vote. When you already downvoted the answer, this endpoint will change your downvote  to upvote.
+
+##### Endpoint
+
+```http
+PATCH /answers/:id/upvote
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Param
+
+- id **Required** id of the answer
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "[You have upvoted] [Your upvote has been removed]",
+  "data": {
+    "upvotes": [
+      "5df9acb9bb060d7ed12882af"
+    ],
+    "downvotes": [],
+    "_id": "5df9b36096c55281e32eb386",
+    "author": {
+      "_id": "5df9acb9bb060d7ed12882af",
+      "email": "dummy@mail.com"
+    },
+    "question": {
+      "tags": [
+        "javascript",
+        "vue js",
+        "mongoose"
+      ],
+      "upvotes": [],
+      "downvotes": [],
+      "_id": "5df9b32a96c55281e32eb384",
+      "title": "What is?",
+      "description": "What is what what? Why what is what? How what be what when what is what?",
+      "author": {
+        "_id": "5df9acb9bb060d7ed12882af",
+        "email": "dummy@mail.com"
+      }
+    },
+    "content": "This is the answer of the what that's still what for the what of what"
+  }
+}
+```
+
+
+
+### Downvote Answer
+
+When you already downvoted the answer, hitting this endpoint again will remove your vote. When you already upvoted the answer, this endpoint will change your upvote  to downvote.
+
+##### Endpoint
+
+```http
+PATCH /answers/:id/downvote
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Param
+
+- id **Required** id of the answer
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "[You have downvote] [Your downvote has been removed]",
+  "data": {
+    "upvotes": [],
+    "downvotes": [
+      "5df9acb9bb060d7ed12882af"
+    ],
     "_id": "5df9b36096c55281e32eb386",
     "author": {
       "_id": "5df9acb9bb060d7ed12882af",

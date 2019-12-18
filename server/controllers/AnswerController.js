@@ -1,4 +1,5 @@
 const { Answer, Question } = require('../models')
+const createError = require('http-errors')
 
 class Answerontroller {
   static postAnswer(req, res, next) {
@@ -67,15 +68,17 @@ class Answerontroller {
     req.answer
       .save()
       .then(answer => {
-        return answer.populate({
-          path: 'question',
-          populate: { path: 'author', select: 'password' }
-        })
+        return answer
+          .populate({
+            path: 'question',
+            populate: { path: 'author', select: '-password' }
+          })
+          .execPopulate()
       })
       .then(answer => {
         res.status(200).json({
           message: 'Answer updated',
-          data: { ...answer, author: undefined }
+          data: { ...answer._doc, author: undefined }
         })
       })
       .catch(next)
@@ -101,6 +104,38 @@ class Answerontroller {
           }
 
           answer.downvotes.pull(req.user._id)
+          return answer.save()
+        }
+      })
+      .then(question => {
+        res.status(200).json({
+          message,
+          data: question
+        })
+      })
+      .catch(next)
+  }
+
+  static downvoteAnswer(req, res, next) {
+    let message
+    Answer.findById(req.params.id)
+      .populate('author', '-password')
+      .populate({
+        path: 'question',
+        populate: { path: 'author', select: '-password' }
+      })
+      .then(answer => {
+        if (!answer) throw createError(404, 'Answer not found')
+        else {
+          if (answer.downvotes.includes(req.user._id)) {
+            message = 'Your downvote has been removed'
+            answer.downvotes.pull(req.user._id)
+          } else {
+            answer.downvotes.push(req.user._id)
+            message = 'You have downvoted'
+          }
+
+          answer.upvotes.pull(req.user._id)
           return answer.save()
         }
       })

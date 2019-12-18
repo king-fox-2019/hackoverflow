@@ -41,7 +41,7 @@ module.exports = {
       .then(answer => {
         if (!answer) throw createError(404, 'Answer not found')
         else if (answer.author == req.user.id) {
-          req.question = answer
+          req.answer = answer
           next()
         } else
           throw createError(403, "You don't have authorization to this answer")

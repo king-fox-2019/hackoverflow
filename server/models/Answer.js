@@ -16,13 +16,13 @@ const answerSchema = new Schema(
       type: String,
       required: [true, 'Answer content required']
     },
-    upvote: [
+    upvotes: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User'
       }
     ],
-    downvote: [
+    downvotes: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User'

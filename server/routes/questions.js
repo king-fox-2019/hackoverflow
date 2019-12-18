@@ -8,7 +8,7 @@ questions.get('/:id/answers', AnswerController.getAllQuestionAnswers)
 
 questions.use(authenticate)
 questions.post('/', QuestionController.postQuestion)
-questions.post('/:id/answers', authenticate, AnswerController.postAnswer)
+questions.post('/:id/answers', AnswerController.postAnswer)
 questions.patch('/:id/upvote', QuestionController.upvoteQuestion)
 questions.patch('/:id/downvote', QuestionController.downvoteQuestion)
 
