@@ -1,11 +1,11 @@
 module.exports = (err, req, res, next) => {
-  let status, message
+  let status,
+    message = []
   console.log(err.name)
 
   switch (err.name) {
     case 'ValidationError':
       status = 422
-      message = []
       for (const path in err.errors) {
         message.push(err.errors[path].message)
       }
@@ -13,7 +13,7 @@ module.exports = (err, req, res, next) => {
 
     default:
       status = err.status || 500
-      message = err.message || 'Something went wrong'
+      message.push(err.message) || 'Something went wrong'
       break
   }
 

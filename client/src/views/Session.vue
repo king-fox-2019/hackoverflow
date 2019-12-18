@@ -24,6 +24,7 @@
             <b-form-input
               type="password"
               v-model="password"
+              :state.sync="validatePassword"
               required
               placeholder="Password"
             ></b-form-input>
@@ -37,15 +38,13 @@
             }}</b-button>
             <small class="text-muted" v-if="isSignUp"
               >Already have an account?
-              <router-link
-                :to="`/session?from=${$route.query.from || '/'}&on=signin`"
+              <router-link :to="`/session?&on=signin`"
                 >Sign In</router-link
               ></small
             >
             <small class="text-muted" v-else
               >Don't have an account?
-              <router-link
-                :to="`/session?from=${$route.query.from || '/'}&on=signup`"
+              <router-link :to="`/session?&on=signup`"
                 >Sign Up</router-link
               ></small
             >
@@ -73,10 +72,48 @@ export default {
         ? /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             this.email
           )
+          ? null
+          : false
+        : null
+    },
+    validatePassword() {
+      return this.password && this.isSignUp
+        ? this.password.length >= 6
+          ? null
+          : false
         : null
     }
   },
-  methods: { onSubmit() {} },
+  methods: {
+    onSubmit() {
+      const { email, password } = this
+      if (!email) this.$toasted.show('Email required!', { type: 'error' })
+      if (!password) this.$toasted.show('Password required!', { type: 'error' })
+      if (
+        this.isSignUp &&
+        (this.validateEmail === false || this.validatePassword === false)
+      )
+        return
+      let loader = this.$loading.show()
+      this.$store
+        .dispatch(this.isSignUp ? 'onSignUp' : 'onSignIn', {
+          email,
+          password
+        })
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+        })
+        .catch(({ response }) => {
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        })
+        .finally(() => {
+          loader.hide()
+          this.password = ''
+        })
+    }
+  },
   watch: {
     isSignUp() {
       this.email = ''
