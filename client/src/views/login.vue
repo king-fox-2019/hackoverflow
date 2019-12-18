@@ -1,11 +1,11 @@
 <template>
   <b-container id="container">
-    <b-card id="form" bg-variant="primary" text-variant="white"
-    header="Login" class="text-center">
+    <b-card  id="form" bg-variant="primary" text-variant="white"
+    header="Login" class="text-center animated zoomIn">
     <login id="login"/>
     </b-card>
     <b-card id="form" bg-variant="info" text-variant="white"
-    header="Register" class="text-center">
+    header="Register" class="text-center animated zoomIn">
     <register id="register"/>
     </b-card>
   </b-container>
@@ -29,11 +29,15 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Courier+Prime&display=swap');
+
 #login {
   margin-top: 11%;
 }
 #form {
+  border-radius: 2rem;
   width: 40% !important;
+  font-family: 'Courier Prime', monospace;
 }
 #container {
   margin-top: 8%;

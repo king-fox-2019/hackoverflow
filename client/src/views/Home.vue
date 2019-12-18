@@ -1,15 +1,18 @@
 <template>
   <div>
-    <section id="header">
-      <h1>
-        <strong id="textheader">{{message}}</strong>
-        <hr>
-      </h1>
-    </section>
-    <section id="routes">
-      <b-button id="button" v-show="$store.state.logged" size="lg" style="width: 15%">ASK</b-button>
-      <b-button id="button" size="lg" to="questions" >ANSWER QUESTION</b-button>
-    </section>
+    <div class="animated fadeInUp">
+      <section id="header">
+        <h1>
+          <strong id="textheader">{{message}}</strong>
+          <hr>
+        </h1>
+      </section>
+      <section id="routes">
+        <b-button id="button" v-show="$store.state.logged" size="lg"
+        style="width: 15%">ASK</b-button>
+        <b-button id="button" size="lg" to="questions" >ANSWER QUESTION</b-button>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -30,7 +33,7 @@ hr {
   border-radius: 3rem;
 }
 #textheader {
-  margin-top: 12%;
+  margin-top: 12.5%;
   font-size: 5rem;
   color: orange;
   display: flex;
