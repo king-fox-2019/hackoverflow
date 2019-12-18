@@ -303,7 +303,7 @@ Status 200: OK
 
 ### Upvote Question
 
-When you already upvoted the question, hitting this endpoint again will remove your vote. When you already downvoted the question, this endpoint will change your downvote  to upvote.
+When you already upvoted the question, hitting this endpoint again will remove your vote. When you already downvoted the question, this endpoint will change your downvote to upvote.
 
 ##### Endpoint
 
@@ -343,7 +343,7 @@ Status 200: OK
 
 ### Downvote Question
 
-When you already downvoted the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote  to downvote.
+When you already downvoted the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote to downvote.
 
 ##### Endpoint
 
@@ -558,11 +558,7 @@ Status 200: OK
       "email": "dummy@mail.com"
     },
     "question": {
-      "tags": [
-        "javascript",
-        "vue js",
-        "mongoose"
-      ],
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -577,8 +573,6 @@ Status 200: OK
   }
 }
 ```
-
-
 
 ### Edit Answer
 
@@ -612,11 +606,7 @@ Status 200: OK
     "downvotes": [],
     "_id": "5df9b36096c55281e32eb386",
     "question": {
-      "tags": [
-        "javascript",
-        "vue js",
-        "mongoose"
-      ],
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -632,11 +622,9 @@ Status 200: OK
 }
 ```
 
-
-
 ### Upvote Answer
 
-When you already upvoted the answer, hitting this endpoint again will remove your vote. When you already downvoted the answer, this endpoint will change your downvote  to upvote.
+When you already upvoted the answer, hitting this endpoint again will remove your vote. When you already downvoted the answer, this endpoint will change your downvote to upvote.
 
 ##### Endpoint
 
@@ -660,9 +648,7 @@ Status 200: OK
 {
   "message": "[You have upvoted] [Your upvote has been removed]",
   "data": {
-    "upvotes": [
-      "5df9acb9bb060d7ed12882af"
-    ],
+    "upvotes": ["5df9acb9bb060d7ed12882af"],
     "downvotes": [],
     "_id": "5df9b36096c55281e32eb386",
     "author": {
@@ -670,11 +656,7 @@ Status 200: OK
       "email": "dummy@mail.com"
     },
     "question": {
-      "tags": [
-        "javascript",
-        "vue js",
-        "mongoose"
-      ],
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -690,11 +672,9 @@ Status 200: OK
 }
 ```
 
-
-
 ### Downvote Answer
 
-When you already downvoted the answer, hitting this endpoint again will remove your vote. When you already upvoted the answer, this endpoint will change your upvote  to downvote.
+When you already downvoted the answer, hitting this endpoint again will remove your vote. When you already upvoted the answer, this endpoint will change your upvote to downvote.
 
 ##### Endpoint
 
@@ -719,20 +699,14 @@ Status 200: OK
   "message": "[You have downvote] [Your downvote has been removed]",
   "data": {
     "upvotes": [],
-    "downvotes": [
-      "5df9acb9bb060d7ed12882af"
-    ],
+    "downvotes": ["5df9acb9bb060d7ed12882af"],
     "_id": "5df9b36096c55281e32eb386",
     "author": {
       "_id": "5df9acb9bb060d7ed12882af",
       "email": "dummy@mail.com"
     },
     "question": {
-      "tags": [
-        "javascript",
-        "vue js",
-        "mongoose"
-      ],
+      "tags": ["javascript", "vue js", "mongoose"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -745,5 +719,31 @@ Status 200: OK
     },
     "content": "This is the answer of the what that's still what for the what of what"
   }
+}
+```
+
+### Delete Answer
+
+##### Endpoint
+
+```http
+DELETE /answers/:id
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Param
+
+- id **Required** id of the answer
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "Answer deleted"
 }
 ```

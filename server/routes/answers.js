@@ -10,6 +10,6 @@ answers.patch('/:id/downvote', AnswerController.downvoteAnswer)
 
 answers.use('/:id', authorizeAnswer)
 answers.patch('/:id', AnswerController.editAnswer)
-answers.delete('/:id')
+answers.delete('/:id', AnswerController.deleteAnswer)
 
 module.exports = answers

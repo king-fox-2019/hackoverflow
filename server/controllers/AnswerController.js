@@ -147,6 +147,16 @@ class Answerontroller {
       })
       .catch(next)
   }
+
+  static deleteAnswer(req, res, next) {
+    req.answer
+      .remove()
+      .then(answer => {
+        if (!answer) throw createError(404, 'Answer not found')
+        else res.status(200).json({ message: 'Answer deleted' })
+      })
+      .catch(next)
+  }
 }
 
 module.exports = Answerontroller
