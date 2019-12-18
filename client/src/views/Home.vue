@@ -8,9 +8,11 @@
         </h1>
       </section>
       <section id="routes">
-        <b-button id="button" v-show="$store.state.logged" size="lg"
+        <b-button id="button" variant="warning"
+        v-show="$store.state.logged" size="lg"
         style="width: 15%" class="animated bounceInLeft delay-1s">ASK</b-button>
-        <b-button id="button" size="lg" to="questions"
+        <b-button id="button"
+        variant="warning" size="lg" to="questions"
         class="animated bounceInRight delay-1s">ANSWER QUESTION</b-button>
       </section>
     </div>
@@ -36,11 +38,11 @@ hr {
 #textheader {
   margin-top: 12.5%;
   font-size: 5rem;
-  color: orange;
+  color: yellow;
   display: flex;
   justify-content: center;
   font-family: 'Lilita One', cursive;
-  text-shadow: 3px 3px green;
+  text-shadow: 3px 3px red;
 }
 #button {
   margin: 1rem !important;

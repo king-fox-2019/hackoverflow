@@ -50,8 +50,9 @@ export default {
   overflow-y: scroll;
 }
 strong {
+  text-shadow: 2px 2px red;
   font-family: 'Rubik', sans-serif;
-  color: black;
+  color: yellow;
   display: flex;
   justify-content: center;
 }

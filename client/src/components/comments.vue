@@ -1,9 +1,14 @@
 <template>
   <section id="comment">
     <div id="answerbox">
+      <div id="mampus">
+        <input type="text" class="form-control mb-2"
+        placeholder="title"
+        id="title" v-model="title">
+      </div>
       <div id="textarea">
         <textarea class="form-control" id="box"
-        v-model="comment"></textarea>
+        v-model="commentPost"></textarea>
         <b-button id="button" class="ml-2"
         style="width: 5rem;"
         @click="post" variant="light">Post</b-button>
@@ -11,20 +16,24 @@
       <hr>
     </div>
     <div id="commentList">
-      <div id="onecomment"
+      <div
       class="mb-2"
       v-for="comment in $store.state.currentComment"
       :key="comment._id">
-        <b-card bg-variant="light" text-variant="dark" :title="comment.title">
+        <b-card id="onecomment" bg-variant="light" text-variant="dark" :title="comment.title">
           <b-card-text>
-            With supporting text below as a natural lead-in to additional content.
+            {{comment.description}}
           </b-card-text>
-          <b-button variant="primary"
+          <b-button type="button" class="mr-2"
+          variant="outline-light">
+            Votes <span class="badge badge-light">{{comment.upVotes - comment.downVotes}}</span>
+          </b-button>
+          <b-button variant="outline-light"
           @click="vote({action: 'up', data: 'answer', id: comment._id})"
           class="mr-2">
             <i id="up" class="fas fa-caret-up fa-2x"></i>
           </b-button>
-          <b-button variant="primary"
+          <b-button variant="outline-light"
           @click="vote({action: 'down', data: 'answer', id: comment._id})"
           class="mr-2">
             <i id="up" class="fas fa-caret-down fa-2x"></i>
@@ -39,7 +48,8 @@
 export default {
   data() {
     return {
-      comment: '',
+      title: '',
+      commentPost: '',
     };
   },
   methods: {
@@ -47,7 +57,9 @@ export default {
       this.$store.dispatch('votes', payload);
     },
     post() {
-      console.log(this.comment);
+      this.$store.dispatch('post', { title: this.title, comment: this.commentPost, action: 'answer' });
+      this.title = '';
+      this.commentPost = '';
     },
   },
 };
@@ -56,6 +68,11 @@ export default {
 <style scoped>
 hr {
   border: 1px solid white;
+}
+#onecomment {
+  color: white !important;
+  border: 1px solid white;
+  background-color: black !important;
 }
 #comment {
   padding: 1rem;
@@ -71,7 +88,7 @@ hr {
   margin-left: 20%;
   margin-right: 20%;
   height: 3rem;
-  display: inline-flex;
+  display: flex;
   justify-content: space-around;
 }
 #box {
@@ -80,5 +97,11 @@ hr {
 }
 #comment::-webkit-scrollbar {
   display: none;
+}
+#mampus {
+  display: flex;
+  justify-content: center;
+  margin-left: 30%;
+  margin-right: 30%
 }
 </style>

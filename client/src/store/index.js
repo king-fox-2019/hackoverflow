@@ -12,6 +12,7 @@ export default new Vuex.Store({
     questions: [],
     currentQuestion: {},
     currentComment: [],
+    myQuestions: [],
   },
   mutations: {
     SET_LOGGED(state, payload) {
@@ -29,10 +30,38 @@ export default new Vuex.Store({
     CLEAR_COMMENT(state) {
       state.currentComment = '';
     },
+    SET_MYQUESTIONS(state, payload) {
+      state.myQuestions = payload;
+    },
   },
   actions: {
-    votes(context, payload) {
-      console.log(payload);
+    votes({ dispatch }, payload) {
+      const { id, action, data } = payload;
+      const url = `/${data}/${action}/${id}`;
+      console.log(url);
+      axios
+        .patch(url)
+        .then((result) => {
+          Swal.fire(result.data.message);
+          dispatch('myQuestions');
+          dispatch('fetchQuestions');
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
+    },
+    updateComments({ commit }) {
+      axios
+        .get(`/answer/${router.currentRoute.params.id}`)
+        .then(({ data }) => {
+          commit('SET_CURRENT_COMMENT', data);
+        })
+        .catch((err) => {
+          commit('CLEAR_COMMENT');
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
     },
     getComments({ commit }, payload) {
       const { _id } = payload;
@@ -108,6 +137,48 @@ export default new Vuex.Store({
             Swal.fire(fields);
           });
       }
+    },
+    myQuestions({ commit }) {
+      axios
+        .get('/questions/my')
+        .then(({ data }) => {
+          commit('SET_MYQUESTIONS', data);
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
+    },
+    remove({ dispatch }, payload) {
+      axios
+        .delete(`/questions/${payload}`)
+        .then(() => {
+          Swal.fire('Questions deleted!');
+          dispatch('myQuestions');
+          dispatch('fetchQuestions');
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
+    },
+    post({ dispatch }, payload) {
+      const { title, comment, action } = payload;
+      const url = `${action}/${router.currentRoute.params.id}`;
+      axios
+        .post(url, {
+          title,
+          description: comment,
+        })
+        .then(() => {
+          dispatch('myQuestions');
+          dispatch('fetchQuestions');
+          dispatch('updateComments');
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
     },
   },
   modules: {

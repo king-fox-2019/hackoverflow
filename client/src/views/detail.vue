@@ -52,7 +52,7 @@ strong {
   justify-content: center;
 }
 #default {
-  color: black;
+  color: white;
   display: inline;
   justify-content: center;
 }

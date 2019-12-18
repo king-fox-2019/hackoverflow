@@ -5,7 +5,7 @@
     <b-form-input class="input" v-model="password"
     type="password"
     placeholder="Enter your password"></b-form-input>
-    <b-button variant="dark" type="sumbit" class="mt-3">Login</b-button>
+    <b-button variant="light" type="sumbit" class="mt-3">Login</b-button>
   </form>
 </template>
 

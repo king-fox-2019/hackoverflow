@@ -22,6 +22,7 @@ export default {
   created() {
     if (localStorage.getItem('token')) {
       this.$store.dispatch('logged', true);
+      this.$store.dispatch('myQuestions');
     } else {
       this.$store.dispatch('logged', false);
     }

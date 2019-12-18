@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar id="nav" toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand to="/"
       style="font-family: 'Righteous', cursive; color: orange;"
       class="animated infinite heartBeat">
@@ -24,9 +24,25 @@
     </b-navbar>
     <!-- My Question Modal -->
     <b-modal id="my-question" hide-footer>
-      <div class="d-block text-center">
-        <h3>My Questions</h3>
-      </div>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">UpVotes</th>
+            <th scope="col">DownVotes</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="question in $store.state.myQuestions"
+          :key="question._id">
+            <th scope="row">{{question.title}}</th>
+            <td>{{question.upVotes}}</td>
+            <td>{{question.downVotes}}</td>
+            <td><b-button @click="destroy(question._id)">DELETE</b-button></td>
+          </tr>
+        </tbody>
+      </table>
       <b-button class="mt-3" block @click="$bvModal.hide('my-question')">Close Me</b-button>
   </b-modal>
     <!-- End of my question modal -->
@@ -48,10 +64,17 @@ export default {
       localStorage.removeItem('token');
       this.$store.dispatch('logged', false);
     },
+    destroy(id) {
+      this.$store.dispatch('remove', id);
+    },
   },
 };
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Righteous&display=swap');
+#nav {
+  background-color: black !important;
+  color: #000 !important;
+}
 </style>

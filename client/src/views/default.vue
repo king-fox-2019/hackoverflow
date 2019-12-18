@@ -18,7 +18,7 @@
 export default {
   data() {
     return {
-      message: 'We <3 people who code',
+      message: 'We <3 people who ask',
     };
   },
 };
@@ -45,11 +45,11 @@ strong {
   justify-content: center;
 }
 #default {
-  color: black;
+  color: white;
   display: inline;
   justify-content: center;
 }
 #center {
-  margin-top: 15%;
+  margin-top: 18%;
 }
 </style>
