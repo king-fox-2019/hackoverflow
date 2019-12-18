@@ -33,9 +33,12 @@ const answerSchema = new Schema(
 )
 
 answerSchema.post('save', function(doc) {
-  return models.Question.findByIdAndUpdate(doc.question, {
-    $push: { answers: doc._id }
-  })
+  return models.Question.findOneAndUpdate(
+    { _id: doc.question, answers: { $ne: doc._id } },
+    {
+      $push: { answers: doc._id }
+    }
+  )
 })
 
 answerSchema.post('remove', function(doc) {
