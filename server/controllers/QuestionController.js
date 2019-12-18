@@ -55,6 +55,11 @@ class QuestionController {
   static getOneQuestion(req, res, next) {
     Question.findById(req.params.id)
       .populate('author', '-password')
+      .populate({
+        path: 'answers',
+        select: '-question',
+        populate: { path: 'author', select: '-password' }
+      })
       .then(question => {
         if (!question) throw createError(404, 'Question not found')
         else res.status(200).json({ data: question })
@@ -86,6 +91,11 @@ class QuestionController {
     let message
     Question.findById(req.params.id)
       .populate('author', '-password')
+      .populate({
+        path: 'answers',
+        select: '-question',
+        populate: { path: 'author', select: '-password' }
+      })
       .then(question => {
         if (!question) throw createError(404, 'Question not found')
         else {
@@ -114,6 +124,11 @@ class QuestionController {
     let message
     Question.findById(req.params.id)
       .populate('author', '-password')
+      .populate({
+        path: 'answers',
+        select: '-question',
+        populate: { path: 'author', select: '-password' }
+      })
       .then(question => {
         if (!question) throw createError(404, 'Question not found')
         else {

@@ -155,6 +155,7 @@ Status 201: Created
   "message": "Question posted",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
+    "answers": [],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -185,6 +186,7 @@ Status 200: OK
   "data": [
     {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": [],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df78f849961c4808aa1a5df",
@@ -220,6 +222,7 @@ Status 200: OK
   "data": [
     {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": [],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df78f849961c4808aa1a5df",
@@ -250,6 +253,7 @@ Status 200: OK
 {
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
+    "answers": [],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -292,6 +296,7 @@ Status 200: OK
   "message": "Question updated",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
+    "answers": [],
     "upvotes": [],
     "downvotes": [],
     "_id": "5df78f849961c4808aa1a5df",
@@ -328,6 +333,7 @@ Status 200: OK
   "message": "[You have upvoted] [Your upvote has been removed]",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
+    "answers": [],
     "upvotes": ["5df78131eca931762cde32ff"],
     "downvotes": [],
     "_id": "5df7b1b8283e419538efa3b9",
@@ -368,6 +374,7 @@ Status 200: OK
   "message": "[You have downvoted] [Your downvote has been removed]",
   "data": {
     "tags": ["javascript", "vue js", "mongoose"],
+    "answers": [],
     "upvotes": [],
     "downvotes": ["5df78131eca931762cde32ff"],
     "_id": "5df7b1b8283e419538efa3b9",
@@ -442,6 +449,7 @@ Status 201: Created
     },
     "question": {
       "tags": [],
+      "answers": ["5dfa4085ae45ead040553298"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df7b1b8283e419538efa3b9",
@@ -559,6 +567,7 @@ Status 200: OK
     },
     "question": {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": ["5dfa4085ae45ead040553298"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -607,6 +616,7 @@ Status 200: OK
     "_id": "5df9b36096c55281e32eb386",
     "question": {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": ["5dfa4085ae45ead040553298"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -657,6 +667,7 @@ Status 200: OK
     },
     "question": {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": ["5dfa4085ae45ead040553298"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
@@ -707,6 +718,7 @@ Status 200: OK
     },
     "question": {
       "tags": ["javascript", "vue js", "mongoose"],
+      "answers": ["5dfa4085ae45ead040553298"],
       "upvotes": [],
       "downvotes": [],
       "_id": "5df9b32a96c55281e32eb384",
