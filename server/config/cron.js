@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer')
 
 // let testAccount = nodemailer.createTestAccount()
 
-cron.schedule("* * * * * *", function(){
+cron.schedule("* * 10 * * *", function(){
     console.log('TCL \n============\n running cron job' )
 
     let transporter = nodemailer.createTransport({

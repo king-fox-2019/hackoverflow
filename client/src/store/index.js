@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex, { mapGetters } from 'vuex'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 Vue.use(Vuex)
 
@@ -59,7 +59,7 @@ export default new Vuex.Store({
       {
         axios({
             method: 'get',
-            url: 'http://localhost:3000/questions'
+            url: '/questions'
         })
         .then(result=>{
           console.log("TCL: result @store/index", result.data)

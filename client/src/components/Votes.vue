@@ -23,7 +23,7 @@
 
 <script>
 import Swal from 'sweetalert2'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 export default {
 
@@ -74,7 +74,7 @@ export default {
 
                 axios({
                     method:'patch',
-                    url: `http://localhost:3000/${this.cardType}/votes/${this.cardDetail._id}`,
+                    url: `/${this.cardType}/votes/${this.cardDetail._id}`,
                     headers:{
                         access_token:localStorage.getItem('access_token')
                     },

@@ -117,7 +117,7 @@
 import UserForm from '@/components/UserForm'
 import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 export default {
     components:{
@@ -198,7 +198,7 @@ export default {
           {
               axios({
                   method: 'post',
-                  url: 'http://localhost:3000/users/login',
+                  url: '/users/login',
                   data:{
                       email: this.inputEmail,
                       password: this.inputPassword
@@ -252,7 +252,7 @@ export default {
           {
               axios({
                   method: 'post',
-                  url: 'http://localhost:3000/questions',
+                  url: '/questions',
                   headers:{
                       access_token:localStorage.getItem('access_token')
                   },

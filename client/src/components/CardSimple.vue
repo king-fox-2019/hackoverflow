@@ -48,7 +48,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 export default {
     components:{
@@ -71,7 +71,7 @@ export default {
           {
             axios({
                 method: 'get',
-                url: `http://localhost:3000/answers/${this.question._id}`
+                url: `/answers/${this.question._id}`
             })
             .then(result=>{
                 console.log('TCL \n============\n ', 'nih jalan')
