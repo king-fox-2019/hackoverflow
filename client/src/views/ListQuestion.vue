@@ -5,7 +5,7 @@
     <div class="col-3 column-one pr-0" v-if="$route.path != '/questions/ask'">
       <div class="mt-5 d-flex justify-content-end">
         <div class="d-flex flex-column">
-        <button type="button" class="btn button-style-home"> Home </button>
+        <button type="button" class="btn button-style-home" @click="$router.push('/question')"> Home </button>
         <span class="pr-1"><i>  <i class="fas fa-globe-asia mt-3"></i> PUBLIC </i></span>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-2"> Tags </button>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-1"> Popular </button>
@@ -20,43 +20,45 @@
             <h3>Top Questions</h3>
           </div>
           <div class="col pt-5 text-right">
-            <button type="button" class="btn btn-sm btn-primary"> Ask Question </button>
+            <button type="button" class="btn btn-sm btn-primary" @click="$router.push('/questions/ask')"> Ask Question </button>
           </div>
         </div>
       </div>
-      <div class="button-items" style="border-bottom: 1px solid #E2E2E2;">
+      <div class="button-items question-hover" style="border-bottom: 1px solid #E2E2E2; cursor:pointer;" v-for="question in questions" :key="question._id" @click="$router.push(`/questions/${question._id}`)">
         <div class="row row-mid-two d-flex align-items-center">
           <div class="col-3 d-flex flex-row">
             <div class="col-4 d-flex flex-column mt-2">
-              <span class="votes-area">0</span>
+              <span class="votes-area">{{ Number(question.upvotes.length) - Number(question.downvotes.length) }}</span>
               <span class="color-grey" style="font-size:13px;">votes</span>
             </div>
             <div class="col-4 d-flex flex-column mt-2 pl-0">
-              <span class="votes-area">0</span>
+              <span class="votes-area">{{ Number(question.answerId.length) }}</span>
               <span class="color-grey" style="font-size:13px;">answers</span>
             </div>
             <div class="col-4 d-flex flex-column mt-2 pl-0">
-              <span class="votes-area">0</span>
+              <span class="votes-area">{{ Number(question.answerId.length) }}</span>
               <span class="color-grey" style="font-size:13px;">views</span>
             </div>
             <div class="d-flex flex-column">
               <div class="col mt-2 text-left">
-              <span class="text-title" style="max-width: 20vh;">lkdkdwkajdjjawdjawjkajdkawjlajdlkwjlkdjawkdjakjadwadojdojw</span>
-            </div>
-            <div class=" mt-1 mr-5 text-left ml-2">
-              <span class="badge badge-btn p-2 mr-1">Primary</span>
-            </div>
+                <span class="text-title" style="max-width: 20vh;">{{ question.title }}</span>
+              </div>
+              <div class="d-flex flex-row">
+                <div class="mt-1 ml-2" v-for="(tag,i) in question.tags" :key="i">
+                  <span class="badge badge-btn p-2">{{ tag }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="row mb-1 mr-1">
           <div class="col-12 text-right">
             <span class="text-date color-grey">
-                  asked {{ new Date() | moment("from", "now") }}
+                  asked {{ new Date(question.createdAt) | moment("from", "now") }}
             </span>
-            <a class="text-profile">anggabanny</a>
+            <a class="text-profile">{{ question.userId.email }}</a>
             <span class="text-reputation">
-              1212
+              {{ question.userId.popular }}
             </span>
           </div>
         </div>
@@ -102,16 +104,26 @@
 
 <script>
 // @ is an alias to /src
+import Swal from 'sweetalert2'
+import { mapState } from 'vuex'
 export default {
   name: 'home',
   components: {
-  }
+  },
+  created() {
+    this.$store.dispatch('getdataQuestion')
+  },
+  computed: mapState(['questions'])
 }
 </script>
 
 <style scoped>
 *{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.question-hover:hover{
+  background-color: rgb(247, 247, 247);
 }
 
 .text-reputation{

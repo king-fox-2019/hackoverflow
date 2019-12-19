@@ -1,7 +1,7 @@
 // ==> LocalServer
 const axios = require('axios')
 module.exports = axios.create({
-  baseURL: 'https://localhost:3000'
+  baseURL: 'http://localhost:3000'
 })
 
 // ==> SERVER DEPLOY

@@ -39,12 +39,15 @@
         </div>
       </div>
     </div>
-      <button type="button" class="btn btn-primary mt-3">Review your question</button>
+      <button type="button" class="btn btn-primary mt-3" @click="created">Review your question</button>
   </div>
 </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+import axios from '../helpers/axios'
+import { mapState } from 'vuex'
 export default {
   name: 'ask',
   data () {
@@ -80,6 +83,63 @@ export default {
       } else {
         this.tag = ''
       }
+    },
+    created(){
+      Swal.showLoading()
+      let form = {
+        title: this.title,
+        description: this.myHTML,
+        tags: this.myTags
+      }
+      axios({
+        url: '/question',
+        method: 'POST',
+        data: form,
+        headers:{
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        Swal.close()
+        console.log(data);
+        Swal.fire({
+          title: 'Create Question Success!',
+          icon: 'success',
+          // imageWidth: 400,
+          // imageHeight: 200,
+          timer: 1200,
+          timerProgressBar:true,
+          imageAlt: 'Custom image',
+          showConfirmButton: false,
+          showCancelButton: false,
+          confirmButtonText: 'نعم',
+          cancelButtonText: 'لا'
+        })
+        this.myHTML = ''
+        this.title = ''
+        this.tag = ''
+        this.myTags = []
+        this.$store.dispatch('getdataQuestion')
+        this.$router.push('/questions')
+      })
+      .catch(error => {
+        Swal.close()
+        console.log(error.response.data)
+        Swal.close()
+        Swal.fire({
+          title: 'Error!',
+          text: error.response.data.errors.join(' | '),
+          icon: 'error',
+          // imageWidth: 400,
+          // imageHeight: 200,
+          timer: 2500,
+          imageAlt: 'Custom image',
+          showConfirmButton: false,
+          showCancelButton: false,
+          confirmButtonText: 'نعم',
+          cancelButtonText: 'لا'
+        })
+      })
     }
   }
 }
