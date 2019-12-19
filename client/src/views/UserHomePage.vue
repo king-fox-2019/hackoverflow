@@ -20,6 +20,7 @@ export default {
   created () {
     this.$store.dispatch('getAllUsersQuestions')
     this.$store.dispatch('getAllUsersAnswers')
+    this.$store.dispatch('fetchUserData')
   }
 }
 </script>

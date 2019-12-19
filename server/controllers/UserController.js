@@ -70,6 +70,17 @@ class UserController {
       .catch(next)
   }
 
+  static deleteTag(req, res, next) {
+    let tags = req.body.tags
+    console.log(tags);
+    let id = req.loggedUser.id
+    User.updateOne({ _id: id }, { $pull: { tags: { $in: tags } } })
+      .then(_ => {
+        res.status(200).json({ message: 'tags updated' })
+      })
+      .catch(next)
+  }
+
   static getUserData(req, res, next) {
     let id = req.loggedUser.id
     User.findById({ _id: id })

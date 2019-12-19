@@ -6,6 +6,7 @@ router.post('/login', UserController.login)
 
 router.use(authentication)
 router.patch('/', UserController.updateTag)
+router.patch('/delete-tag', UserController.deleteTag)
 router.get('/', UserController.getUserData)
 
 module.exports = router

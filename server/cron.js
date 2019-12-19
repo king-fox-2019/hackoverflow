@@ -12,7 +12,7 @@ const mongooseConfig = {
   useCreateindex: true
 }
 
-mongoose.connect('mongodb://localhost/hacktiv-overflow', mongooseConfig, function(err) {
+mongoose.connect(process.env.URL_MONGOOSE, mongooseConfig, function(err) {
   if(err) console.log(`ಥ_ಥ Failed to connect to db`)
   else console.log(`(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ Connected to db `)
 })
