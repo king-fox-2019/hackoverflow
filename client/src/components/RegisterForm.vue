@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login {
   align-items: center;
 }
@@ -79,5 +79,9 @@ export default {
 .switch {
   margin-top: 30px;
   margin-left: 30px;
+}
+.button {
+  margin-top: 10px;
+  margin-left: 90px;
 }
 </style>

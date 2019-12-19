@@ -62,12 +62,12 @@ export default new Vuex.Store({
         .then(({ data }) => {
           commit('SET_IS_LOADING', false)
           commit('SET_IS_LOGIN', true)
-          const userId = data.id
+          const userId = data.user._id
           const { username, email } = data
           commit('SET_LOGGED_USER', { userId, username, email })
-          localStorage.setItem('userId', data.id)
-          localStorage.setItem('username', data.username)
-          localStorage.setItem('email', data.email)
+          localStorage.setItem('userId', data.user.id)
+          localStorage.setItem('username', data.user.username)
+          localStorage.setItem('email', data.user.email)
           localStorage.setItem('token', data.token)
           router.push('/')
         })
@@ -159,7 +159,34 @@ export default new Vuex.Store({
         })
         .catch(alert)
     },
-    addAnswer ({ dispatch, commit }, payload) {
+    removeQuestion ({dispatch, commit}, payload) {
+      axios.delete(`/questions/${id}`, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('getUserQuestions')
+          dispatch('getQuestions')
+          router.push('/users')
+        })
+        .catch(alert)
+    },
+    removeAnswer ({ dispatch, commit}, payload) {
+      axios.delete(`/answers/${id}`, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('getUserAnswers')
+          dispatch('getAnswers')
+          router.push('/users')
+        })
+        .catch(alert)
+    },
+    createAnswer ({ dispatch, commit }, payload) {
+      console.log('masuk post answer')
       commit('SET_IS_LOADING', true)
       axios.post('/answers', payload, {
         headers: {
@@ -167,6 +194,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          console.log('then dong???????????')
           commit('SET_IS_LOADING', false)
           dispatch('getQuestion', payload.questionId)
           dispatch('getQuestions')
@@ -202,9 +230,23 @@ export default new Vuex.Store({
         })
         .catch(alert)
     },
+    getUserById({ commit }) {
+      commit('SET_IS_LOADING', true)
+      axios.get(`/users/specific`, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({data}) => {
+          console.log(data, "user by id found")
+          commit('SET_IS_LOADING', false)
+          commit('SET_LOGGED_USER', data)
+        })
+        .catch(alert)
+    },
     getUserQuestions ({ commit }) {
       commit('SET_IS_LOADING', true)
-      axios.get(`/questions?userId=${localStorage.getItem('userId')}`, {
+      axios.get(`/questions?user=${localStorage.getItem('userId')}`, {
         headers: {
           token: localStorage.getItem('token')
         }
@@ -217,7 +259,7 @@ export default new Vuex.Store({
     },
     getUserAnswers ({ commit }) {
       commit('SET_IS_LOADING', true)
-      axios.get(`/answers?userId=${localStorage.getItem('userId')}`, {
+      axios.get(`/answers?user=${localStorage.getItem('userId')}`, {
         headers: {
           token: localStorage.getItem('token')
         }
@@ -240,12 +282,15 @@ export default new Vuex.Store({
         .catch(alert)
     },
     createTag ({ dispatch }, payload) {
+      console.log(payload, "tag dr client plis");
+      
       axios.patch('/users/tag', payload, {
         headers: {
           token: localStorage.getItem('token')
         }
       })
         .then(({ data }) => {
+          console.log(data, "hasil axios data tags dr clinet")
           dispatch('getTags')
         })
         .catch(alert)

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
      <div class="Qform has-background-white">
       <form @submit.prevent="createQuestion">
         <b-field label="Title">
@@ -65,6 +65,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 75vw;
+}
 .Qform {
   margin: 10px;
   text-align: left;

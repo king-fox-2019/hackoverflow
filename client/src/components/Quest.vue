@@ -1,23 +1,30 @@
 <template>
   <div>
-    <div class="columns">
+    <div class="columns" >
     <div class="column q-maths">
-      <div class="q-math num">
-        {{ totalVote }}
-      </div>
-      <div class="q-math">
-        votes
-      </div>
+      <div>
+
         <div class="q-math number">
-        {{ question.answers.length }}
+          {{ totalVote }}
+        </div>
+        <div class="q-math">
+          votes
+        </div>
       </div>
-      <div class="q-math">
-        answers
+
+      <div>
+        <div class="q-math number">
+          {{ question.answers.length }}
+        </div>
+        <div class="q-math">
+          answers
+        </div>
       </div>
+
     </div>
 
-    <div class="column q-details is-three-fifths">
-      <span class="q-title " @click="$router.push(`/questions/${question._id}`)">
+    <div class="column q-details is-four-fifths" :class="{ myTag : isReallyMyTag }">
+      <span class="q-title" @click="$router.push(`/questions/${question._id}`)">
         {{ question.title }}
       </span>
       <div class="q-detail">
@@ -33,7 +40,7 @@
 
     <div class="column q-corners has-text-grey">
       <div class="q-corner">
-       {{ period }}
+       <!-- {{ period }} -->
       </div>
       <div class="q-corner">
         <button class="button is-light">{{ userUpper }}</button>
@@ -47,11 +54,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import period from '../helpers/period'
 export default {
   name: 'Quest',
+  data() {
+    return {
+      isMyTag : false
+    }
+  },
   props: ['question'],
+  
+  methods : {
+  isReallyMyTag() {
+      for (let tag of question.tags) {
+        if (loggedUser.user.tags.includes(tag)) return true
+      }
+      return false
+    }
+  },
   computed: {
+    ...mapState(['loggedUser']),
     period () {
       return period.format(new Date(this.question.created_at))
     },
@@ -70,11 +93,15 @@ export default {
     totalVote () {
       return this.question.upVotes.length - this.question.downVotes.length
     }
+
+  },
+  created() {
+     this.$store.dispatch('getUserById')
   }
 }
 </script>
 
-<style>
+<style scoped>
 .q-maths {
   text-align: center;
 }
@@ -95,5 +122,8 @@ export default {
 }
 .columns {
   padding: 5px;
+}
+.myTag {
+  background-color: bisque;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
      <img style="height: 50px; margin-top: 100px;" src="../assets/only-logo-SO.png">
-      <div class="container signup-form">
+      <div class="container login-form">
       <section class="the-form">
         <form @submit.prevent="login">
           <b-field label="Email">
@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login {
   align-items: center;
 }
@@ -73,6 +73,7 @@ export default {
   margin-left: 30px;
 }
 .button {
-  margin-left: 130px;
+  margin-top: 10px;
+  margin-left: 90px;
 }
 </style>

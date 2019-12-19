@@ -34,12 +34,12 @@ const routes = [
     component: () => import('../views/UserPage.vue'),
     children: [
       {
-        path: '/users/update/question/:id',
+        path: '/users/edit/question/:id',
         name: 'updateQuestion',
         component: () => import('../components/UpdateQuest.vue')
       },
       {
-        path: '/users/update/answer/:id',
+        path: '/users/edit/answer/:id',
         name: 'updateAnswer',
         component: () => import('../components/UpdateAns.vue')
       }

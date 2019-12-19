@@ -1,13 +1,56 @@
 <template>
-  <div></div>
+  <div class="banner">
+    <hr>
+    <strong class="has-text-info">QUESTION YOU HAVE ANSWERED:</strong>
+    <div v-for="answer in userAnswers" :key="answer._id">
+      <div class="columns">
+        <div class="column">
+          {{ answer.question.title }}
+        </div>
+        <div class="column">
+          <a @click="$router.push(`/users/update/answer/${answer._id}`)">edit</a>
+          <a @click="removeAnswer(answer._id)" style="margin-left: 10px;">delete</a>
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  name: 'userAns',
+  computed: {
+    ...mapState(['userAnswers'])
+  },
+  methods: {
+    getUserAnswers () {
+      this.$store.dispatch('getUserAnswers')
+    },
+    removeAnswer (id) {
+      this.$store.dispatch('removeAnswer')
+   
+    }
+  },
+  created () {
+    this.getUserAnswers()
+  }
 }
 </script>
 
-<style>
-
+<style scoped>
+.columns {
+  display: flex;
+  flex-direction: column;
+}
+.column {
+  text-align: left;
+  margin: 10px;
+}
+.banner {
+  margin-left: 0%;
+}
 </style>

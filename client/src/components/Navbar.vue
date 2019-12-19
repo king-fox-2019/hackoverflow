@@ -10,7 +10,7 @@
 
           <b-dropdown-item aria-role="listitem" @click="$router.push('/')">Home</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">PUBLIC</b-dropdown-item>
-          <b-dropdown-item aria-role="listitem" @click="$router.push('/questions')"><span><i  class="fas fa-globe-americas"></i></span> Stack Overflow</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="$router.push('/home/questions')"><span><i  class="fas fa-globe-americas"></i></span> Stack Overflow</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">Tag</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">Users</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">Jobs</b-dropdown-item>
@@ -21,15 +21,21 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+
           <a v-if="!isLogin" style="margin-top: 15px;" @click="$router.push('/users/login')" class="button is-white has-text-info">
             Log in
           </a>
-          <a v-else style="margin-top: 15px;" @click="logout" class="button is-white has-text-info">
+
+          <a v-if="isLogin" style="margin-top: 15px;" @click="$router.push('/users')">{{$store.state.loggedUser.email.split('@')[0]}}</a>
+
+          <a v-if="isLogin" style="margin-top: 15px;" @click="logout" class="button is-white has-text-info">
             Log out
           </a>
+
           <a v-if="!isLogin" style="margin-top: 15px;" @click="$router.push('/users/register')" class="button is-primary is-info">
             <strong>Sign up</strong>
           </a>
+
         </div>
       </div>
     </div>
@@ -53,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 tag {
         cursor: pointer;
     }

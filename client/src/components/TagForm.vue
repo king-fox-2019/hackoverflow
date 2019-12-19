@@ -6,7 +6,7 @@
         <b-autocomplete
           v-model="tag"
           :data="dataFilter"
-          @select="opts => selected = option">
+          @select="opts => selected = opts">
           <template slot="empty">No results found</template>
         </b-autocomplete>
         <p class="control">
@@ -40,6 +40,8 @@ export default {
       let payload = {
         tag: this.tag
       }
+      console.log(payload, "mau gak sih nambahin tagggggg")
+      
       this.$store.dispatch('createTag', payload)
     }
   }

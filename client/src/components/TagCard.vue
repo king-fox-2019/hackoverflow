@@ -16,21 +16,21 @@
       <div v-if="!showForm && tags.length === 0">
         <img src="https://cdn.sstatic.net/Img/ico-binoculars.svg?v=d4dbaac4eec9">
         <p style="font-size: 11px; margin-top: 5px;">Watch tags to curate your list of questions.</p>
-        <b-button @click="showForm = true" style="background: #E1ECF4; color: #39739D;">
+        <button @click="showForm = true" class="button is-info">
           <b-icon
           icon="eye"
           size="is-small"
           style="margin-right: 5px;">
           </b-icon>
           Watch a tag
-        </b-button>
+        </button>
       </div>
       <div v-if="showForm || tags.length > 0">
         <div style="margin-bottom: 10px">
         <b-tag
         closable
         aria-close-label="Close tag"
-         v-for="(tag, i) in tags" :key="i" class="tag clickable"
+         v-for="(tag, i) in tags" :key="i" class="tag"
          @close="removeTag(tag)"><span @click="$router.push(`/questions/tag/${tag}`)">{{ tag }}</span></b-tag>
         </div>
         <TagForm></TagForm>
@@ -55,13 +55,13 @@ export default {
       showForm: false
     }
   },
-  computed: mapState(['tags']),
   methods: {
     removeTag (tag) {
       let payload = { tag }
       this.$store.dispatch('removeTag', payload)
     }
-  }
+  },
+  computed: mapState(['tags'])
 }
 </script>
 

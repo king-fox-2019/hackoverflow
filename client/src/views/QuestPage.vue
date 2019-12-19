@@ -34,17 +34,22 @@ export default {
     Quest,
     TagCard
   },
+  methods : {
+  
+  },
   computed: {
     tag () {
       return this.$route.params.tag
     },
-    ...mapState(['questions', 'tags'])
+    ...mapState(['questions', 'tags', 'loggedUser'])
   },
   created () {
     if (this.questions.length === 0) {
       this.$store.dispatch('getQuestions', this.tag)
     }
     this.$store.dispatch('getTags')
+
+   
   },
   watch: {
     tag () {
@@ -54,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 h1 {
   font-size: 30px;
 }
@@ -62,5 +67,8 @@ h1 {
   margin: 14px;
   display: flex;
   justify-content: space-between;
+}
+.QPage {
+  width: 60vw;
 }
 </style>

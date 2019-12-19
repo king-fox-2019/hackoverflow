@@ -49,13 +49,30 @@ class UserController {
       })
       .catch(next)
   }
-  static addTag(req, res, next) {
-    const { tag } = req.body.tag
+  static findUser(req, res, next) {
     const userId = req.loggedUser._id
     User
-      .findByIdAndUpdate(userId, { $addToset : { tags : tag }}, { omitUndefined: true, new: true})
+      .findById(userId)
       .then(user => {
-        res.statuss(200).json(user)
+        res.status(200).json(user)
+      })
+      .catch(next)
+  }
+  static addTag(req, res, next) {
+    const { tag } = req.body
+    console.log("ini nih tag nya : --> ", req.body.tag, "<--- kena ke server gak body tag nya?");
+    
+    const userId = req.loggedUser._id
+    User
+      .updateOne({ _id: userId}, { $push : { tags : tag }})
+      .then(user => {
+        console.log(user, "brp yg kegantiiii");
+        
+        return User.findById(userId)
+      })
+      .then(user => {
+        console.log(user, "udah ketangkep belom sih tag nya di user haduuuu");
+        res.status(200).json(user)
       })
       .catch(next)
   }

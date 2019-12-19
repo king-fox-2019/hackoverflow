@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const routes = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
+const cron = require('./helpers/corn')
 
 const PORT = process.env.PORT || 3000
 
@@ -21,5 +22,7 @@ app.use(express.urlencoded({ extended : false}))
 
 app.use('/', routes)
 app.use(errorHandler)
+
+cron()
 
 app.listen(PORT, () => console.log('this app is running on PORT', PORT))

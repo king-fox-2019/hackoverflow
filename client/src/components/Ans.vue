@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="columns" v-for="answer in answers" :key="answer._id">
-      <div class="column question-counts has-text-grey">
-        <div class="question-counts-item" @click="upvote(answer._id)">
+      <div class="column question-counts">
+        <div class="question-counts-item" @click="upVote(answer._id)">
           <b-icon class="vote"
             pack="fas"
             icon="caret-up">
@@ -11,7 +11,7 @@
         <div class="question-counts-item num">
           {{ totalVote(answer.upVotes, answer.downVotes) }}
         </div>
-        <div class="question-counts-item" @click="downvote(answer._id)">
+        <div class="question-counts-item" @click="downVote(answer._id)">
           <b-icon class="vote"
             pack="fas"
             icon="caret-down">
@@ -25,14 +25,14 @@
       </div>
       <div class="column question-poster has-text-grey">
         <div class="question-poster-item">
-        {{ timeAgoDate(answer.created_at) }}
+        {{ period(answer.created_at) }}
         </div>
         <div class="question-poster-item">
-          <button class="button is-dark">{{ userInitial(answer.user.username) }}</button>
+          <!-- <button class="button is-dark">{{ userInitial(answer.user.username) }}</button> -->
           {{ answer.user.username }}
         </div>
       </div>
-    </div> 
+    </div>
     <hr>
     <AnsForm></AnsForm>
   </div>
@@ -51,12 +51,9 @@ export default {
     period (date) {
       return period.format(new Date(date))
     },
-    userInitial (username) {
-      return username.charAt(0).toUpperCase()
-    },
-    totalVote (upvotes, downvotes) {
-      return upVotes.length - downVotes.length
-    },
+    // userInitial (username) {
+    //   return username.charAt(0).toUpperCase()
+    // },
     upVote (id) {
       this.$store.dispatch('vote', {
         group: 'answers',
@@ -73,10 +70,13 @@ export default {
         questionId: this.$route.params.id
       })
     },
-    computed: {
-      answers () {
-        return this.$store.state.question.answers
-      }
+    totalVote (upVotes, downVotes) {
+      return upVotes.length - downVotes.length
+    }
+  },
+  computed: {
+    answers () {
+      return this.$store.state.question.answers
     }
   }
 }

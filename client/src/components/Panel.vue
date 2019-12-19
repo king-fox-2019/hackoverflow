@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <aside style="text-align: left;" class="menu">
     <ul class="menu-list">
       <li><a @click="$router.push('/home/questions')">Home</a></li>
@@ -25,6 +25,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.container {
+  margin-left: 5px !important;
+}
 </style>

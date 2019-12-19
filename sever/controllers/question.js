@@ -15,7 +15,9 @@ class questionController {
   static findAll(req, res, next) {
     let search = {}
     if (req.query.user) {
-      search.user = req.loggedUser._id
+      console.log(req.query.user, "ada emg????????????");
+      
+      search.user = req.query.user
     }
     if (req.query.tags) {
       search.tags = req.query.tags
@@ -82,21 +84,23 @@ class questionController {
       .findById(questionId)
       .populate('user') //whose
       .then(question => {
+        console.log(question, "daetdfgnjkbhgfyushdjknfdkhsfjbcQQQQQQQ");
         if (!question) {
           throw { status : 400, msg : 'question not found'}
         }
         let user = req.loggedUser._id
         console.log(user, "ini dr question controllerrrrr")
         //user mau upvote
-        if (!question.upVote.includes(user)) { //kalo belom perna upvote, tambahin
-          question.upVote.push(user)
-          if (question.downVote.includes(user)) { //cek tetangga downvote, kalo ada user, apus (cm bs pilih up/down)
-            let userPoint = question.downVote.indexOf(user)
-            question.downVote.splice(userPoint, 1) //start-how many
+        if (!question.upVotes.includes(user)) { //kalo belom perna upvote, tambahin
+          question.upVotes.push(user)
+          if (question.downVotes.includes(user)) { //cek tetangga downvote, kalo ada user, apus (cm bs pilih up/down)
+            
+            let userPoint = question.downVotes.indexOf(user)
+            question.downVotes.splice(userPoint, 1) //start-how many
           }
         } else { //kalo uda perna upvote, apus
-          let userPoint = question.upVote.idexOf(user)
-          question.upVote.splice(userPoint, 1)
+          let userPoint = question.upVotes.indexOf(user)
+          question.upVotes.splice(userPoint, 1)
         }
         question.save()
         res.status(200).json(question)
@@ -114,15 +118,15 @@ class questionController {
           throw { status : 400, msg : 'question not found'}
         }
         let user = req.loggedUser._id
-        if (!question.downVote.includes(user)) {
-          question.downVote.push(user)
-          if (question.upVote.includes(user)) {
-            let userPoint = question.upVote.indexOf(user)
-            question.upVote.splice(userPoint, 1) //start-how many
+        if (!question.downVotes.includes(user)) {
+          question.downVotes.push(user)
+          if (question.upVotes.includes(user)) {
+            let userPoint = question.upVotes.indexOf(user)
+            question.upVotes.splice(userPoint, 1) //start-how many
           }
         } else {
-          let userPoint = question.downVote.indexOf(user)
-          question.downVote.splice(userPoint, 1)
+          let userPoint = question.downVotes.indexOf(user)
+          question.downVotes.splice(userPoint, 1)
         }
         question.save()
         res.status(200).json(question)

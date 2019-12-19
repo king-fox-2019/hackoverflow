@@ -17,7 +17,10 @@ class answerController {
           throw {status : 400, msg : 'question not found'}
         } else {
           question.answers.push(answer._id)
+          question.save()
+          console.log(question, "punya ans gakkkkk abis update");
           res.status(201).json(answer)
+          
         }
       })
   }
@@ -25,11 +28,11 @@ class answerController {
 
     let search = {}
     if (req.query.user) { //url?user=true
-      search.user = req.loggedUser._id
+      search.user = req.query.user
     }
     Answer
       .find(search)
-      .populate('user') //whose
+      .populate(['user','question']) //whose
       .sort({ createdAt : 'desc' })
       .then(answers => {
         res.status(200).json(answers)
@@ -40,7 +43,7 @@ class answerController {
     let answerId = req.params.id
     Answer
       .findById(id)
-      .populate('user') //whose
+      .populate(['user', 'question']) //whose
       .then(answer => {
         if (!answer) {
           throw {status : 400, msg : 'answer not found'}
@@ -75,15 +78,15 @@ class answerController {
         let user = req.loggedUser._id
         console.log(user, "ini dr ans controllerrrrr")
         //user mau upvote
-        if (!answer.upVote.includes(user)) { //kalo belom perna upvote, tambahin
-          answer.upVote.push(user)
-          if (answer.downVote.includes(user)) { //cek tetangga downvote, kalo ada user, apus (cm bs pilih up/down)
-            let userPoint = answer.downVote.indexOf(user)
-            answer.downVote.splice(userPoint, 1) //start-how many
+        if (!answer.upVotes.includes(user)) { //kalo belom perna upvotes, tambahin
+          answer.upVotes.push(user)
+          if (answer.downVotes.includes(user)) { //cek tetangga downvotes, kalo ada user, apus (cm bs pilih up/down)
+            let userPoint = answer.downVotes.indexOf(user)
+            answer.downVotes.splice(userPoint, 1) //start-how many
           }
-        } else { //kalo uda perna upvote, apus
-          let userPoint = answer.upVote.idexOf(user)
-          answer.upVote.splice(userPoint, 1)
+        } else { //kalo uda perna upvotes, apus
+          let userPoint = answer.upVotes.indexOf(user)
+          answer.upVotes.splice(userPoint, 1)
         }
         answer.save()
         res.status(200).json(answer)
@@ -100,15 +103,15 @@ class answerController {
           throw { status : 400, msg : 'answer not found'}
         }
         let user = req.loggedUser._id
-        if (!answer.downVote.includes(user)) {
-          answer.downVote.push(user)
-          if (answer.upVote.includes(user)) {
-            let userPoint = answer.upVote.indexOf(user)
-            answer.upVote.splice(userPoint, 1) //start-how many
+        if (!answer.downVotes.includes(user)) {
+          answer.downVotes.push(user)
+          if (answer.upVotes.includes(user)) {
+            let userPoint = answer.upVotes.indexOf(user)
+            answer.upVotes.splice(userPoint, 1) //start-how many
           }
         } else {
-          let userPoint = answer.downVote.indexOf(user)
-          answer.downVote.splice(userPoint, 1)
+          let userPoint = answer.downVotes.indexOf(user)
+          answer.downVotes.splice(userPoint, 1)
         }
         answer.save()
         res.status(200).json(answer)

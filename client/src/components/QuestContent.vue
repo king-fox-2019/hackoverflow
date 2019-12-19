@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
      <div class="header">
       <div>
         <h1>{{ question.title }}</h1>
@@ -84,7 +84,7 @@ export default {
     },
     upVote () {
       this.$store.dispatch('vote', {
-        collection: 'questions',
+        group: 'questions',
         type: 'upvote',
         id: this.question._id,
         questionId: this.question._id
@@ -92,7 +92,7 @@ export default {
     },
     downVote () {
       this.$store.dispatch('vote', {
-        collection: 'questions',
+        group: 'questions',
         type: 'downvote',
         id: this.question._id,
         questionId: this.question._id
@@ -106,6 +106,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 60vw !important;
+}
 .questions{
   text-align: left;
 }
@@ -136,7 +139,7 @@ h1 {
 .header {
   display: flex;
   justify-content: space-between;
-  margin: 15px;
+  margin: 20px;
 }
 .vote {
   cursor: pointer;
@@ -145,11 +148,5 @@ h1 {
   font-size: 20px;
   margin-left: 10px;
 }
-@media (max-width: 600px) {
-  .question-counts {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-}
+
 </style>

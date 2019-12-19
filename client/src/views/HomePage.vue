@@ -2,7 +2,7 @@
   <div class="home">
     <div class="main">
       <div class="columns">
-        <div class="column panel is-narrow">
+        <div class="column panel">
           <Panel></Panel>
         </div>
         <div class="column">
@@ -28,13 +28,11 @@ export default {
 <style scoped>
 
 .main {
-  max-width: 1200px;
-  margin-right: auto;
-  margin-left: auto;
+  max-width: 1400px;
+  margin-right: 2px;
+  margin-left: 15vw;
   margin-top: 20px;
 }
-.panel {
-  border-right: solid 1px rgb(201, 201, 201);
-}
+
 
 </style>
