@@ -1,37 +1,41 @@
 <template>
   <div class="home container">
-    <h1 style="color:orange;margin-top:6rem;margin-left:-15px">{{title}}</h1>
+    <h1 style="color:orange;margin-top:6rem;margin-left:-15px">{{ title }}</h1>
     <b-row class="text-center">
       <b-col style="padding:0px">
         <div v-if="!userLogin" class="border">Login to ask some question</div>
-        <div class="border" v-if="userLogin">
-          <ul class="list-unstyled">
-            <div>
+        <div class="" v-if="userLogin">
+          <ul class="list-unstyled pb-0">
+            <div class="border">
               <h6
                 style="color:white;background-color:orange;margin:0px"
                 class="p-2"
-              >Hello, {{username}} !</h6>
+              >
+                Hello, {{ username }} !
+              </h6>
             </div>
-            <div class="p-2">
+            <div class="p-2 border-left border-right">
               <router-link
                 to="/myquestion"
                 style="text-decoration:none;color:orange"
-              >See your question</router-link>
+                >See your question</router-link
+              >
             </div>
             <hr style="margin:0px" />
-            <div class="p-2">
+            <div class="pb-0 border">
               <router-link
                 to="/addquestion"
-                class="btn"
-                style="background-color:orange;color:white"
+                class="btn rounded-0"
+                style="background-color:orange;color:white;width:100%"
                 role="button"
-              >Ask Question</router-link>
+                >Ask Question</router-link
+              >
             </div>
           </ul>
         </div>
       </b-col>
       <b-col cols="10">
-        <Questions v-if="currentRoute==='/'" />
+        <Questions v-if="currentRoute === '/'" />
         <router-view />
       </b-col>
     </b-row>
