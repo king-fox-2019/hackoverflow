@@ -58,6 +58,7 @@ export default {
   height: 25rem;
   margin-right: 20%;
   margin-left: 20%;
+  overflow-y: scroll;
 }
 #title {
   margin-top: 5%;

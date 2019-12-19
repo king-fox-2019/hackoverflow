@@ -45,11 +45,12 @@ strong {
   justify-content: center;
 }
 #h3 {
+  margin: 2rem;
+  max-width: 100%;
+  padding: 2rem;
   font-size: 2rem;
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
-  display: flex;
-  justify-content: center;
 }
 #default {
   color: white;

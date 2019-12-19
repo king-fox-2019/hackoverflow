@@ -121,7 +121,7 @@ export default new Vuex.Store({
       router.push({ name: 'home' });
       commit('SET_LOGGED', payload);
     },
-    loginAttempt({ commit }, payload) {
+    loginAttempt({ dispatch, commit }, payload) {
       const { email, password } = payload;
       axios
         .post('/user/login', {
@@ -132,6 +132,7 @@ export default new Vuex.Store({
           const { token } = data;
           localStorage.setItem('token', token);
           commit('SET_LOGGED', true);
+          dispatch('myQuestions');
           router.push({ name: 'question' });
         })
         .catch((err) => {
@@ -217,13 +218,19 @@ export default new Vuex.Store({
       commit('SET_EDIT', payload);
     },
     sentEdit({ dispatch, commit }, payload) {
-      const { title, description, id } = payload;
-      const url = `questions/${id}`;
-      axios
-        .put(url, {
+      const { title, message, id } = payload;
+      const url = `/questions/${id}`;
+      axiosReal({
+        method: 'put',
+        url: `http://54.169.7.220${url}`,
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        data: {
           title,
-          description,
-        })
+          description: message,
+        },
+      })
         .then(() => {
           commit('SET_EDIT', {});
           dispatch('fetchQuestions');

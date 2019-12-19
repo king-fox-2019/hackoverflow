@@ -51,6 +51,7 @@ export default {
   box-shadow: 5px 5px blue;
 }
 #post {
+  overflow-y: scroll;
   display: flex;
   justify-content: center;
   background-color: snow !important;

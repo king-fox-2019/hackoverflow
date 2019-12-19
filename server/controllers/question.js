@@ -4,6 +4,17 @@
 const { Question } = require('../models');
 
 class QuestionController {
+  static editQuestion(req, res, next) {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    console.log(id, title, description);
+    Question
+      .updateOne({ _id: id}, { $set: { title: title, description: description } })
+      .then(() => {
+        res.status(200).json({ message: 'updated!' });
+      })
+      .catch(next);
+  }
   static askQuestion(req, res, next) {
     const { id } = req.token;
     const { title, description } = req.body;

@@ -6,6 +6,7 @@ const authorization = require('../middlewares/authorization');
 const router = require('express').Router();
 
 router.get('/', controller.getAllQuestions);
+router.put('/:id', controller.editQuestion);
 router.use(auth);
 router.get('/my', controller.myQuestions);
 router.post('/', controller.askQuestion);

@@ -22,7 +22,7 @@
               User
             </template>
             <section v-if="$store.state.logged">
-              <b-dropdown-item to="ask">Ask!</b-dropdown-item>
+              <b-dropdown-item>Ask!</b-dropdown-item>
               <b-dropdown-item
               @click="$bvModal.show('my-question')">My Question</b-dropdown-item>
               <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
