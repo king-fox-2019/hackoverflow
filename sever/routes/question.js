@@ -7,8 +7,8 @@ router.get('/:id', questionController.findOne)
 
 router.use(authentication)
 router.post('/', questionController.create)
-router.patch('/upvote/:id', QuestionController.upvote)
-router.patch('/downvote/:id', QuestionController.downvote)
+router.patch('/upvote/:id', questionController.upVote)
+router.patch('/downvote/:id', questionController.downVote)
 
 router.use('/:id', questionAuthorization)
 router.patch('/:id', questionController.update)

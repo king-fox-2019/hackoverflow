@@ -16,11 +16,11 @@ module.exports = (err, req, res, next) => {
       }
       res.status(400).json({ message })
     } else if (err.name === `JsonWebTokenError`) {
-      res.status(401).json({message : `you have to login first`}) //JWT ID invalid
+      res.status(401).json({message : [`you have to login first`]}) //JWT ID invalid
     }
 
     else {
-      res.status(500).json({message : `internal server error`})
+      res.status(500).json({message : [`internal server error`]})
     }
   }
 }

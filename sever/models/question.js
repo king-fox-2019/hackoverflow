@@ -7,13 +7,13 @@ const questionSchema = new Schema({
   },
   description: {
     type: String,
-    required: [true, 'body cannot be empty']
+    required: [true, 'description cannot be empty']
   },
-  upVote: {
+  upVotes: {
     type: Array,
     default: []
   },
-  downVote: {
+  downVotes: {
     type: Array,
     default: []
   },

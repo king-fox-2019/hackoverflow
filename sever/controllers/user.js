@@ -36,7 +36,12 @@ class UserController {
               id : user._id,
               email : user.email
             })
-            res.status(200).json({message : `login success`, token})
+            res.status(200).json({
+              message : `login success`, 
+              token,
+              id: user._id,
+              email: user.email
+             })
           } else {
             throw { status : 400, message : `username/password wrong`}
           }
@@ -54,7 +59,7 @@ class UserController {
       })
       .catch(next)
   }
-  static findTag(req, res, next) {
+  static findTags(req, res, next) {
     const userId = req.loggedUser._id
     User
       .findById(userId)
@@ -63,7 +68,7 @@ class UserController {
       })
       .catch(next)
   }
-  static deleteTag(req, res, next) {
+  static removeTag(req, res, next) {
     const userId = req.loggedUser._id
     const { tag } = req.body
     User

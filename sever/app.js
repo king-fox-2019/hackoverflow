@@ -7,11 +7,11 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const routes = require('./routes')
-const { errorHandler } = require('./middlewares/errorHandler')
+const errorHandler = require('./middlewares/errorHandler')
 
 const PORT = process.env.PORT || 3000
 
-mongoose.connect(process.env.MONGO_URI, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify})
+mongoose.connect(process.env.MONGO_URI, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
   .then(() => console.log('connected to database'))
   .catch(err => console.log('failed to connect to database'))
 
