@@ -16,7 +16,11 @@
 
       <hr class="my-4 w-75 border-success" />
 
-      <b-button variant="outline-light" size="lg" to="session?on=signup"
+      <b-button
+        variant="outline-light"
+        size="lg"
+        to="session?on=signup"
+        v-if="!onSession"
         >Get Started</b-button
       >
     </b-jumbotron>
@@ -102,6 +106,9 @@ export default {
     }
   },
   computed: {
+    onSession() {
+      return this.$store.state.onSession
+    },
     questions() {
       return this.$store.state.questions
     }

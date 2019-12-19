@@ -100,15 +100,34 @@
         </b-media>
       </div>
     </ul>
+    <div class="editor-wrapper">
+      <hr class="mt-5 border-primary" />
+      <h4 class="d-inline-block mr-5 mb-0">Write your answer</h4>
+      <b-button class="mb-2  mt-2 mt-sm-0" variant="primary" @click="postAnswer"
+        >Post Answer</b-button
+      >
+      <vue-editor
+        class="mt-2 mb-5"
+        v-model="content"
+        placeholder="Describe your problems..."
+        ref="editor"
+      ></vue-editor>
+    </div>
   </b-container>
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor'
+
 export default {
   name: 'QuestionDetail',
+  components: {
+    VueEditor
+  },
   data() {
     return {
-      question: null
+      question: null,
+      content: ''
     }
   },
   methods: {
@@ -148,6 +167,25 @@ export default {
             this.$toasted.show(msg, { type: 'error' })
           )
         )
+    },
+    postAnswer() {
+      const { content } = this
+      if (this.$refs.editor.quill.getText().length <= 1) {
+        this.$toasted.show('Answer content required', { type: 'error' })
+        return
+      }
+
+      this.$store
+        .dispatch('postAnswer', { content, id: this.$route.params.id })
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+          this.getQuestionDetail()
+        })
+        .catch(({ response }) =>
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        )
     }
   },
   created() {
@@ -164,5 +202,53 @@ export default {
 .vote {
   margin: -0.5rem;
   cursor: pointer;
+}
+
+.editor-wrapper {
+  height: 80vh;
+}
+
+.quillWrapper {
+  height: 40vh !important;
+
+  #quill-container {
+    margin-bottom: 1rem;
+    overflow-y: scroll;
+
+    .ql-editor {
+      // margin-top: 1rem;
+      margin-bottom: 3rem;
+      height: auto;
+    }
+  }
+
+  .ql-toolbar {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+
+    .ql-formats {
+      display: block !important;
+      flex-shrink: 0;
+      width: auto;
+      .ql-picker-item {
+        color: #444;
+      }
+
+      span:hover,
+      button:hover,
+      svg:hover,
+      .ql-active,
+      .ql-selected {
+        color: var(--primary) !important;
+        .ql-stroke {
+          stroke: var(--primary) !important;
+        }
+        .ql-fill {
+          fill: var(--primary) !important;
+        }
+      }
+    }
+  }
 }
 </style>
