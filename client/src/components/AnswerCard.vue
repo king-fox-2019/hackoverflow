@@ -7,7 +7,6 @@
           <b-button @click.prevent="upVote">^</b-button>
           
           <b-card-text><br>{{data.upVotes.length-data.downVotes.length}}</b-card-text>
-          <small>votes</small>
           <b-button @click.prevent="downVote">v</b-button>
         </div>
         <div style="width: 100%">

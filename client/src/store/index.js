@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     allQuestion: [],
     oneQuestion: [],
-    answerToOne: []
+    answerToOne: [],
+    isLogin: false
   },
   mutations: {
     FetchAllQuestion(state, payload) {

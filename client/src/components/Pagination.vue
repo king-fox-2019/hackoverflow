@@ -49,6 +49,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#my-table{
+  margin: 10px 0px;
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -60,7 +63,11 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
+a , a:visited{
   color: #42b983;
+}
+a:hover, a:active{
+  text-decoration: none;
+  color: rgb(12, 72, 236);
 }
 </style>
