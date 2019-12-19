@@ -2,9 +2,6 @@
   <div class="container">
       <form @submit.prevent="updateAnswer">
         <div style="font-size: 25px; margin-bottom: 10px;">Your Answer</div>
-        <b-field label="Title">
-          <b-input v-model="title"></b-input>
-        </b-field>
         <wysiwyg v-model="description" />
         <button class="button is-info">Post Your Answer</button>
       </form>

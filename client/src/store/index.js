@@ -160,7 +160,7 @@ export default new Vuex.Store({
         .catch(alert)
     },
     removeQuestion ({dispatch, commit}, payload) {
-      axios.delete(`/questions/${id}`, {
+      axios.delete(`/questions/${payload}`, {
         headers: {
           token: localStorage.getItem('token')
         }

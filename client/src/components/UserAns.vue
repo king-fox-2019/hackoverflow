@@ -8,8 +8,7 @@
           {{ answer.question.title }}
         </div>
         <div class="column">
-          <a @click="$router.push(`/users/update/answer/${answer._id}`)">edit</a>
-          <a @click="removeAnswer(answer._id)" style="margin-left: 10px;">delete</a>
+          <a @click="$router.push(`/users/edit/answer/${answer._id}`)">edit</a>
         </div>
       </div>
     </div>

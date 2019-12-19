@@ -23,14 +23,14 @@ import { mapState } from 'vuex'
 export default {
   name: 'userQuestions',
   computed: {
-    ...mapState(['userQuestions'])
+    ...mapState(['userQuestions', 'questions'])
   },
   methods: {
     getUserQuestions () {
       this.$store.dispatch('getUserQuestions')
     },
     removeQuestion (id) {
-      this.$store.dispatch('removeQuestion')
+      this.$store.dispatch('removeQuestion', id)
     }
   },
   created () {

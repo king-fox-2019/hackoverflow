@@ -1,9 +1,6 @@
 <template>
   <div class="container">
       <form @submit.prevent="updateQuestion">
-        <b-field label="Title">
-          <b-input v-model="title" placeholder="e.g. Is there an R function for finding the index of an element in a vector?"></b-input>
-        </b-field>
         <wysiwyg v-model="description" />
         <button class="button is-info">Save Edits</button>
       </form>
