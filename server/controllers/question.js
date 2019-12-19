@@ -23,6 +23,7 @@ class QuestionController {
     Question.findOne({
       _id: id
     })
+      .populate("views")
       .then(question => {
         res.status(200).json(question);
       })
@@ -31,6 +32,8 @@ class QuestionController {
 
   static getAllQuestion(req, res, next) {
     Question.find()
+      .populate("author")
+      .populate("views")
       .then(questions => {
         res.status(200).json(questions);
       })
@@ -63,34 +66,17 @@ class QuestionController {
       _id: req.params.id
     })
       .then(question => {
-        let upvote = question.upvote;
-        if (upvote.include(req.decoded.id)) {
-          return Question.findOneAndUpdate(
-            {
-              _id: req.params.id
-            },
-            {
-              $pull: { upvote: req.decoded.id }
-            },
-            {
-              new: true
-            }
-          );
+        if (question.upvote.includes(req.decoded.id)) {
+          question.upvote.pull(req.decoded.id);
         } else {
-          return Question.findOneAndUpdate(
-            {
-              _id: req.params.id
-            },
-            {
-              $push: { upvote: req.decoded.id }
-            },
-            {
-              new: true
-            }
-          );
+          if (question.downvote.includes(req.decoded.id)) {
+            question.downvote.pull(req.decoded.id);
+            question.upvote.push(req.decoded.id);
+          } else {
+            question.upvote.push(req.decoded.id);
+          }
         }
-      })
-      .then(question => {
+        question = question.save();
         res.status(200).json(question);
       })
       .catch(next);
@@ -101,34 +87,17 @@ class QuestionController {
       _id: req.params.id
     })
       .then(question => {
-        let downvote = question.downvote;
-        if (downvote.include(req.decoded.id)) {
-          return Question.findOneAndUpdate(
-            {
-              _id: req.params.id
-            },
-            {
-              $pull: { downvote: req.decoded.id }
-            },
-            {
-              new: true
-            }
-          );
+        if (question.downvote.includes(req.decoded.id)) {
+          question.downvote.pull(req.decoded.id);
         } else {
-          return Question.findOneAndUpdate(
-            {
-              _id: req.params.id
-            },
-            {
-              $push: { downvote: req.decoded.id }
-            },
-            {
-              new: true
-            }
-          );
+          if (question.upvote.includes(req.decoded.id)) {
+            question.upvote.pull(req.decoded.id);
+            question.downvote.push(req.decoded.id);
+          } else {
+            question.downvote.push(req.decoded.id);
+          }
         }
-      })
-      .then(question => {
+        question = question.save();
         res.status(200).json(question);
       })
       .catch(next);
@@ -139,23 +108,12 @@ class QuestionController {
       _id: req.params.id
     })
       .then(question => {
-        let views = question.views;
-        if (views.include(req.decoded.id)) {
+        if (question.views.includes(req.decoded.id)) {
           res.status(200).json(question);
         } else {
-          return Question.findOneAndUpdate(
-            {
-              _id: req.decoded.id
-            },
-            {
-              $push: {
-                views: req.decoded.id
-              }
-            },
-            {
-              new: true
-            }
-          );
+          question.views.push(req.decoded.id);
+          question = question.save();
+          res.status(200).json(question);
         }
       })
       .then(question => {

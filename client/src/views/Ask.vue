@@ -29,9 +29,7 @@
               </v-col>
               <v-col>
                 <h3>Tag</h3>
-                <p>
-                  Add up to 5 tags to describe what your question is about
-                </p>
+                <p>Add up to 5 tags to describe what your question is about</p>
                 <v-text-field
                   label="e.g javascript mongodb c++"
                   name="tag"
@@ -40,9 +38,7 @@
                 />
               </v-col>
             </div>
-            <v-btn type="submit" class="mt-3" depressed color="primary"
-              >Review your question</v-btn
-            >
+            <v-btn type="submit" class="mt-3" depressed color="primary">Review your question</v-btn>
           </v-form>
         </v-col>
       </v-row>
@@ -96,6 +92,13 @@ export default {
     },
     resetFormAsk() {
       this.$refs.formAsk.reset();
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem("token")) {
+      next();
+    } else {
+      next("/sign/login");
     }
   }
 };

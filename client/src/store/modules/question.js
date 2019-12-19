@@ -15,21 +15,25 @@ export default {
     }
   },
   actions: {
-    fetchDetailQuestion({ commit }, payload) {
+    fetchDetailQuestion({ commit, dispatch }, payload) {
       let token = localStorage.getItem("token");
-      axios({
-        method: "GET",
-        url: `/question/${payload}`,
-        headers: {
-          token
-        }
-      })
-        .then(({ data }) => {
-          commit("FETCH_DETAIL_QUESTION", data);
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "GET",
+          url: `/question/${payload}`,
+          headers: {
+            token
+          }
         })
-        .catch(err => {
-          console.log(err);
-        });
+          .then(({ data }) => {
+            commit("FETCH_DETAIL_QUESTION", data);
+            dispatch("fetchViewsQuestion", payload);
+            resolve();
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
     },
     fetchAllQuestion({ commit }) {
       axios({
@@ -61,6 +65,45 @@ export default {
           .catch(err => {
             reject(err);
           });
+      });
+    },
+    upvote({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "PATCH",
+        url: `/question/${payload}/upvote`,
+        headers: {
+          token
+        }
+      }).then(({ data }) => {
+        dispatch("fetchDetailQuestion", payload);
+        dispatch("fetchAllQuestion");
+      });
+    },
+    downvote({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "PATCH",
+        url: `/question/${payload}/downvote`,
+        headers: {
+          token
+        }
+      }).then(({ data }) => {
+        dispatch("fetchDetailQuestion", payload);
+        dispatch("fetchAllQuestion");
+      });
+    },
+    fetchViewsQuestion({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "PATCH",
+        url: `/question/${payload}/views`,
+        headers: {
+          token
+        }
+      }).then(({ data }) => {
+        console.log(data);
+        dispatch("fetchAllQuestion");
       });
     }
   }

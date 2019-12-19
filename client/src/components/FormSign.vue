@@ -80,9 +80,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn type="submit" color="orange darken-2"
-                      >Register</v-btn
-                    >
+                    <v-btn type="submit" color="orange darken-2">Register</v-btn>
                   </v-card-actions>
                 </v-form>
               </v-card>
@@ -175,6 +173,10 @@ export default {
           });
         });
     }
+  },
+  created() {
+    this.resetLogin();
+    this.resetRegister();
   }
 };
 </script>

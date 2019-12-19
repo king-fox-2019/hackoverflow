@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <v-container fluid class="px-0 py-0">
-      <v-row style="height:90vh;">
+    <v-container fluid class="px-5 py-5 mx-2 my-2">
+      <v-row style="height:auto; background-color:white;" color="white">
         <v-col cols="2" style="border-right:0.4px solid rgba(0,0,0,0.5);">
           <v-flex d-flex flex-column justify-center>
-            <v-btn depressed>home</v-btn>
+            <v-btn depressed to="/">home</v-btn>
             <v-btn depressed>public</v-btn>
           </v-flex>
         </v-col>
