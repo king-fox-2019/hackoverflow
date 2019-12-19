@@ -154,7 +154,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data.tags)
           commit('setUserData', data)
         })
         .catch(err => {
