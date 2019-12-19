@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <h1 class="hero-center">HACKOVERFLOW</h1>
+    <img src="https://picsum.photos/335/100" alt="">
+    <hr />
     <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
       <b-form-group
         id="input-group-1"
@@ -66,11 +69,17 @@ export default {
 
 <style scoped>
   .home {
-    width: 50%;
+    width: 400px;
+    height: 500px;
     margin: auto;
     border: 1px solid #9c9c9c;
     border-radius: 6px;
     padding: 2rem;
+  }
+  .hero-center {
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+    color: #5dbeba;
   }
   .button-group {
     display: flex;

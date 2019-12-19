@@ -5,6 +5,7 @@ class ThreadController {
     Thread.find()
       .populate('author')
       .populate('replies')
+      .sort({updatedAt: 'desc'})
       .then(threads => {
         res.status(200).json(threads)
       })
@@ -23,9 +24,12 @@ class ThreadController {
   static create(req, res, next) {
     const {title, content, tags} = req.body
     const author = req.decodedId
-    let arrTags = tags.split(',')
-                  .map(item => item.trim())
-                  .filter(item => item !== '');
+    let arrTags = []
+    if (tags) {
+      arrTags = tags.split(',')
+                .map(item => item.trim())
+                .filter(item => item !== '');
+    }
     Thread.create({
       title,
       content,

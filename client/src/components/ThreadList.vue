@@ -1,5 +1,5 @@
 <template>
-  <div class="thread-list-wrapper">
+  <div class="thread-list-wrapper" @click.prevent="viewThread(thread._id)">
     <!-- <vote-button class="left" /> -->
     <div class="card thread-card">
       <div class="thread-score">{{threadScore}}</div>
@@ -10,20 +10,28 @@
       <label class="label-score">Replies</label>
     </div>
     <div class="thread-content">
-      <h3>{{ thread.title }}</h3>
-      <p v-if="tagLength > 0"><strong>Tags:</strong> {{ tagsDisplay }}</p>
+      <h4>{{ thread.title }}</h4>
+      <p class="content">{{ thread.content }}</p>
+      <span><strong>Author:</strong> {{ thread.author.name }}</span> &nbsp;&nbsp;
+      <span><strong>Created At: </strong>{{ createdAt }}</span>
+      <div v-if="tagLength > 0"><strong>Tags:</strong> {{ tagsDisplay }}</div>
     </div>
   </div>
 </template>
 
 <script scoped>
-import VoteButton from './VoteButton.vue'
+import moment from 'moment'
 export default {
   props: ['thread'],
   components: {
-    // VoteButton
   },
   created() {
+  },
+  methods: {
+    viewThread(id) {
+      // console.log('id thread', id)
+      this.$store.dispatch('viewThread', id)
+    }
   },
   computed: {
     tagLength: function() {
@@ -37,6 +45,9 @@ export default {
     },
     threadReplies: function() {
       return this.thread.replies.length
+    },
+    createdAt: function() {
+      return moment(this.thread.createdAt).format('hh:mm - DD MMMM YYYY')
     }
   }
 }
@@ -45,7 +56,9 @@ export default {
 <style scoped>
   .thread-card {
     width: 80px;
+    height: 80px;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     margin-right: 1rem;
@@ -60,17 +73,32 @@ export default {
   }
   .thread-list-wrapper {
     display: flex;
-    width: 80%;
+    /* width: 80%; */
     padding: 1rem;
     margin: 0 auto;
-    background-color: #edebee;
+    background-color: #f0f0f0;
     cursor: pointer;
     border-radius: 4px;
   }
   .thread-list-wrapper:nth-child(even) {
     background-color: #ffffff;    
   }
+  .thread-list-wrapper:hover {
+    padding: 2rem;
+    background-color: #78cad6;
+    transition: 0.4s padding;
+  }
   .thread-content {
     margin-left: 2rem;
+    width: calc(100% - 4.4rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  p.content {
+    /* max-width: 100% !important;  */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

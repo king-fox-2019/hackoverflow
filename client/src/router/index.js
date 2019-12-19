@@ -28,8 +28,8 @@ const routes = [
     // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/mythread',
-    name: 'mythread',
+    path: '/thread',
+    name: 'thread',
     component: Thread
   }
 ]

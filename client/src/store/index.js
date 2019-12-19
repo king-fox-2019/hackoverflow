@@ -29,7 +29,7 @@ export default new Vuex.Store({
       } else {
         state.isLogin = false
       }
-      router.push('/')
+      router.push('/#')
     }
   },
   actions: {
@@ -78,13 +78,57 @@ export default new Vuex.Store({
         data: formData
       })
         .then(({data}) => {
-          console.log(data)
           Swal.fire({
             icon: 'success',
             title: 'You are successfully registered'
           })
           context.commit('SET_USER', data)
           router.push('/')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
+    },
+    addThread(context, dataThread) {
+      axios({
+        url: '/thread/',
+        method: 'POST',
+        data: dataThread
+      })
+        .then(({data}) => {
+          console.log(data)
+          Swal.fire({
+            icon: 'success',
+            title: 'You question has been posted'
+          })
+          context.commit('FETCH_THREAD')
+          router.push('/')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
+    },
+    viewThread(context, id) {
+      axios({
+        url: `/thread/${id}`,
+        method: 'GET'
+      })
+        .then(({data}) => {
+          console.log(data)
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'You are successfully registered'
+          // })
+          // context.commit('SET_USER', data)
+          // router.push('/')
         })
         .catch(err => {
           Swal.fire({

@@ -23,8 +23,19 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
 * {
   color: #353535;
+  font-family: 'Roboto', sans-serif;
+}
+body {
+  background-color: #e5edf0 !important;
+}
+.home {
+  background-color: #fff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6)
 }
 a, router-link {
   text-decoration: none;

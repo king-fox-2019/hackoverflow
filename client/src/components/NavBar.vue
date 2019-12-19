@@ -1,10 +1,11 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link>
-    <router-link v-if="!$store.state.isLogin" to="/login">Login</router-link>
-    <router-link v-if="!$store.state.isLogin" to="/register">Register</router-link>
-    <router-link v-if="$store.state.isLogin" to="/mythread">My Thread</router-link>
-    <a href="/" v-if="$store.state.isLogin" @click.prevent="logout">Logout</a>
+    <span>HI, {{name}}</span> |
+    <router-link to="/">HOME</router-link>
+    <router-link v-if="!$store.state.isLogin" to="/login">LOGIN</router-link>
+    <router-link v-if="!$store.state.isLogin" to="/register">REGISTER</router-link>
+    <router-link v-if="$store.state.isLogin" to="/mythread">MY THREAD</router-link>
+    <a href="/" v-if="$store.state.isLogin" @click.prevent="logout">LOGOUT</a>
   </div>
 </template>
 
@@ -12,6 +13,11 @@
 import Swal from 'sweetalert2'
 
 export default {
+  data() {
+    return {
+      name: localStorage.getItem('name').toUpperCase()
+    }
+  },
   methods: {
     logout() {
       localStorage.clear()
@@ -30,7 +36,13 @@ export default {
     height: 4rem;
     line-height: 4rem;
     padding: 0 2rem;
-    background-color: #5dbeba;
+    background-color: #17a2b8;
     margin-bottom: 2rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  #nav span {
+    color: #fff;
+    padding: 0 2rem;
   }
 </style>
