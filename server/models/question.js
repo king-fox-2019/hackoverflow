@@ -13,6 +13,12 @@ const questionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  answers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Answer',
+    },
+  ],
   votes: [
     {
       voter: {

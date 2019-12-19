@@ -61,6 +61,9 @@ export default {
             append: true,
             variant: 'success',
           });
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('username', data.username);
+          this.$store.commit('UPDATE_USERNAME', {username: data.username});
           this.$router.push({path: '/'});
         })
         .catch(error => {
@@ -73,7 +76,7 @@ export default {
             });
           });
         });
-    }
+    },
   },
 };
 </script>

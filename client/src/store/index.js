@@ -4,8 +4,14 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    username: '',
+  },
+  mutations: {
+    UPDATE_USERNAME(state, payload){
+      state.username = payload.username
+    }
+  },
   actions: {},
   modules: {}
 });

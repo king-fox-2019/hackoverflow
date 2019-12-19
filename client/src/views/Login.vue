@@ -50,12 +50,15 @@ export default {
           password: this.password,
         })
         .then(({data}) => {
-          this.$root.$bvToast.toast(`token: ${data.token}`, {
+          this.$root.$bvToast.toast(`success login`, {
             title: 'Success',
             autoHideDelay: 1500,
             appendToast: true,
             variant: 'success',
           });
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('username', data.username);
+          this.$store.commit('UPDATE_USERNAME', {username: data.username});
           this.$router.push({path: '/'});
         })
         .catch(error => {
@@ -66,7 +69,7 @@ export default {
             variant: 'danger',
           });
         });
-    }
+    },
   },
 };
 </script>
