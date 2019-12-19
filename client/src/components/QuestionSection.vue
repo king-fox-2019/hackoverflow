@@ -1,49 +1,61 @@
 <template>
   <div class="col-6">
-      <div class="top-option" style="margin-bottom:0px">
-        <div class="title" style="width:70%">
+      <div class="top-option" style="margin-bottom:0px;">
+
+            <div class="answer" style="margin-bottom:0px;text-align:left;display:flex;align-items:center">
+                <div class="title" style="width:20%;display:flex;">
+                    <div class="vote-bar" style="display:flex;flex-direction:column;justify-content:space-between;">
+                        <a style="margin-bottom:-20px;" @click="upVoteQuestion(detailQuestion._id)"> <i class="fas fa-sort-up"></i></a>
+                        
+                        <h4>{{detailQuestion.upVotes.length - detailQuestion.downVotes.length}}</h4>
+                        <a style="margin-top:-20px;" @click="downVoteQuestion(detailQuestion._id)"> <i class="fas fa-sort-down"></i></a>
+                    </div>
+                    <div class="content">
+                        <p>
+                            {{detailQuestion.question}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        <div class="title" style="width:70%;marginleft:250px">
         <p style="text-align:left;">Question title</p>
         <h3>
             {{detailQuestion.title}}
         </h3>
-        <br>
-        </div>
-        <button type="button" class="btn btn-primary" style="height:50px;" >Ask Question</button>
-      </div>
-    <hr> 
-        <br>
-  
-
-     <div class="answer" style="margin-bottom:0px;text-align:left;margin-left:50px;">
-        <div class="title" style="width:70%;display:flex;">
-            <div class="vote-bar" style="width:30%;display:flex;flex-direction:column;justify-content:space-between;">
-                <a style="margin-bottom:-20px;" @click="upVoteQuestion(detailQuestion._id)"> <i class="fas fa-sort-up"></i></a>
-                
-                <h4>{{detailQuestion.upVotes.length - detailQuestion.downVotes.length}}</h4>
-                <a style="margin-top:-20px;" @click="downVoteQuestion(detailQuestion._id)"> <i class="fas fa-sort-down"></i></a>
-            </div>
-            <div class="content">
-                <p>
-                    {{detailQuestion.question}}
+        <div class="left" style="display:flex;align-items:center">
+            <img :src="detailQuestion.userId.profilePicture" style="height:40px;width:40px;object-fit: cover; border-radius:5%;margin-right:10px;margin-top:10px;" alt="">
+            <div class="text" style="display:flex;align-content:flex-start;flex-direction:column;margin-top:10px;">
+                <p style="font-size:14px;text-align:left;margin-bottom:0px;">
+                asked by 
+                <strong>{{detailQuestion.userId.name}} </strong> 
+                <p style="font-size:14px;text-align:left;margin-bottom:0px;">
+                at {{detailQuestion.createdAt.slice(0,10)}}    
                 </p>
             </div>
         </div>
+        <br>
+        <div class="tags" style="margin-left:0%">
+            <button style="font-size:12px;margin:5px;" v-for="(tag,index) in detailQuestion.tags" :key="index" class="tag" type="submit">{{tag}}</button>
+        </div>
+        </div>
+        <button type="button" class="btn btn-primary" @click="ask" style="height:50px;" >Ask Question</button>
       </div>
-
+        <br>
     <br>
     <br>
     <p style="text-align:left;margin-left:50px;font-size:24px;">Answers  : </p>
     <hr> 
     <br>
 
-    <div class="answer" style="margin-bottom:0px;text-align:left;margin-left:50px;">
+    <div class="answer" style="margin-bottom:0px;text-align:left;margin-left:-200px;">
         <div v-for="(answer,i) in detailQuestion.answers" :key=i class="title" style="width:100%;display:flex;">
             <div class="vote-bar" style="width:30%;display:flex;flex-direction:column;justify-content:space-around;height:100px;align-items:flex-end;margin-right:100px;">
                 <a style="margin-bottom:-20px;" @click="upVoteAnswer(answer._id,detailQuestion._id)" > <i class="fas fa-sort-up"></i></a>
                 <h4>{{answer.upVotes.length - answer.downVotes.length}}</h4>
                 <a style="margin-top:-20px;" @click="downVoteAnswer(answer._id,detailQuestion._id)"> <i class="fas fa-sort-down"></i></a>
             </div>
-            <div class="content" style="min-width:600px;max-width:800px">
+            <div class="content" style="min-width:400px;max-width:600px">
 
                 <p v-html="answer.text" >
                 </p>
@@ -89,6 +101,9 @@ export default {
         }
     },
     methods : {
+        ask(){
+            this.$router.push('/ask')
+        },
         submitAnswer(){
             let payload = {
                 text : this.myHTML,
@@ -119,8 +134,6 @@ export default {
         }
     },
     computed: mapState(['detailQuestion']),
-       
-
 }
 </script>
 
@@ -155,7 +168,7 @@ export default {
     background-color:rgb(255, 255, 255);
     height:100vh;
     width:30%;
-    margin-left:25%;
+    margin-left:20%;
     padding-top:70px;
     
 }

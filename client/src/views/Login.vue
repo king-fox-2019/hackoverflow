@@ -74,7 +74,7 @@ export default {
                 password : this.password
             }
             this.$store.dispatch('login',payload)
-            // this.$router.go('/')
+            // this.$router.push('/')
         },
         register(){
             let formData = new FormData()
@@ -83,9 +83,13 @@ export default {
                 formData.append ('password',this.password)
                 formData.append ('profile',this.profile)
                 formData.append ('file',this.file)
-            
-            this.$store.dispatch('register',formData)
-            // this.$router.go('/')
+                this.$store.dispatch('register',formData)
+            // this.$router.push('/')
+        }
+    },
+    created(){
+        if(localStorage.getItem('token')){
+            this.$store.commit('CHANGE_ISLOGIN',true)
         }
     },
     computed: mapState(['isLogin'])

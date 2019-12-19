@@ -13,7 +13,8 @@ export default new Vuex.Store({
     detailQuestion: {},
     allTags:[],
     userTags:[],
-    allUsers: []
+    allUsers: [],
+    topThree:[]
   },
   mutations: {
     CHANGE_ISLOGIN(state,payload){
@@ -33,13 +34,68 @@ export default new Vuex.Store({
     },
     GET_ALL_USERS(state,payload){
       state.allUsers = payload
+    },
+    GET_TOP_THREE(state,payload){
+      state.topThree = payload
     }
   },
   actions: {
+    getTopThree({commit},payload){
+      fetchApi({
+        method : 'get',
+        url:`questions/topthree`,
+      })
+      .then(({data}) => {
+        // console.log(data.questionId)
+        commit('GET_TOP_THREE',data.questionId)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    popular({commit},payload){
+      fetchApi({
+        method : 'get',
+        url:`questions/popular`,
+      })
+      .then(({data}) => {
+        // console.log(data)
+        commit('FETCH_DATA',data)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    unansweredQuestion({commit}, payload){
+      fetchApi({
+        method : 'get',
+        url:`questions/unanswered`,
+      })
+      .then(({data}) => {
+        // console.log(data)
+        commit('FETCH_DATA',data)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    filterData({commit},payload){
+      fetchApi({
+        method : 'post',
+        url:`questions/${payload}`,
+      })
+      .then(({data}) => {
+        commit('FETCH_DATA',data)
+        router.push('/')
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
     getAllUser({commit}){
       fetchApi({
         method : 'get',
-        url:'users/',
+        url:'users',
       })
       .then(({data}) => {
         commit('GET_ALL_USERS',data)
@@ -229,8 +285,8 @@ export default new Vuex.Store({
       })
       .then(({data}) => {
         commit('CHANGE_ISLOGIN',true)
-        router.push('/')
         localStorage.setItem('token',data.token)
+        router.push('/')
       })
       .catch(({message}) => {
         console.log(message)
@@ -247,9 +303,9 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        router.push('/')
         commit('CHANGE_ISLOGIN',true)
         localStorage.setItem('token',data.token)
+        router.push('/')
       })
       .catch(({message}) => {
         console.log(message)

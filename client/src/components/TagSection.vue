@@ -11,7 +11,7 @@
           <div class="tags">
                 
                     <div class="right-content" style="display:flex;flex-direction:row;flex-wrap:wrap;">
-                    <button  v-for="(tag,i) in allTags" :key='i'  class="tag" type="submit">{{tag}}</button>
+                    <button  v-for="(tag,i) in allTags" :key='i' @click="filter(tag)"  class="tag" type="submit">{{tag}}</button>
                     </div>
 
           </div>
@@ -28,6 +28,13 @@ export default {
     computed: mapState(['allTags']),
     created(){
         this.$store.dispatch('getAllTags')
+    },
+    methods:{
+        filter(keyword){
+            // console.log(keyword)
+            this.$store.dispatch('filterData',keyword)
+            // this.$router.push('/')
+        }
     }
 }
 </script>
@@ -56,7 +63,7 @@ export default {
     background-color:rgb(255, 255, 255);
     height:100vh;
     width:30%;
-    margin-left:25%;
+    margin-left:20%;
     padding-top:70px;
     
 }

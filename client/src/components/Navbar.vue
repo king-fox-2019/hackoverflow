@@ -9,7 +9,9 @@
                 <div class="input-group-prepend">
                 <div class="input-group-text"></div>
                 </div>
-                <input style="border-left:none" type="text" class="form-control" id="inlineFormInputGroup" placeholder="search...">
+                <form @submit.prevent="filter" style="width:50%;">
+                    <input v-model="keyword" style="border-left:none" type="text" class="form-control" id="inlineFormInputGroup" placeholder="search...">
+                </form>
             </div>
              <div v-if="isLogin"  class="left-bar" style="margin-right:50px;">
                 <i class="fas fa-sign-out-alt"></i>
@@ -25,7 +27,18 @@ import {mapState} from 'vuex'
 export default {
     name: 'navbar',
 
+    data(){
+        return {
+            keyword : ''
+        }
+    },
+
     methods : {
+        filter(){
+            // console.log(this.keyword)
+            this.$store.dispatch('filterData',this.keyword)
+            this.keyword = ''
+        },
         home(){
             this.$router.push('/')
         },

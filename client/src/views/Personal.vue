@@ -1,7 +1,7 @@
 <template>
   <div class="home" style="display:flex">
     <LeftBar />
-    <Center />
+    <MyPage />
     <RightBar />
 
   </div>
@@ -9,22 +9,19 @@
 
 <script>
 // @ is an alias to /src
-import Center from '@/components/CenterBar.vue'
+import MyPage from '@/components/MyPage.vue'
 import LeftBar from '@/components/LeftBar.vue'
 import RightBar from '@/components/RightBar.vue'
 
 export default {
   name: 'home',
   components: {
-    Center,
+    MyPage,
     RightBar,
     LeftBar
-  }, 
+  },
   created(){
-        if(localStorage.getItem('token')){
-            this.$store.dispatch('fetchQuestion') 
-            this.$store.dispatch('getAllTags')
-        }
-    }
+    this.$store.dispatch('fetchQuestionById',this.$router.currentRoute.params.id)
+  }
 }
 </script>

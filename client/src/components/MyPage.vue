@@ -1,21 +1,10 @@
 <template>
   <div class="col-6">
       <div class="top-option">
-          <h3>Questions Section</h3>
-          <button type="button" class="btn btn-primary" @click="ask" >Ask Question</button>
+          <h3>My Section</h3>
       </div>
       <div class="filter-bar" style="margin-bottom:20px;margin-top:-20px">
-            <div class="btn-group btn-group-toggle" style="color: transparent;" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="options" @click="fetchAll" id="option1" autocomplete="off" checked> Newest
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" @click="unanswered" id="option1" autocomplete="off"> Unanswered
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" @click="popular" id="option1" autocomplete="off"> Popular
-                </label>
-            </div>
+      
       </div>
         <div class="card" v-for="(question,i) in questions" :key="i" style="border:none">
             <hr>
@@ -37,20 +26,8 @@
                 <a @click.prevent="article(question._id)" class="card-text" style="text-align:left;font-size:22px;font-weight:500">{{question.title}}</a>
                 <br>
                 <div class="tags">
-                    <button style="font-size:16px;margin:5px;" v-for="(tag,index) in question.tags" :key="index" class="tag" type="submit">{{tag}}</button>
-                </div>
-                 <div class="update">
-                     <br>
-                    <div class="lower-card">
-                    <p style="font-size:14px;text-align:right;margin-top:5px;">
-                         <img :src="question.userId.profilePicture" style="height:40px;width:40px;object-fit: cover; border-radius:5%;margin-right:10px;margin-top:10px;" alt="">
-                        <!-- <img :src="question.userId.profilePicture" style="height:40px;border-radius:5%;margin-right:10px;" alt=""> -->
-                         asked by 
-                    <strong>{{question.userId.name}}</strong> 
-                    <p style="font-size:14px;text-align:right;margin-top:-25px;">
-                    at {{question.createdAt.slice(0,10)}}    
-                    </p>
-                    </div>
+                    <button type="button" class="btn btn-warning" style="margin-right:10px;">Update</button>
+                    <button type="button" class="btn btn-secondary">Delete</button>
                 </div>
                 </div>
             </div>
@@ -66,24 +43,10 @@ export default {
     name: 'main-page',
     computed : mapState(['questions','isLogin']),
     methods:{
-        fetchAll(){
-            this.$store.dispatch('fetchQuestion')
-        },
-        unanswered(){
-            this.$store.dispatch('unansweredQuestion')
-        },
-        popular(){
-            this.$store.dispatch('popular')
-        },
-        ask(){
-            this.$router.push('/ask')
-        },
-        article(id){
-            this.$router.push(`/questions/${id}`)
-        }
+      
     },
     created(){
-      // this.$store.dispatch('fetchQuestion')
+      this.$store.dispatch('fetchMyQuestion')
     }
     
 
@@ -134,9 +97,10 @@ a{
     background-color:rgb(191, 225, 255);
     border:none;
     border-radius:5px;
-    color: rgb(53, 72, 114);
-    margin:2px;
-    font-size:12px;
+    color: rgb(23, 69, 167);
+    margin:5px;
+    font-size:18px;
+    padding:5px;
 }
 
 .tags{

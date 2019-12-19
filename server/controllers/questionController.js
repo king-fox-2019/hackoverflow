@@ -1,4 +1,5 @@
 const Question = require('../models/question')
+const TopThisWeek = require('../models/topThisWeek')
 
 class QuestionController {
     static create(req,res,next){
@@ -153,6 +154,156 @@ class QuestionController {
                 res.status(200).json({message : 'voted down'})
             }
         })
+    }
+
+    static filteredByTag(req,res,next){
+        let searchQuery = {}
+        if(req.params.filter) {
+        searchQuery = {
+            'tags': new RegExp(`${req.params.filter}`, 'gi')
+        }
+        } else {
+        searchQuery = {}
+        }
+        Question.find(searchQuery)
+        .populate('userId')
+        .populate({
+            path: 'answers',
+            populate: {
+                path: ('upVotes'),
+                select : ['name','_id']
+            }
+        })
+        .populate({
+            path: 'answers',
+            populate: {
+                path: 'downVotes',
+                select : 'name'
+            }
+        })
+        .sort({createdAt : -1})
+        .then(questions => {
+            // console.log(questions)
+            res.status(200).json(questions)
+        })
+        .catch(next)
+    }
+
+    static unansweredQuestion (req,res,next){
+        
+        Question.find( {answers: {$size :0}})
+        .sort({createdAt : -1})
+        .populate('userId')
+        .populate({
+            path: 'answers',
+            populate: {
+                path: ('upVotes'),
+                select : ['name','_id']
+            }
+        })
+        .populate({
+            path: 'answers',
+            populate: {
+                path: 'downVotes',
+                select : 'name'
+            }
+        })
+            .then(questions => {
+                res.status(200).json(questions)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static popular (req,res,next){
+        
+        Question.find()
+        .populate('userId')
+        .populate({
+            path: 'answers',
+            populate: {
+                path: ('upVotes'),
+                select : ['name','_id']
+            }
+        })
+        .populate({
+            path: 'answers',
+            populate: {
+                path: 'downVotes',
+                select : 'name'
+            }
+        })
+        .then(questions => {
+            for(let i = 0 ; i < questions.length; i++){
+                for(let j = 0 ; j < questions.length-1; j++){
+                        if((questions[j].upVotes.length + questions[j].downVotes.length) < (questions[j+1].upVotes.length + questions[j+1].downVotes.length)){
+                            let temp = questions[j]
+                            questions[j] = questions[j+1]
+                            questions[j+1] = temp
+                        }
+                    }
+                }
+                res.status(200).json(questions)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static createTopThree(req,res,next){
+        Question.find()
+        .populate('userId')
+        .populate({
+            path: 'answers',
+            populate: {
+                path: ('upVotes'),
+                select : ['name','_id']
+            }
+        })
+        .then(questions => {
+            // console.log(questions)
+            let TopThree = []
+            for(let i = 0 ; i < questions.length; i++){
+                for(let j = 0 ; j < questions.length-1; j++){
+                        if(questions[j].upVotes.length < questions[j+1].upVotes.length){
+                            let temp = questions[j].upVotes
+                            questions[j].upVotes = questions[j+1].upVotes
+                            questions[j+1].upVotes = temp
+                        }
+                    }
+                }
+                
+            
+            TopThree.push(questions[0]._id,questions[1]._id,questions[2]._id)
+               return TopThisWeek.create({
+                    questionId : TopThree
+               })
+            })
+            .then(topThisWeek => {
+                console.log('sukses')
+                res.status(201).json(topThisWeek)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+    static GetTopThree(req,res,next){
+        TopThisWeek.find()
+        // .populate('questionId')
+        .populate({
+            path: 'questionId',
+            populate: {
+                path: ('userId'),
+                select : ['name','_id']
+            }
+        })
+            .then(data => {
+                res.status(200).json(data[0])
+            })
+            .catch(err => {
+                next(err)
+            })
     }
 }
 

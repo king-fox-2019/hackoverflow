@@ -1,12 +1,12 @@
 <template>
-    <div class="col-3" style="height:100vh;width:30%">
+    <div class="col-3" style="height:90vh;width:30%;margin-bottom:150px;">
         <div class="top-list" style="margin-top:30px;">
                <div class="card" >
                    <div class="header">
                     <h6>Top Questions</h6>
                    </div>
 
-                    <div class="card-body" style="flex-direction: row;">
+                    <div v-for="(top,i) in topThree" :key="i" class="card-body" style="flex-direction: row;">
                         <div class="votes" style="display:flex">
                             <button type="button" class="btn-vote" >
                                 <i class="far fa-comment-alt"></i>
@@ -14,42 +14,13 @@
                         </div>
                         <div class="right-content">
 
-                        <a @click.prevent="article()" class="card-text" style="text-align:left;font-weight:700">django: Take table name as input from user..</a>                    
+                        <a @click.prevent="article()" class="card-text" style="text-align:left;font-weight:700">{{top.title}}</a>                    
                         <div class="update">
-                        <p style="font-size:12px;text-align:left;margin-top:5px;" >answered 36 sec ago Edrian <strong>355</strong></p>
+                        <p style="font-size:12px;text-align:left;margin-top:5px;" >{{top.createdAt.slice(0,10)}} asked by <strong>{{top.userId.name}}</strong></p>
                         </div>
                         </div>
                     </div>
 
-                    <div class="card-body" style="flex-direction: row;">
-                        <div class="votes" style="display:flex">
-                            <button type="button" class="btn-vote" >
-                                <i class="far fa-comment-alt"></i>
-                            </button>
-                        </div>
-                        <div class="right-content">
-
-                        <a @click.prevent="article()" class="card-text" style="text-align:left;font-weight:700">django: Take table name as input from user..</a>
-                        <div class="update">
-                        <p style="font-size:12px;text-align:left;margin-top:5px;" >answered 36 sec ago Edrian <strong>355</strong></p>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body" style="flex-direction: row;">
-                        <div class="votes" style="display:flex">
-                            <button type="button" class="btn-vote" >
-                                <i class="far fa-comment-alt"></i>
-                            </button>
-                        </div>
-                        <div class="right-content">
-
-                        <a @click.prevent="article()" class="card-text" style="text-align:left;font-weight:700">django: Take table name as input from user..</a>
-                        <div class="update">
-                        <p style="font-size:12px;text-align:left;margin-top:5px;" >answered 36 sec ago Edrian <strong>355</strong></p>
-                        </div>
-                        </div>
-                    </div>
 
                 </div>
         </div>
@@ -76,7 +47,7 @@
                         </div>
 
                         <div class="tags">
-                            <button class="tag" v-for="(tag,i) in userTags" :key="i" type="submit">{{tag}}</button>
+                            <button class="tag" v-for="(tag,i) in userTags" :key="i"  @click="filter(tag)" type="submit">{{tag}}</button>
                         </div>
 
                     </div>
@@ -102,12 +73,16 @@ export default {
         },
         addUserTags(){
             this.$store.dispatch('addUserTags',this.choosenTag)
+        },
+        filter(keyword){
+            this.$store.dispatch('filterData',keyword)
         }
     },
     created(){
         this.$store.dispatch('getUserTags')
+        this.$store.dispatch('getTopThree')
     },
-    computed: mapState(['allTags','userTags'])
+    computed: mapState(['allTags','userTags','topThree'])
 }
 </script>
 
@@ -119,7 +94,7 @@ export default {
 .col-3{
     margin-top:70px;
     overflow: scroll;
-    position:fixed;
+
     right:0px;
      /* z-index: -1; */
 }
@@ -138,6 +113,7 @@ h6{
 }
 
 a {
+    font-size:13px;
     cursor: pointer;
 }
 

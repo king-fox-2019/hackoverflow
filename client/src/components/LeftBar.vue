@@ -16,6 +16,11 @@
             <a @click="users" href="#" class="fill-div">Users</a>
             <!-- <button class="btn my-2 my-sm-0" type="submit">Jobs</button> -->
         </div>
+         <div class="left-option">
+            <i class="fas fa-home"></i>
+            <a @click="personal" href="#" class="fill-div">My Page</a>
+            <!-- <button class="btn my-2 my-sm-0" type="submit">Jobs</button> -->
+        </div>
     </div>
 </template>
 
@@ -31,6 +36,9 @@ export default {
         },
         users(){
             this.$router.push('/users')
+        },
+        personal(){
+            this.$router.push('/personal')
         }
     }
 
@@ -41,7 +49,7 @@ export default {
 .col-3{
     background-color: white;
     height:100vh;
-    width:30%;
+    width:20%;
     display:flex;
     flex-direction: column;
     padding-top:50px;

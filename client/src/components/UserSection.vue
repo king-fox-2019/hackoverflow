@@ -34,9 +34,11 @@
 import { mapState } from 'vuex'
 export default {
     created(){
-        this.$store.dispatch('getAllUser')
-    }
-    ,computed : mapState(['allUsers'])
+        if(localStorage.getItem('token')){
+            this.$store.dispatch('getAllUser')
+        }
+    },
+    computed : mapState(['allUsers'])
 
 }
 </script>
@@ -69,7 +71,7 @@ img{
     background-color:rgb(255, 255, 255);
     height:100vh;
     width:30%;
-    margin-left:25%;
+    margin-left:20%;
     padding-top:70px;
     
 }

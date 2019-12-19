@@ -25,9 +25,12 @@ class AnswerController {
         })
     }
     static deleteAnswer(req,res,next){
-        Answer.deleteOne({ _id : req.params.id })
-        .then(() => {
-            res.status(200).json( { message : 'answer deleted'})
+        Answer.findOneAndDelete({ _id : req.params.id })
+        .then( answer => {
+            Question.findOneAndUpdate({
+                
+            })
+            // res.status(200).json( { message : 'answer deleted'})
         }) 
         .catch(next)
     }
