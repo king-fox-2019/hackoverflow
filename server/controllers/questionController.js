@@ -1,7 +1,21 @@
 const Question = require('../models/question')
 const TopThisWeek = require('../models/topThisWeek')
+const Answer = require('../models/answer')
 
 class QuestionController {
+
+    static findByUserId(req,res,next){
+        Question.find({
+            userId : req.loggedUser._id
+        })
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+    
     static create(req,res,next){
         // console.log(req.body)
         Question.create({
@@ -64,14 +78,21 @@ class QuestionController {
     }
 
     static deleteQuestion(req,res,next){
+        // console.log('halo')
         Question.deleteOne({
             _id : req.params.id
         })
-        .then(() => {
+        .then(question => {
+            return Answer.deleteMany({
+                questionId : question._id
+            })
             res.status(200).json({ message : 'question deleted!' })
         })
         .catch(next)
     }
+    
+
+
     
     static editQuestion(req,res,next){
         const { title, text, tags } = req.body; 

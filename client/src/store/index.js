@@ -14,8 +14,10 @@ export default new Vuex.Store({
     allTags:[],
     userTags:[],
     allUsers: [],
-    topThree:[]
+    topThree:[],
+    myQuestion :[]
   },
+
   mutations: {
     CHANGE_ISLOGIN(state,payload){
       state.isLogin = payload
@@ -37,9 +39,43 @@ export default new Vuex.Store({
     },
     GET_TOP_THREE(state,payload){
       state.topThree = payload
+    },
+    GET_MY_QUESTION(state,payload){
+      state.myQuestion = payload
     }
   },
   actions: {
+    deleteQuestion({commit},payload){
+      fetchApi({
+        method : 'delete',
+        url:`questions/${payload}`,
+        headers : {
+          token : localStorage.getItem('token')
+        }
+      })
+      .then(({data}) => {
+        console.log(data)
+        this.dispatch('fetchMyQuestion')
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    fetchMyQuestion({commit}){
+      
+      fetchApi({
+        method : 'get',
+        url:`questions/myquestion`,
+        // headers : localStorage.getItem('token')
+      })
+      .then(({data}) => {
+        // console.log(data)
+        commit('GET_MY_QUESTION',data)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
     getTopThree({commit},payload){
       fetchApi({
         method : 'get',

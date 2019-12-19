@@ -6,7 +6,7 @@
       <div class="filter-bar" style="margin-bottom:20px;margin-top:-20px">
       
       </div>
-        <div class="card" v-for="(question,i) in questions" :key="i" style="border:none">
+        <div class="card" v-for="(question,i) in myQuestion" :key="i" style="border:none">
             <hr>
             <div class="card-body">
                 <div class="votes" style="display:flex">
@@ -23,11 +23,11 @@
                 </div>
                 <div class="right-content" style="width:100%;">
                     
-                <a @click.prevent="article(question._id)" class="card-text" style="text-align:left;font-size:22px;font-weight:500">{{question.title}}</a>
+                <a class="card-text" style="text-align:left;font-size:22px;font-weight:500">{{question.title}}</a>
                 <br>
                 <div class="tags">
                     <button type="button" class="btn btn-warning" style="margin-right:10px;">Update</button>
-                    <button type="button" class="btn btn-secondary">Delete</button>
+                    <button @click="remove(question._id)" type="button" class="btn btn-secondary" >Delete</button>
                 </div>
                 </div>
             </div>
@@ -41,14 +41,16 @@
 import {mapState} from 'vuex'
 export default {
     name: 'main-page',
-    computed : mapState(['questions','isLogin']),
-    methods:{
-      
+    computed : mapState(['questions','isLogin','myQuestion']),
+
+    methods : {
+      remove(id){
+          this.$store.dispatch('deleteQuestion',id)
+      }
     },
     created(){
       this.$store.dispatch('fetchMyQuestion')
     }
-    
 
 }
 </script>

@@ -27,10 +27,9 @@ class AnswerController {
     static deleteAnswer(req,res,next){
         Answer.findOneAndDelete({ _id : req.params.id })
         .then( answer => {
-            Question.findOneAndUpdate({
-                
-            })
-            // res.status(200).json( { message : 'answer deleted'})
+            Question.findOneAndUpdate(
+                { _id : req.params.id},
+                        { $pull: { answers : req.loggedUser._id}})
         }) 
         .catch(next)
     }

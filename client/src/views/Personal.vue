@@ -21,7 +21,7 @@ export default {
     LeftBar
   },
   created(){
-    this.$store.dispatch('fetchQuestionById',this.$router.currentRoute.params.id)
+    this.$store.dispatch('fetchMyQuestion')
   }
 }
 </script>
