@@ -4,7 +4,8 @@ const bCrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Name is required']
+        required: [true, 'Name is required'],
+        maxlength: [30, "Name max 30 characters"],
     },
     email: {
         type: String,
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is required"],
         minlength: [8, "Password min 8 characters"],
-        maxlength:[20, "Password max 20 characters"],
+        maxlength: [20, "Password max 20 characters"],
         validate: {
             validator: function (password) {
                 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
@@ -36,6 +37,12 @@ const userSchema = new mongoose.Schema({
     confirmationCode: {
         type: String
     }
+}, {
+    timestamps:
+        {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at'
+        }
 });
 
 userSchema.pre('save', function (next) {

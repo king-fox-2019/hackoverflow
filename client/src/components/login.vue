@@ -1,5 +1,6 @@
 <template>
     <sui-container class="container">
+        <logo/>
         <message :header="msgHeader" :message="msgMessage"
                  :visible="msgVisible" @dismiss="msgDismiss"/>
         <div id="login-form">
@@ -36,6 +37,8 @@
 <script>
     import axios from "axios";
     import message from "./message";
+    import router from "../router";
+    import logo from "./logo";
 
     export default {
         name: "login",
@@ -62,7 +65,8 @@
                     this.msgVisible = true;
                     this.msgHeader = "Success";
                     this.msgMessage = response.data.message;
-                    this.$cookies.set('token', response.data.token)
+                    this.$cookies.set('token', response.data.token);
+                    router.push("/");
                 }).catch(err => {
                     console.log(err.response.data.error);
                     this.msgVisible = true;
@@ -75,7 +79,8 @@
             }
         },
         components: {
-            message
+            message,
+            logo
         }
     }
 </script>
@@ -89,7 +94,7 @@
 
     .container {
         width: 25%;
-        top: 20%;
+        top: 10%;
         left: 50%;
         transform: translate(-50%);
         position: absolute;

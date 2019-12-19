@@ -5,7 +5,7 @@ const emailSetAndSend = (
     subject,
     mailContent
 ) => {
-    console.log("Email conformation is on the way to : " + mailTo);
+    console.log("Email confirmation is on the way to : " + mailTo);
 
     const transporter = nodeMailer.createTransport({
         service: process.env.EMAIL_SERVICE,

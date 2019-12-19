@@ -116,6 +116,19 @@ class controllerUser {
             })
         }).catch(next)
     }
+
+    static currentUser(req, res, next){
+        user.findById(
+            req._id
+        ).then(response => {
+            res.status(200).json({
+                data: {
+                    name: response.name,
+                    email: response.email
+                }
+            })
+        }).catch(next)
+    }
 }
 
 module.exports = controllerUser;

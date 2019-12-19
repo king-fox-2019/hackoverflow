@@ -1,5 +1,6 @@
 <template>
     <sui-container class="container">
+        <logo/>
         <message :header="msgHeader" :message="msgMessage"
                  :visible="msgVisible" @dismiss="msgDismiss"/>
         <div id="login-form">
@@ -8,33 +9,25 @@
             <sui-form class="form" @submit.prevent="register">
                 <sui-form-field>
                     <label>Full Name</label>
-                    <sui-input size="25"
-                               type="text"
-                               placeholder="full name"
-                               class="input"
-                               v-model="name"
-                               transparent
-                               required/>
+                    <sui-input size="25" type="text"
+                               placeholder="full name" class="input"
+                               v-model="name" transparent
+                               maxlength="30" required/>
+                    <small>Max 30 Character</small>
                 </sui-form-field>
                 <sui-form-field>
                     <label>Email Address</label>
-                    <sui-input size="25"
-                               type="text"
-                               placeholder="email"
-                               class="input"
-                               v-model="email"
-                               transparent
+                    <sui-input size="25" type="text"
+                               placeholder="email" class="input"
+                               v-model="email" transparent
                                required/>
                     <small>we never share your email</small>
                 </sui-form-field>
                 <sui-form-field>
                     <label>Password</label>
-                    <sui-input size="25"
-                               type="password"
-                               placeholder="password"
-                               class="input"
-                               v-model="password"
-                               transparent
+                    <sui-input size="25" type="password"
+                               placeholder="password" class="input"
+                               v-model="password" transparent
                                required/>
                     <small>min 8 characters
                         <br>Password must contain at least 1 number, letters, symbol, Uppercase and lowercase</small>
@@ -58,6 +51,7 @@
     // import axios from "../config/axios";
     import axios from 'axios';
     import message from "./message";
+    import logo from "./logo";
 
     export default {
         name: "register",
@@ -98,7 +92,8 @@
             }
         },
         components: {
-            message
+            message,
+            logo
         }
     }
 </script>
@@ -112,7 +107,7 @@
 
     .container {
         width: 25%;
-        top: 20%;
+        top: 10%;
         left: 50%;
         transform: translate(-50%);
         position: absolute;

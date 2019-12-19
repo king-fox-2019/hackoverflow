@@ -3,29 +3,42 @@ const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'Title is required']
+        required: [true, 'Title is required'],
+        unique: [true, 'Title is already registered'],
+        maxlength: [75, "Name max 75 characters"]
     },
     description: {
         type: String,
         required: [true, 'Description is required'],
+        unique: [true, 'Description is already registered'],
+        maxlength: [250, "Description max 250 characters"],
     },
     upVotes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        count: true
     }],
     downVotes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        count: true
     }],
     user: {
         required: [true, 'User is required'],
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    answer: {
+    answer: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Answer'
-    }
+        ref: 'Answer',
+        count: true
+    }]
+}, {
+    timestamps:
+        {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at'
+        }
 });
 
 const Question = mongoose.model('Question', questionSchema);
