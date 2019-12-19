@@ -48,6 +48,7 @@ export default {
             "You have successfully asked the question",
             "success"
           );
+          this.$store.dispatch("fetchUserQuestion");
           this.$router.push("/myquestion");
         })
         .catch(err => {

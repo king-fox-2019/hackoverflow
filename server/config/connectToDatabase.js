@@ -10,8 +10,10 @@ module.exports = () => {
       useUnifiedTopology: true
     },
     err => {
-      if (err) console.log("Failed connect to database");
-      else console.log("Connected to database");
+      if (err) {
+        console.log(err);
+        console.log("Failed connect to database");
+      } else console.log("Connected to database");
     }
   );
 };

@@ -9,8 +9,6 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, "Username cannot be empty"],
-    minlength: [8, "Minimal length is 8 character"],
-    maxlength: [16, "Maximal length is 16 character"],
     validate: [
       {
         validator: value => {
@@ -54,8 +52,7 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Password cannot be empty"],
-    minlength: [8, "Minimal length is 8 character"]
+    required: [true, "Password cannot be empty"]
   }
 });
 

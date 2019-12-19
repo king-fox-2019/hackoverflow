@@ -75,7 +75,7 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          Swal.fire("Oops", `${err.message}`, "error");
+          Swal.fire("Oops", `${err.response.data.message}`, "error");
         });
     }
   }

@@ -7,10 +7,10 @@
       style="height:45px;background-color:orange"
     >
       <b-navbar-brand>
-        <router-link to="/" style="text-decoration:none;color:white">
+        <a href @click.prevent="goingToHome" style="text-decoration:none;color:white">
           <img width="60px" height="60px" src="../assets/logo.png" class="mr-2 mt-4" />
           Hack Overflow
-        </router-link>
+        </a>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -70,6 +70,11 @@ export default {
     };
   },
   methods: {
+    goingToHome() {
+      this.search = "";
+      this.$store.dispatch("fetchAllQuestion");
+      this.$router.push("/");
+    },
     searchQuestion() {
       const payload = {
         search: this.search

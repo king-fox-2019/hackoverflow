@@ -112,10 +112,6 @@
               style="text-align:left;border-left:3px solid orange"
             ></div>
             <div v-if="currentQuestion._id" class="pt-2 d-flex justify-content-start pl-0">
-              <div
-                class="btn rounded-0"
-                style="background-color:white;color:orange;border:3px solid orange;width:6.5rem"
-              >{{`${(answer.upvotes.length - answer.downvotes.length)} Votes` }}</div>
               <b-input-group-append>
                 <div
                   @click.prevent="upvoteAnswer(answer._id)"
@@ -124,6 +120,12 @@
                 >
                   <i class="fa fa-chevron-up"></i>
                 </div>
+              </b-input-group-append>
+              <div
+                class="btn rounded-0"
+                style="background-color:white;color:orange;border:3px solid orange;width:7.5rem"
+              >{{`${(answer.upvotes.length - answer.downvotes.length)} Votes` }}</div>
+              <b-input-group-append>
                 <div
                   @click.prevent="downvoteAnswer(answer._id)"
                   class="btn rounded-0"
@@ -152,7 +154,9 @@
         </b-media>
       </div>
     </div>
-    <hr v-if="currentQuestion.answers.length>0" />
+    <div v-if="currentQuestion._id">
+      <hr v-if="currentQuestion.answers.length>0" />
+    </div>
     <div v-if="userLogin">
       <h4 class="pl-2" style="border-left:3px solid orange;text-align:left">Post answer</h4>
       <div class="form-group">
@@ -271,6 +275,7 @@ export default {
       const payload = {
         id
       };
+      this.checkLogin();
       this.$store.dispatch("upvoteQuestion", payload).then(({ data }) => {
         const id = this.$route.params.id;
         const payload = {
@@ -284,23 +289,20 @@ export default {
       const payload = {
         id
       };
-      this.$store
-        .dispatch("downvoteQuestion", payload)
-        .then(({ data }) => {
-          const id = this.$route.params.id;
-          const payload = {
-            id
-          };
-          this.$store.dispatch("fetchQuestionById", payload);
-        })
-        .catch(err => {
-          Swal.fire("Oops!", err.response.data.message, "error");
-        });
+      this.checkLogin();
+      this.$store.dispatch("downvoteQuestion", payload).then(({ data }) => {
+        const id = this.$route.params.id;
+        const payload = {
+          id
+        };
+        this.$store.dispatch("fetchQuestionById", payload);
+      });
     },
     upvoteAnswer(id) {
       const payload = {
         id
       };
+      this.checkLogin();
       this.$store.dispatch("upvoteAnswer", payload).then(({ data }) => {
         const id = this.$route.params.id;
         const payload = {
@@ -313,18 +315,14 @@ export default {
       const payload = {
         id
       };
-      this.$store
-        .dispatch("downvoteAnswer", payload)
-        .then(({ data }) => {
-          const id = this.$route.params.id;
-          const payload = {
-            id
-          };
-          this.$store.dispatch("fetchQuestionById", payload);
-        })
-        .catch(err => {
-          Swal.fire("Oops!", err.response.data.message, "error");
-        });
+      this.checkLogin();
+      this.$store.dispatch("downvoteAnswer", payload).then(({ data }) => {
+        const id = this.$route.params.id;
+        const payload = {
+          id
+        };
+        this.$store.dispatch("fetchQuestionById", payload);
+      });
     },
     postAnswer() {
       const question = this.$route.params.id;
@@ -341,7 +339,6 @@ export default {
             id
           };
           this.$store.dispatch("fetchQuestionById", payload);
-
           Swal.fire(
             "Success!",
             "You have successfully post your answer",
