@@ -11,7 +11,7 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Description is required'],
         unique: [true, 'Description is already registered'],
-        maxlength: [250, "Description max 250 characters"],
+        maxlength: [500, "Description max 500 characters"],
     },
     upVotes: [{
         type: mongoose.Schema.Types.ObjectId,

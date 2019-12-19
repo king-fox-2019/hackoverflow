@@ -14,8 +14,8 @@
                 </sui-form-field>
                 <sui-form-field>
                     <label>Description</label>
-                    <textarea maxlength="250" v-model="description" required class="input" tranparent/>
-                    <small>Max 250 Character</small>
+                    <textarea maxlength="500" v-model="description" required class="input" tranparent/>
+                    <small>Max 500 Character</small>
                 </sui-form-field>
             </sui-modal-content>
             <sui-modal-actions>
