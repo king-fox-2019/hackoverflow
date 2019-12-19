@@ -25,8 +25,7 @@ export default {
   },
   methods: {
     upvote () {
-      console.log('======================sebelum axios', this)
-      // this.$emit('refresh')
+      this.$emit('refresh')
       axios({
         method: 'PATCH',
         url: `/answer`,
@@ -38,15 +37,12 @@ export default {
         }
       })
         .then(({ data }) => {
-          console.log('============ setelah axios', this)
-          // this.$emit('refresh')
           this.$store.dispatch('fetchData')
         })
-        .catch(err => {
-          // this.$emit('refresh')
+        .catch(() => {
           this.$swal.fire(
+            'something wrong',
             'already voted',
-            err.message,
             'error'
           )
         })

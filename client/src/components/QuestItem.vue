@@ -60,6 +60,9 @@ export default {
   methods: {
     refresh () {
       this.viewAnswer()
+      setTimeout(() => {
+        this.viewAnswer()
+      }, 250)
     },
     upvote () {
       axios({
@@ -75,10 +78,10 @@ export default {
         .then(({ data }) => {
           this.$store.dispatch('fetchData')
         })
-        .catch(err => {
+        .catch(() => {
           this.$swal.fire(
             'sumting wong',
-            err,
+            'alredy voted',
             'error'
           )
         })
