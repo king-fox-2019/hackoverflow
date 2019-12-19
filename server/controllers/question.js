@@ -65,10 +65,10 @@ class QuestionController {
   static delete(req, res, next) {
     Question.deleteOne({ _id: req.params.id })
       .then(n => {
-        return Answer.deleteMany({ question: req.params.id })
-      })
-      .then(n => {
-        res.status(200).json(n)
+        Answer.deleteMany({ question: req.params.id })
+          .then(n => {
+            res.status(200).json(n)
+          })
       })
       .catch(next)
   }

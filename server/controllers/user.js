@@ -10,9 +10,16 @@ class UserController {
       })
       .catch(next)
   }
+  static one (req, res, next) {
+    User.findById(req.loggedUser.id)
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(next)
+  }
   static create (req, res, next) {
-    const { username, email, password } = req.body
-    User.create({ username, email, password })
+    const { username, email, password, image, tags } = req.body
+    User.create({ username, email, password, image, tags })
       .then(user => {
         res.status(201).json(user)
       })

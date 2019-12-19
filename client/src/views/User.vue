@@ -20,6 +20,14 @@
             <input required autofocus id="username" type="text" class="form-control" v-model="registerUsername"/>
           </div>
           <div class="form-group">
+            <label for="image">Profil Picture: </label>
+            <input autofocus id="image" type="text" class="form-control" v-model="registerImage"/>
+          </div>
+          <div class="form-group">
+            <label for="tags">watched tags:</label>
+            <input placeholder="separated by space: vue javascript node.js" autofocus id="tags" type="text" class="form-control" v-model="registerTags"/>
+          </div>
+          <div class="form-group">
             <label for="passwordRegister">Password</label>
             <input required id="passwordRegister" type="password" class="form-control" v-model="registerPassword"/>
           </div>
@@ -68,7 +76,9 @@ export default {
       registerEmail: '',
       registerUsername: '',
       registerPassword: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      registerTags: '',
+      registerImage: ''
     }
   },
   methods: {
@@ -106,7 +116,9 @@ export default {
           data: {
             email: this.registerEmail,
             username: this.registerUsername,
-            password: this.registerPassword
+            password: this.registerPassword,
+            image: this.registerImage,
+            tags: this.registerTags.split(' ')
           }
         })
           .then(({ data }) => {

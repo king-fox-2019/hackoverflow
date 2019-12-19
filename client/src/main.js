@@ -11,7 +11,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:80',
+  connection: 'http://18.219.83.129',
   vuex: {
     store,
     actionPrefix: 'SOCKET_',

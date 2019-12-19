@@ -2,7 +2,14 @@
   <div class="container">
     <div class="home row">
       <div class="col-md-2 overflow-hidden">
-        <img alt="Vue logo" src="../assets/logo.png">
+        <img v-if="!$store.state.isLogin" alt="Vue logo" src="../assets/logo.png" class="img-fluid">
+        <div v-if="$store.state.isLogin">
+          <img alt="Vue logo" :src="$store.state.user.image" class="img-fluid">
+          <div>
+            <h5>Watched tags: </h5>
+            <span class="badge badge-pill badge-info" v-for="(tag, index) in $store.state.user.tags" :key="index">{{tag}}</span>
+          </div>
+        </div>
       </div>
       <div class="col-md-10">
         <Main msg="Top Question"/>

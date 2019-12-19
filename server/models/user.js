@@ -7,6 +7,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Please enter username."]
   },
+  tags: [{
+    type: String
+  }],
+  image: {
+    type: String
+  },
   email: {
     type: String,
     required: [true, "Please enter your email address."],

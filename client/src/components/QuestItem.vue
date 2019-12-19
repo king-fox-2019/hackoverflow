@@ -73,7 +73,7 @@ export default {
         .catch(() => {
           this.$swal.fire(
             'sumting wong',
-            'alredy voted',
+            'unAuthorized!',
             'error'
           )
         })

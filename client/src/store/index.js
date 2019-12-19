@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    questions: []
+    questions: [],
+    user: null
   },
   mutations: {
     LOGIN (state) {
@@ -19,9 +20,31 @@ export default new Vuex.Store({
     },
     FETCH_DATA (state, payload) {
       state.questions = payload
+    },
+    FETCH_USER (state, payload) {
+      state.user = payload
     }
   },
   actions: {
+    fetchUser (context) {
+      axios({
+        method: 'get',
+        url: `/user`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('FETCH_USER', data)
+        })
+        .catch(err => {
+          this.$swal.fire(
+            'sumting wong',
+            err.message,
+            'error'
+          )
+        })
+    },
     addAnswer (context, payload) {
       return new Promise(function (resolve, reject) {
         axios({
@@ -97,6 +120,7 @@ export default new Vuex.Store({
           .then(({ data }) => {
             localStorage.setItem('token', data.token)
             localStorage.setItem('username', data.username)
+            context.dispatch('fetchUser')
             context.commit('LOGIN')
             resolve()
           })
