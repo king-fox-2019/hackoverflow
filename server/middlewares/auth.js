@@ -46,11 +46,13 @@ function answerAuthorization(req, res, next) {
    Answer
    .findOne({user: req.decoded.userId})
    .then(answer => {
-      if(!answer || question.user != req.decoded.userId) throw {
+      if(!answer || answer.user != req.decoded.userId) throw {
          errorCode: 403,
          message: 'You are not authorized to perform this action'
       }
-      else next()
+      else {
+         next()
+      }
    })
    .catch(next)
 }

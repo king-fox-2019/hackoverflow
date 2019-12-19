@@ -79,20 +79,13 @@ class QuestionController {
 
          const question = await Question.findOne({_id: req.params.id}).select({votes: 1})
 
-         // if(question.votes.length = 0) question.votes.push({
-         //    userId: req.params.userId,
-         //    voteType
-         // })
-         // else {
          let userVoteExist = false
          let userVoteExistIndex = -1
 
          for(let i in question.votes) {
-            console.log(question.votes[i].userId == req.decoded.userId, 'comparison question votes')
             if(question.votes[i].userId == req.decoded.userId) {
                userVoteExist = true
                userVoteExistIndex = Number(i)
-               console.log('masuk sini')
                break
             }
          }
@@ -120,7 +113,6 @@ class QuestionController {
 
             await Question.updateOne({_id: question._id}, {$set: {votes: question.votes}})
          }
-         // }
 
          res.status(200).json(question)
       }

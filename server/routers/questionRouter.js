@@ -7,7 +7,7 @@ router.get('/:id', QuestionController.getOne)
 router.get('/test', QuestionController.testError)
 router.use(authentication)
 router.patch('/:id', questionAuthorization, QuestionController.updateOne)
-router.patch('/:id/vote', QuestionController.vote)
+router.patch('/:id/vote', authentication, QuestionController.vote)
 router.post('/', QuestionController.create)
 router.delete('/', questionAuthorization, QuestionController.delete)
 

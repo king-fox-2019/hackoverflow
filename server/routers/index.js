@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const UserController = require('../controllers/userController')
 const questionRouter = require('./questionRouter')
+const answerRouter = require('./answerRouter')
 
 router.get(
    '/secretEndpointGetUsers',
@@ -14,7 +15,7 @@ router.get(
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
-
 router.use('/question', questionRouter)
+router.use('/answer', answerRouter)
 
 module.exports = router
