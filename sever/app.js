@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const routes = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
-const cron = require('./helpers/corn')
+const cron = require('./helpers/cron')
 
 const PORT = process.env.PORT || 3000
 
@@ -22,6 +22,9 @@ app.use(express.urlencoded({ extended : false}))
 
 app.use('/', routes)
 app.use(errorHandler)
+
+console.log(process.env.EMAIL);
+
 
 cron()
 

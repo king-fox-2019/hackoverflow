@@ -10,6 +10,7 @@ var nodemailer = require('nodemailer')
 //   .then(() => console.log('connected to database'))
 //   .catch(err => console.log('failed to connect to database'))
 
+// console.log(process.env.EMAIL);
 
 let time = '*/1 * * * *'
 
@@ -23,6 +24,7 @@ function cron (){
           service: "gmail",
           auth: {
             user: `${process.env.EMAIL}`, // generated ethereal user
+            
             pass: `${process.env.EMAIL_PASSWORD}` // generated ethereal password
           }
         });
@@ -31,7 +33,7 @@ function cron (){
           from: `${process.env.EMAIL}`,
           to: `${user.email}`,
           subject: 'Overflowing',
-          text: `Hi, there ${user.name}. Mondays are great to greet a new a week full of optimism.
+          text: `Hi, there ${user.email.split('@')[0]}. Mondays are great to greet a new a week full of optimism.
           And I bet you have never had a beautiful Monday morning than this one today.
           Wish you all the best!`
         }
