@@ -14,7 +14,7 @@
         </p></template
       >
 
-      <hr class="my-4 w-75 border-success" />
+      <hr class="my-4 w-75 border-success" v-if="!onSession" />
 
       <b-button
         variant="outline-light"
@@ -56,7 +56,7 @@
         <b-form
           class="col-12 col-sm-8 col-lg-6 d-flex flex-wrap align-items-center mt-2 mt-lg-0 px-0"
           @submit.prevent="updateWatchedTags"
-          v-if="onEditWatchedTags"
+          v-if="onSession && onEditWatchedTags"
         >
           <b-row class="w-100 mx-0 ">
             <b-col cols="12" sm="10">
@@ -78,7 +78,7 @@
 
         <div
           class="col-12 col-md-8 col-lg-6 d-flex flex-column flex-sm-row align-items-center mt-2 mt-lg-0"
-          v-else
+          v-else-if="onSession"
         >
           <h6 class="mb-0 text-accent">Watched Tags:</h6>
           <div>
@@ -97,7 +97,7 @@
             size="sm"
             pill
             @click="setEditWatchedTags"
-            >Edit Tags</b-button
+            >{{ watchedTags.length > 0 ? 'Edit Tags' : 'Add tags' }}</b-button
           >
         </div>
       </b-row>
@@ -150,7 +150,7 @@
             >
           </div>
 
-          <p class="mb-0">{{ question.description.slice(0, 500) }}...</p>
+          <p class="mb-0">{{ question.description | shortenDesc }}</p>
           <small class="text-muted float-right"
             >Asked by {{ question.author.email }}</small
           >
@@ -214,9 +214,17 @@ export default {
     }
   },
   watch: {
-    '$route.fullPath'(val) {
-      console.log(val)
+    '$route.fullPath'() {
       this.getQuestions()
+    }
+  },
+  filters: {
+    shortenDesc(val) {
+      if (val) {
+        let res = val.replace(/<[^>]*>/gi, '')
+
+        return res.length > 500 ? res.slice(0, 500) + ' ...' : res
+      } else return ''
     }
   },
   created() {
