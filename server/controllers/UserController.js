@@ -51,5 +51,31 @@ class UserController {
       data: req.user
     })
   }
+
+  static editWatchedTags(req, res, next) {
+    const { watchedTags } = req.body
+    req.user.watchedTags = watchedTags
+      ? typeof watchedTags == 'string'
+        ? watchedTags
+            .split(',')
+            .reduce((r, t) => {
+              t = t.trim()
+              t && r.push(t)
+              return r
+            }, [])
+            .filter((v, i, r) => r.indexOf(v) == i)
+        : watchedTags.filter((v, i, r) => r.indexOf(v) == i)
+      : req.user.watchedTags
+
+    req.user
+      .save()
+      .then(user => {
+        res.status(200).json({
+          message: 'Watched tags updated',
+          data: user
+        })
+      })
+      .catch(next)
+  }
 }
 module.exports = UserController

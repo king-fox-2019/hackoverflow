@@ -9,7 +9,10 @@ const userSchema = new Schema(
       validate: [
         {
           validator(val) {
-            return models.User.findOne({ email: val }).then(user => {
+            return models.User.findOne({
+              email: val,
+              _id: { $ne: this._id }
+            }).then(user => {
               if (user) return false
               return true
             })
@@ -30,13 +33,20 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Password required'],
       minlength: [6, 'Password min length 6']
-    }
+    },
+    watchedTags: [
+      {
+        type: String
+      }
+    ]
   },
   { versionKey: false }
 )
 
 userSchema.post('validate', function(doc, next) {
-  doc.password = hashSync(doc.password, 10)
+  if (!doc._id) {
+    doc.password = hashSync(doc.password, 10)
+  }
   next()
 })
 

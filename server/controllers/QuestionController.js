@@ -72,8 +72,15 @@ class QuestionController {
     req.question.description = description || req.question.description
     req.question.tags = tags
       ? typeof tags == 'string'
-        ? tags.split(',').map(t => t.trim())
-        : tags
+        ? tags
+            .split(',')
+            .reduce((r, t) => {
+              t = t.trim()
+              t && r.push(t)
+              return r
+            }, [])
+            .filter((v, i, r) => r.indexOf(v) == i)
+        : tags.filter((v, i, r) => r.indexOf(v) == i)
       : req.question.tags
 
     req.question

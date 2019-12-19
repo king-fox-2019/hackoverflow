@@ -8,6 +8,8 @@ Default localhost
 http://localhost:3000
 ```
 
+
+
 ## Errors
 
 ### Response Format
@@ -17,6 +19,8 @@ http://localhost:3000
   "message": ["...", "..."]
 }
 ```
+
+
 
 ### 404: Not Found
 
@@ -40,6 +44,8 @@ http://localhost:3000
 
 - `You don't have authorization to this question`: Happens when you try to manipulate (edit, delete) a question that's not posted by you. If that's not the case, then try to check whether you typed the id correctly.
 - `You don't have authorization to this answer`: Happens when you try to manipulate (edit, delete) an answer that's not posted by you. If that's not the case, then try to check whether you typed the id correctly.
+
+
 
 ## User Routes
 
@@ -65,6 +71,7 @@ Status 201: Created
   "message": "Sign up success",
   "data": {
     "user": {
+      "watchedTags": [],
       "_id": "5df78131eca931762cde32ff",
       "email": "dummy@mail.com",
       "password": "123456"
@@ -73,6 +80,8 @@ Status 201: Created
   }
 }
 ```
+
+
 
 ### Sign In
 
@@ -100,6 +109,8 @@ Status 200:OK
 }
 ```
 
+
+
 ### Check Session
 
 ##### Endpoint
@@ -120,11 +131,50 @@ Status 200:OK
 {
   "message": "User authenticated",
   "data": {
+    "watchedTags": [],
     "_id": "5df78131eca931762cde32ff",
     "email": "dummy@mail.com"
   }
 }
 ```
+
+
+
+### Edit Watched Tags
+
+##### Endpoint
+
+```http
+PATCH /user/watchedtags
+```
+
+##### Header
+
+- access_token **Required**
+
+##### Body
+
+- watchedTags **Optional** can be comma-separated string or array of strings.
+
+##### Response
+
+Status 200: OK
+
+```json
+{
+  "message": "Watched tags updated",
+  "data": {
+    "watchedTags": [
+      "javascript",
+      "mongoose"
+    ],
+    "_id": "5df78131eca931762cde32ff",
+    "email": "dummy@mail.com"
+  }
+}
+```
+
+
 
 ## Question Routes
 
@@ -144,7 +194,7 @@ POST /questions
 
 - title **Required**
 - description **Required**
-- tags **Optional** can be comma-separated string or array of strings.
+- tags **Optional** can be comma-separated string or array of strings. Will response OK even when nothing changed
 
 ##### Response
 
@@ -168,6 +218,8 @@ Status 201: Created
   }
 }
 ```
+
+
 
 ### Get All Questions
 
@@ -201,6 +253,8 @@ Status 200: OK
 }
 ```
 
+
+
 ### Get All User Questions
 
 ##### Endpoint
@@ -232,6 +286,8 @@ Status 200: OK
   ]
 }
 ```
+
+
 
 ### Get One Question
 
@@ -267,6 +323,8 @@ Status 200: OK
 }
 ```
 
+
+
 ### Edit Question
 
 ##### Endpoint
@@ -286,6 +344,7 @@ PATCH /questions/:id
 ##### Body
 
 - description **Optional** will response OK even when nothing changed
+- tags **Optional** can be comma-separated string or array of strings. Will response OK even when nothing changed
 
 ##### Response
 
@@ -305,6 +364,8 @@ Status 200: OK
   }
 }
 ```
+
+
 
 ### Upvote Question
 
@@ -347,6 +408,8 @@ Status 200: OK
 }
 ```
 
+
+
 ### Downvote Question
 
 When you already downvoted the question, hitting this endpoint again will remove your vote. When you already upvoted the question, this endpoint will change your upvote to downvote.
@@ -388,6 +451,8 @@ Status 200: OK
 }
 ```
 
+
+
 ### Delete Question
 
 ##### Endpoint
@@ -413,6 +478,8 @@ Status 200: OK
   "message": "Question deleted"
 }
 ```
+
+
 
 ## Answer Routes
 
@@ -465,6 +532,8 @@ Status 201: Created
 }
 ```
 
+
+
 ### Get All Question's Answers
 
 ##### Endpoint
@@ -497,6 +566,8 @@ Status 200: OK
   ]
 }
 ```
+
+
 
 ### Get All User's Answers
 
@@ -538,6 +609,8 @@ Status 200: OK
   ]
 }
 ```
+
+
 
 ### Get One Answer
 
@@ -582,6 +655,8 @@ Status 200: OK
   }
 }
 ```
+
+
 
 ### Edit Answer
 
@@ -631,6 +706,8 @@ Status 200: OK
   }
 }
 ```
+
+
 
 ### Upvote Answer
 
@@ -683,6 +760,8 @@ Status 200: OK
 }
 ```
 
+
+
 ### Downvote Answer
 
 When you already downvoted the answer, hitting this endpoint again will remove your vote. When you already upvoted the answer, this endpoint will change your upvote to downvote.
@@ -733,6 +812,8 @@ Status 200: OK
   }
 }
 ```
+
+
 
 ### Delete Answer
 
