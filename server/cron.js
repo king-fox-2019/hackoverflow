@@ -36,8 +36,8 @@ cron.schedule("0 13 25 * *", function() {
       let mailOptions = {
         from: process.env.GMAIL_EMAIL,
         to: data,
-        subject: 'Testing using CRON',
-        text: 'This is an automatically generated email, any replies in here will not be noticed, please refer to our customer service email for further assistance.'
+        subject: 'Hello from Sheaf Deluge',
+        text: 'This is an automatically generated email, any replies in here will not be noticed, please refer to our customer service email for further assistance. Sent using CRON.'
       }
       transporter.sendMail(mailOptions, function(error, info) {
         if(error) {
