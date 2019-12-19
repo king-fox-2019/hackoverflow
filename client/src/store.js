@@ -92,6 +92,12 @@ export default new Vuex.Store({
       const access_token = localStorage.getItem('access_token')
       return server.post('questions', payload, { headers: { access_token } })
     },
+    editQuestion(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(`questions/${payload.id}`, payload, {
+        headers: { access_token }
+      })
+    },
     postAnswer(context, payload) {
       const access_token = localStorage.getItem('access_token')
       return server.post(

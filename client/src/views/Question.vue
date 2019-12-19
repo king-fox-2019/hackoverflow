@@ -47,9 +47,23 @@
         </div>
       </template>
       <p v-html="question.description"></p>
-      <small class="text-muted float-right"
-        >Asked by {{ question.author.email }}</small
-      >
+      <div class="text-right mr-3">
+        <small class="text-muted d-block mb-2"
+          >Asked by
+          {{
+            question.author._id == $store.state.id
+              ? 'You'
+              : question.author.email
+          }}</small
+        >
+        <b-button
+          class="text-right"
+          variant="outline-secondary"
+          v-if="question.author._id == $store.state.id"
+          :to="`/edit/${question._id}`"
+          >Edit Question</b-button
+        >
+      </div>
     </b-media>
 
     <ul class="list-unstyled">

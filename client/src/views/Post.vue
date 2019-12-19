@@ -1,11 +1,14 @@
 <template>
   <b-container>
-    <b-col class="text-center my-5" cols="12">
+    <b-col class="text-center my-4" cols="12">
       <h1>Post a Question</h1>
     </b-col>
     <b-form @submit.prevent="postQuestion" novalidate>
       <b-row align-v="center">
-        <b-col cols="12" md="8">
+        <b-col cols="12" v-if="$route.params.id">
+          <h2>{{ title }}</h2>
+        </b-col>
+        <b-col cols="12" md="8" v-else>
           <b-form-input
             v-model="title"
             :state.sync="validateTitle"
@@ -16,9 +19,21 @@
             autofocus
           ></b-form-input>
         </b-col>
-        <b-col class="mt-2 mt-md-0" order="2" order-md="0" cols="12" sm="4">
+
+        <b-col order="5" order-sm="1" cols="12" sm="4" v-if="$route.params.id">
+          <b-button type="submit" variant="primary">Save Edit</b-button>
+        </b-col>
+        <b-col
+          class="mt-2 mt-md-0"
+          order="2"
+          order-md="0"
+          cols="12"
+          sm="4"
+          v-else
+        >
           <b-button type="submit" variant="primary">Post Question</b-button>
         </b-col>
+
         <b-col class="mt-2" cols="12" sm="8" md="6" lg="4">
           <b-form-input
             v-model="tags"
@@ -27,7 +42,14 @@
             autocomplete="off"
           ></b-form-input>
         </b-col>
-        <b-col order="1" order-sm="0" class="mt-sm-2" cols="12" sm="auto">
+
+        <b-col
+          order="1"
+          order-sm="0"
+          :class="$route.params.id ? 'mb-3' : 'mt-sm-2'"
+          cols="12"
+          :sm="$route.params.id ? null : 'auto'"
+        >
           <small class="text-muted">Separate each tags using comma</small>
         </b-col>
       </b-row>
@@ -63,7 +85,6 @@ export default {
       description: '',
       // tags: [],
       tags: '',
-      onTagsFocus: false,
       validateTitle: null
     }
   },
@@ -81,10 +102,34 @@ export default {
       }
 
       this.$store
-        .dispatch('postQuestion', { title, description, tags })
+        .dispatch(this.$route.params.id ? 'editQuestion' : 'postQuestion', {
+          title,
+          description,
+          tags,
+          id: this.$route.params.id
+        })
         .then(({ data }) => {
           this.$toasted.show(data.message)
           this.$router.push(`/questions/${data.data._id}`)
+        })
+        .catch(({ response }) =>
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        )
+    }
+  },
+  created() {
+    if (this.$route.params.id) {
+      console.log('sini')
+      this.$store
+        .dispatch('getQuestionDetail', this.$route.params.id)
+        .then(({ data }) => {
+          console.log(data)
+          const question = data.data
+          this.title = question.title
+          this.description = question.description
+          this.tags = question.tags.join(', ')
         })
         .catch(({ response }) =>
           response.data.message.forEach(msg =>
