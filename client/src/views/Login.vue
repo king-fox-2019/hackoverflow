@@ -1,0 +1,86 @@
+<template>
+  <div>
+    <form class="form-signin" @submit.prevent="login">
+      <h1 class="h3 mb-3 font-weight-normal text-info">Login</h1>
+      <div class="form-group">
+        <label for="exampleInputEmail1" class="text-info">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          v-model="username"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1" class="text-info">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          v-model="password"
+        />
+      </div>
+      <button type="submit" class="btn btn-info">Login</button>
+      <small class="form-text text-muted">
+        <router-link to="/register">
+          <span class="fas fa-angle-double-left"></span> Register
+        </router-link>
+      </small>
+    </form>
+  </div>
+</template>
+
+<script>
+import axios from '@/utils/axios-instance.js';
+
+export default {
+  name: 'LoginForm',
+  data: function() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    login() {
+      axios
+        .post('/login', {
+          username: this.username,
+          password: this.password,
+        })
+        .then(({data}) => {
+          this.$root.$bvToast.toast(`token: ${data.token}`, {
+            title: 'Success',
+            autoHideDelay: 1500,
+            appendToast: true,
+            variant: 'success',
+          });
+          this.$router.push({path: '/'});
+        })
+        .catch(error => {
+          this.$bvToast.toast(`${error.response.data.errors}`, {
+            title: 'Error',
+            autoHideDelay: 1500,
+            appendToast: true,
+            variant: 'danger',
+          });
+        });
+    }
+  },
+};
+</script>
+
+<style scoped>
+.form-signin {
+  width: 50%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  min-height: 83vh;
+}
+
+a:hover {
+  text-decoration: none;
+}
+</style>
