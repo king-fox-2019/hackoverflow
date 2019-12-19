@@ -46,7 +46,9 @@
           </div>
         </div>
       </template>
-      <p v-html="question.description"></p>
+      <div class="question-desc">
+        <p v-html="question.description"></p>
+      </div>
       <div class="text-right mr-3">
         <small class="text-muted d-block mb-2"
           >Asked by
@@ -57,13 +59,35 @@
           }}</small
         >
         <b-button
-          class="text-right"
           variant="outline-secondary"
           size="sm"
           v-if="question.author._id == $store.state.id"
           :to="`/edit/${question._id}`"
           >Edit Question</b-button
         >
+        <b-button
+          :id="question._id"
+          class="ml-3"
+          variant="outline-danger"
+          size="sm"
+          v-if="question.author._id == $store.state.id"
+          ><font-awesome-icon icon="trash-alt"></font-awesome-icon
+        ></b-button>
+
+        <b-popover
+          :target="question._id"
+          triggers="click blur"
+          placement="top-right"
+        >
+          <template v-slot:title>Are you sure?</template>
+          <p>All answers for this question will also be deleted</p>
+          <b-button
+            class="text-center"
+            variant="outline-danger"
+            @click="removeQuestion"
+            >Remove Question</b-button
+          >
+        </b-popover>
       </div>
     </b-media>
 
@@ -108,7 +132,9 @@
               </div>
             </div>
           </template>
-          <p v-html="answer.content"></p>
+          <div class="answer-content">
+            <p v-html="answer.content"></p>
+          </div>
           <div class="text-right mr-3">
             <small class="text-muted d-block mb-2">
               {{
@@ -125,10 +151,35 @@
               :to="`/questions/${$route.params.id}/editanswer/${answer._id}`"
               >Edit Answer</b-button
             >
+
+            <b-button
+              :id="answer._id"
+              class="ml-3"
+              variant="outline-danger"
+              size="sm"
+              v-if="answer.author._id == $store.state.id"
+              ><font-awesome-icon icon="trash-alt"></font-awesome-icon
+            ></b-button>
+
+            <b-popover
+              :target="answer._id"
+              triggers="click blur"
+              placement="top-right"
+            >
+              <template v-slot:title>Are you sure?</template>
+              <p>This can't be undone</p>
+              <b-button
+                class="text-center"
+                variant="outline-danger"
+                @click="removeAnswer(answer)"
+                >Remove Answer</b-button
+              >
+            </b-popover>
           </div>
         </b-media>
       </div>
     </ul>
+
     <div class="editor-wrapper">
       <hr class="mt-5 border-primary" />
       <h4 class="d-inline-block mr-5 mb-0">
@@ -242,6 +293,32 @@ export default {
             this.$toasted.show(msg, { type: 'error' })
           )
         )
+    },
+    removeQuestion() {
+      this.$store
+        .dispatch('onRemoveQuestion', this.question._id)
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+          this.$router.replace('/')
+        })
+        .catch(({ response }) =>
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        )
+    },
+    removeAnswer(answer) {
+      this.$store
+        .dispatch('onRemoveAnswer', answer._id)
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+          this.getQuestionDetail()
+        })
+        .catch(({ response }) =>
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        )
     }
   },
   created() {
@@ -260,6 +337,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.question-desc,
+.answer-content {
+  width: 65vw !important;
+  overflow-x: scroll;
+}
+
 .vote-box {
   width: 4rem;
 }

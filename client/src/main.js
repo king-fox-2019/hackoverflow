@@ -10,10 +10,14 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import '@/assets/scss/main.scss'
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCaretUp,
+  faCaretDown,
+  faTrashAlt
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCaretUp, faCaretDown)
+library.add(faCaretUp, faCaretDown, faTrashAlt)
 dom.watch()
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

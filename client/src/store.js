@@ -131,6 +131,14 @@ export default new Vuex.Store({
         { content: payload.content },
         { headers: { access_token } }
       )
+    },
+    onRemoveQuestion(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.delete(`questions/${id}`, { headers: { access_token } })
+    },
+    onRemoveAnswer(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.delete(`answers/${id}`, { headers: { access_token } })
     }
   },
   modules: {}
