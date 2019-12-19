@@ -32,16 +32,34 @@ class questionController {
     const id = req.params.id
     Question.findByIdAndDelete(id)
       .then((question) => {
-        res.status(200).json(question)
+        let value = {
+          _id:question.answers
+        }
+        return Answer.deleteMany(value)
+      })
+      .then ((data) => {
+        res.status(200).json(data)
       })
       .catch(next)
   }
 
   static readAllQuestion (req, res, next) {
     Question.find()
+      .populate('answers')
       .populate('userId')
       .then((question) => {
         res.status(200).json(question)
+      })
+      .catch(next)
+    }
+    
+  static readMyQuestion (req, res, next) {
+    const id = req.decoded._id
+    Question.find({userId: id})
+    .populate('userId')
+    .populate('answers')
+    .then((data) => {
+        res.status(200).json(data)
       })
       .catch(next)
   }
@@ -50,7 +68,7 @@ class questionController {
     const id = req.params.id
     Question.findById(id)
       .populate('userId')
-      .populate('answer')
+      .populate('answers')
       .then((data) => {
         res.status(200).json(data)
       })

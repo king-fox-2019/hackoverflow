@@ -7,6 +7,8 @@ const authorization = require('../middlewares/authorization')
 
 router.post('/', question.createQuestion)
 router.get('/', question.readAllQuestion)
+router.get('/my', question.readMyQuestion)
+router.get('/:id', question.readOneQuestion)
 router.delete('/:id', authorization,  question.deleteQuestion)
 router.put('/:id', authorization, question.editQuestion)
 router.patch('/upvotes/:id', question.upVotes)

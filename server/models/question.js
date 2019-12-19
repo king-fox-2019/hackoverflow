@@ -12,7 +12,7 @@ const questionSchema = new Schema({
     required: [true, 'Description cannot be empty']
   },
   answers: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }]
   },
   upVotes: {
     type: [ {type: Schema.Types.ObjectId, ref: 'User'} ]

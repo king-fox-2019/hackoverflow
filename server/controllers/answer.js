@@ -1,6 +1,6 @@
 'use strict'
 
-const { Answer, Question } = require('../models')
+const { Answer, Question, User } = require('../models')
 
 class answerController {
   static createAnswer(req, res, next) {
@@ -21,6 +21,17 @@ class answerController {
 
   static read(req, res, next) {
     Answer.find()
+      .populate('userId')
+      .then((answer) => {
+        res.status(200).json(answer)
+      })
+      .catch(next)
+  }
+
+  static readOne(req, res, next) {
+    let _id = req.params.id
+    Answer.find({ _id })
+      .populate('userId')
       .then((answer) => {
         res.status(200).json(answer)
       })
