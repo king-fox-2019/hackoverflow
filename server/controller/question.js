@@ -40,8 +40,10 @@ class controllerQuestion {
     static addAnswer(questionID, answerID) {
         question.findByIdAndUpdate(
             questionID,
-            {answer: answerID}
-        ).then(response => {
+            {"$push": {
+                    answer: answerID
+                }
+            }).then(response => {
             console.log(response)
         }).catch(err => {
             console.log(err)

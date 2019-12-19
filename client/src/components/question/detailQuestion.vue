@@ -1,7 +1,11 @@
 <template>
-    <sui-message>
+    <sui-message id="message">
         <sui-header>{{data.title}}</sui-header>
         <small>{{ createdAt}}</small>
+        <sui-card-description>
+            {{ data.description }}
+        </sui-card-description>
+        <hr>
         <div>
             <a is="sui-list-description">
                 <sui-icon name="chat"/>
@@ -14,15 +18,16 @@
                 {{ dataDownVotes.length }}
             </a>
         </div>
-        <sui-card-description>
-            {{ data.description }}
-        </sui-card-description>
+        <sui-list divided relaxed id="list">
+            <answer v-for="answer in dataAnswer" :key="answer._id" :answer="answer"/>
+        </sui-list>
     </sui-message>
 </template>
 
 <script>
     // import axios from "../../config/axios";
     import axios from 'axios'
+    import answer from "../answer";
 
     export default {
         name: "detailQuestion",
@@ -66,10 +71,17 @@
                     {timeZone: "Asia/Jakarta"}
                 );
             }
+        },
+        components: {
+            answer
         }
     }
 </script>
 
 <style scoped>
 
+    #list{
+        padding: 10px;
+        background-color: #d6e5fa !important;
+    }
 </style>
