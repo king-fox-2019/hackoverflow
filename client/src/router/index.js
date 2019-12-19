@@ -9,7 +9,14 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if(localStorage.getItem('token')){
+        next('/questions')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/register',
@@ -28,7 +35,14 @@ const routes = [
       }, {
         path: ':id',
         name: 'question',
-        component: () => import(/* webpackChunkName: "question" */ '../views/Question.vue')
+        component: () => import(/* webpackChunkName: "question" */ '../views/Question.vue'),
+        children: [
+            {
+              path: 'update',
+              name: 'update',
+              component: () => import(/* webpackChunkName: "questionupdated" */ '../components/Update.vue')
+            }
+        ]
       }
     ]
   }

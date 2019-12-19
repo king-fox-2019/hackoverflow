@@ -1,6 +1,7 @@
 const routes = require('express').Router()
 const userController = require('../controllers/user')
 const gcsUpload = require('gcs-upload')
+const { authentication } = require('../middlewares/auth')
 
 const upload = gcsUpload({
     limits: {
@@ -14,5 +15,9 @@ const upload = gcsUpload({
 
 routes.post('/register', upload.array('image') ,userController.register)
 routes.post('/login', userController.login)
+routes.use(authentication)
+routes.get('/myaccount', userController.findOne)
+routes.patch('/addWatchedTags', userController.updateWatchedTags)
+
 
 module.exports = routes

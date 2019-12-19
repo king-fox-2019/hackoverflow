@@ -2,6 +2,19 @@ const QuestionModel = require('../models/question')
 const AnswerModel = require('../models/answer')
 
 module.exports = {
+    updated(req,res,next){
+        const { title, description } = req.body
+        const { id } = req.params
+        console.log(description, id)
+        AnswerModel.findOneAndUpdate({ _id : id },{ description, userId: req.loggedUser.id },{ new:true, runValidators:true })
+            .then(question=>{
+                res.status(200).json({
+                    message: `updated answer success`,
+                    question
+                })
+            })
+            .catch(next)
+    },
     created(req,res,next){
         const { title, description } = req.body
         const { id } = req.params

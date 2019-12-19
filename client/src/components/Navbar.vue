@@ -10,8 +10,8 @@
 
         <div class="collapse navbar-collapse mt-2" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
-            <div class="col-auto">
-            <label class="sr-only" for="inlineFormInputGroup">search</label>
+            <div class="col-auto" v-if="$route.path == '/questions'">
+                <label class="sr-only" for="inlineFormInputGroup">search</label>
                 <div class="input-group mb-2 input-border" style="border-radius:10%;">
                     <div class="input-group-prepend">
                         <div class="input-group-text pr-0 icon-style" style="background-color: white; border:none;">
@@ -19,6 +19,8 @@
                         </div>
                     </div>
                     <input v-model="search" @click="checkSearch" type="text" class="form-control pl-2 py-3 input-search" style="font-size:12px; border:none;" id="inlineFormInputGroup" placeholder="Search...">
+                    <button type="button" v-if="!searchVal" v-show="search" @click="searchDone" class="btn btn-search btn-sm">Search</button>
+                    <button type="button" v-if="searchVal" @click="resetSearch" class="btn btn-primary btn-sm">reset</button>
                 </div>
             </div>
         </div>
@@ -76,10 +78,21 @@ export default {
     return {
       search: '',
       email_login: '',
-      password_login: ''
+      password_login: '',
+      searchVal: false
     }
   },
+  created() {
+  },
   methods: {
+    resetSearch(){
+        this.$store.dispatch('getdataQuestion')
+        this.searchVal = false
+    },
+    searchDone(){
+        this.$store.dispatch('fatchSearch',{ search : this.search })
+        this.searchVal = true
+    },
     signout(){
         localStorage.clear()
         this.$router.push('/')
@@ -206,6 +219,14 @@ export default {
 .input-search:focus{
     width:20rem;
     box-shadow: none;
+}
+.btn-search{
+    background-color: orangered;
+    color: white;
+}
+.btn-search:hover{
+    background-color: orangered;
+    color: white;
 }
 
 .input-border{

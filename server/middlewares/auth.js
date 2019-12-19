@@ -7,7 +7,6 @@ function authentication(req, res, next){
         let decodedToken = verifyToken(req.headers.token)
         UserModel.findOne({ _id : decodedToken.id })
             .then(user => {
-                console.log(user);
                 if(user){
                     req.loggedUser = decodedToken
                     next()

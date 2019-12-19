@@ -27,22 +27,7 @@ const UserSchema = new Schema({
         }
     },
     watchedTags:{
-        type: Array,
-        validate: {
-            validator: function(v){
-                models.User.findOne({ email: this.email })
-                    .then(user=>{
-                        user.watchedTags.forEach(tag=>{
-                            if (tag === v) {
-                                return false
-                            }
-                        })
-                        return true
-                    })
-                    .catch(console.log)
-            },
-            message:props => `tag is used, not be dublicated!`
-        }
+        type: Array
     }
 },{
     versionKey: false,

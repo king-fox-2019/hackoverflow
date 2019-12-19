@@ -5,7 +5,7 @@
     <div class="col-3 column-one pr-0" v-if="$route.path != '/questions/ask'">
       <div class="mt-5 d-flex justify-content-end">
         <div class="d-flex flex-column">
-        <button type="button" class="btn button-style-home" @click="$router.push('/question')"> Home </button>
+        <button type="button" class="btn button-style-home" @click="$router.push('/questions')"> Home </button>
         <span class="pr-1"><i>  <i class="fas fa-globe-asia mt-3"></i> PUBLIC </i></span>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-2"> Tags </button>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-1"> Popular </button>
@@ -73,23 +73,28 @@
               <span class="ml-1"> Watch Tags </span>
             </div>
             <div class="col text-right">
-              <button type="button" class="btn btn-sm p-0 edit-btn"> edit </button>
+              <button type="button" class="btn btn-sm p-0 edit-btn" @click="toogleWatchTag"> edit </button>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <div class="row">
+          <div class="row" v-if="watchTag">
             <div class="col">
               <div class="col">
                 <div class="input-group">
-                  <input type="text" class="form-control input-edit-tag" id="validationDefaultUsername" placeholder="" aria-describedby="inputGroupPrepend2" required>
+                  <input type="text" v-model="tagCustom" class="form-control input-edit-tag" id="validationDefaultUsername" placeholder="tags" aria-describedby="inputGroupPrepend2" required>
                   <div class="input-group-prepend">
-                    <button type="button" class="btn btn-edit-tag">Add</button>
+                    <button type="button" class="btn btn-edit-tag" @click="addTags">Add</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-row mt-1 text-left" v-for="(tag,i) in listWatchTags" :key="i">
+            <span class="badge badge-btn p-2 mr-1">{{ tag }} <button type="button" @click="deleteTag(i)" class="btn btn-danger btn-sm p-0 px-2">x</button></span>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -105,13 +110,118 @@
 <script>
 // @ is an alias to /src
 import Swal from 'sweetalert2'
+import axios from '../helpers/axios'
 import { mapState } from 'vuex'
 export default {
   name: 'home',
+  data() {
+    return {
+      tagCustom: '',
+      watchTag: false,
+      listWatchTags: [],
+    }
+  },
+  methods: {
+    deleteTag(index){
+      let temp = []
+      this.listWatchTags.forEach((tag,i)=>{
+        if (i != index) {
+          temp.push(tag)
+        }
+      })
+      this.listWatchTags = temp
+      this.addtagswatch(true)
+    },
+    addTags(){
+      let flag = false
+      this.listWatchTags.forEach(tag=>{
+        if (tag == this.tagCustom) {
+          flag = true
+        }
+      })
+      if (!flag) {
+        this.listWatchTags.push(this.tagCustom)
+        this.tagCustom = ''
+        this.watchTag = false
+        this.addtagswatch(false)
+      } else {
+        this.tagCustom = ''
+        Swal.fire({
+          title: 'Error!',
+          text: 'dublicated tag!',
+          icon: 'error',
+          // imageWidth: 400,
+          // imageHeight: 200,
+          timer: 1500,
+          imageAlt: 'Custom image',
+          showConfirmButton: false,
+          showCancelButton: false,
+          confirmButtonText: 'نعم',
+          cancelButtonText: 'لا'
+        })
+      }
+    },
+    toogleWatchTag(){
+      this.watchTag ? this.watchTag = false : this.watchTag = true
+    },
+    fecthUser(){
+      axios({
+        url: '/user/myaccount',
+        method: 'GET',
+        headers:{
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        this.listWatchTags = data.watchedTags
+      })
+      .catch(error=>{
+        console.log(error.response.data);
+      })
+    },
+    addtagswatch(condition){
+      let form = {
+        tag : this.listWatchTags,
+        condition
+      }
+      axios({
+        url: '/user/addWatchedTags',
+        method: 'PATCH',
+        data: form,
+        headers:{
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        this.fecthUser()
+        this.$store.dispatch('getdataQuestion')
+      })
+      .catch(error=>{
+        console.log(error);
+        Swal.fire({
+          title: 'Error!',
+          text: error.response.data.errors.join(' | '),
+          icon: 'error',
+          // imageWidth: 400,
+          // imageHeight: 200,
+          timer: 2500,
+          imageAlt: 'Custom image',
+          showConfirmButton: false,
+          showCancelButton: false,
+          confirmButtonText: 'نعم',
+          cancelButtonText: 'لا'
+        })
+      })
+    }
+  },
   components: {
   },
   created() {
     this.$store.dispatch('getdataQuestion')
+    this.fecthUser()
+    if(localStorage.getItem('token')){
+      this.$store.dispatch('getUser')
+    }
   },
   computed: mapState(['questions'])
 }

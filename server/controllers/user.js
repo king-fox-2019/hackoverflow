@@ -31,6 +31,13 @@ module.exports = {
             })
             .catch(next)
     },
+    findOne(req,res,next){
+        UserModel.findOne({ _id : req.loggedUser.id })
+            .then(user=>{{
+                res.status(200).json(user)
+            }})
+            .catch(next)
+    },
     findAll(req, res, next) {
         UserModel.find()
             .then(user => {
@@ -47,4 +54,32 @@ module.exports = {
         })
         .catch(next)
     },
+    updateWatchedTags(req,res,next){
+        const { tag, condition } = req.body
+        UserModel.findOne({ _id : req.loggedUser.id })
+            .then(user=>{
+                let flag = false
+                if (condition) { flag = false }
+                else if(!condition) {
+                    if (user.watchedTags.length > 0) {
+                        user.watchedTags.forEach(tagwatch=>{
+                            if (tag[tag.length-1] == tagwatch) {
+                                flag = true
+                                next({
+                                    status: 400,
+                                    message: `canot be dublicated, watched tags`
+                                })
+                            }
+                        })
+                    }
+                }
+                if (!flag) {
+                    return UserModel.findOneAndUpdate({ _id : req.loggedUser.id },{ watchedTags : tag },{ new:true, runValidators:true })
+                }
+            })
+            .then(user=>{{
+                res.status(200).json(user)
+            }})
+            .catch(next)
+    }
 }

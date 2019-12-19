@@ -33,6 +33,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getUser({ commit }){
+      axios({
+        url: '/user/myaccount',
+        method: 'GET',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        // console.log(data, '=> user vuex');
+        let payload = {
+          email: data.email,
+          image: data.image[0],
+          popular: data.popular
+        }
+        commit('SET_LOGIN', { payload })
+      })
+      .catch(error=>{
+        console.log(error.response.data);
+      })
+    },
     getdataQuestion({ commit }){
       axios({
         url: '/question',
@@ -42,7 +63,7 @@ export default new Vuex.Store({
         }
       })
       .then(({ data })=>{
-        console.log(data, '=> dari vuex');
+        // console.log(data, '=> dari vuex');
         commit('SET_DATA_QUESTIONS', data)
       })
       .catch(error=>{
@@ -50,7 +71,6 @@ export default new Vuex.Store({
       })
     },
     getQuestionShow({ commit },{ id }){
-      console.log(id);
       axios({
         url: '/question/'+id,
         method: 'GET',
@@ -59,8 +79,25 @@ export default new Vuex.Store({
         }
       })
       .then(({ data })=>{
-        console.log(data, '=> dari vuex show question');
+        // console.log(data, '=> dari vuex show question');
         commit('SET_DATA_QUESTION_ANSWER', data)
+      })
+      .catch(error=>{
+        console.log(error.response.data);
+      })
+    },
+    fatchSearch({ commit }, { search }){
+      axios({
+        url: '/question/search',
+        method: 'POST',
+        data: { search },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        console.log(data, '=> dari vuex show question');
+        commit('SET_DATA_QUESTIONS', data)
       })
       .catch(error=>{
         console.log(error.response.data);
