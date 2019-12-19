@@ -3,6 +3,8 @@ if(process.env.NODE_ENV==='development')
     require('dotenv').config()
 }
 require('./config/mongoose')
+require('./config/cron')
+
 
 const express = require('express')
 const app = express()
