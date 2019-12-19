@@ -6,8 +6,10 @@ require('./config/mongoose')
 const express = require('express'),
   app = express(),
   routes = require('./routes'),
-  errorHandler = require('./middlewares/errorHandler')
+  errorHandler = require('./middlewares/errorHandler'),
+  cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use('/', routes)

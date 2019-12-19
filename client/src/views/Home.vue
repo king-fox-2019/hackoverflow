@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
+  <b-container>
+    <b-row>
+      <ThreadList 
+            v-for="thread in $store.state.threads" 
+            :key="thread._id" 
+            :thread="thread" 
+          />
+    </b-row>
+  </b-container>
+</template> 
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import ThreadList from '../components/ThreadList.vue'
 export default {
-  name: 'home',
   components: {
-    HelloWorld
+    ThreadList
+  },
+  methods: {
+    fetchThread() {
+      this.$store.dispatch('fetchThread')
+    }
+  },
+  created() {
+    this.fetchThread()
   }
 }
 </script>
+
+<style>
+
+</style>
