@@ -1,5 +1,83 @@
 baseURL= http://localhost:3000
 
+-------errors------
+
+
+# **Error**
+
+- **code**  : 400
+- **name** : Bad Request
+	- **error response :**
+
+```
+{
+  "message": "Email is already used"
+}
+
+{
+  "message": "This user is already a member"
+}
+
+```
+
+- **code**  : 401
+- **name** : unauthorized
+
+	- **error response :**
+
+```
+{
+  "message": "your session is expired"
+}
+```
+
+- **code**  : 403
+- **name** : forbidden
+
+	- **error response :**
+
+```
+{
+  "message": "You are not authorized to perform this task"
+}
+```
+
+- **code**  : 404
+- **name** : Not Found
+
+	- **error response :**
+
+```
+{
+  "message": "User not found"
+}
+
+{
+  "message": "Todo not found"
+}
+
+{
+  "message": "Project not found"
+}
+```
+
+
+- **code**  : 500
+- **name** : Internal Server Error
+
+	- **error response :**
+
+```
+{
+  "message": "Internal Server Error"
+}
+
+{
+  "message": "Connection error due to server down"
+}
+```
+
+
 --------USER--------
 
 1. register
@@ -49,6 +127,7 @@ content example
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDRlZTM2Zjg3MTNjNTc1Nzk2Y2U2YSIsImVtYWlsIjoibmF0aEBtYWlsLmNvbSIsImlhdCI6MTU3NDIzNTg0MH0.dVEqPLqxkgKqG8kwreLl76HkoS0bZe2K0CPYtCIBOPs"
 }
 
+3. 
 
 
 --------QUESTION [CRUD]--------
