@@ -1,0 +1,16 @@
+if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
+  require('dotenv').config()
+}
+
+require('./config/mongoose')
+const express = require('express'),
+  app = express(),
+  routes = require('./routes'),
+  errorHandler = require('./middlewares/errorHandler')
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use('/', routes)
+app.use(errorHandler)
+
+module.exports = app
