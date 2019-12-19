@@ -7,7 +7,7 @@
       </h1>
       <div>
         <h1 id="h3">
-          {{$store.state.currentQuestion.description}}
+          <div v-html="$store.state.currentQuestion.description"></div>
         </h1>
       </div>
     </div>

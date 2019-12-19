@@ -20,16 +20,30 @@ class QuestionController {
       .catch(next);
   }
   static getAllQuestions(req, res, next) {
-    Question
-      .find()
-      .populate({
-        path: 'userId',
-        select: '-password',
-      })
-      .then((questions) => {
-        res.status(200).json(questions);
-      })
-      .catch(next);
+    if (req.query.q) {
+      const { q } = req.query;
+      Question
+        .find({ title : { $regex: q, $options: 'i' }})
+        .populate({
+          path: 'userId',
+          select: '-password',
+        })
+        .then((questions) => {
+          res.status(200).json(questions);
+        })
+        .catch(next);
+    } else {
+      Question
+        .find()
+        .populate({
+          path: 'userId',
+          select: '-password',
+        })
+        .then((questions) => {
+          res.status(200).json(questions);
+        })
+        .catch(next);
+    }
   }
   static myQuestions(req, res, next) {
     const { id } = req.token;

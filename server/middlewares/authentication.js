@@ -4,7 +4,8 @@ const { User } = require("../models");
 const { verify } = require('../helpers/jsonwebtoken');
 
 module.exports = (req, res, next) => {
-  const token = req.headers.token || null;
+  console.log(req.headers);
+  const token = req.headers.token
   if (token) {
     let decoded = verify(token);
     let { id } = decoded;

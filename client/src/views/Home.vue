@@ -9,6 +9,7 @@
       </section>
       <section id="routes">
         <b-button id="button" variant="warning"
+        to="/ask"
         v-show="$store.state.logged" size="lg"
         style="width: 15%" class="animated bounceInLeft delay-1s">ASK</b-button>
         <b-button id="button"

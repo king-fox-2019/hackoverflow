@@ -30,7 +30,7 @@ class AnswerController {
     const { id } = req.params
     Answer
       .updateOne({ _id: id}, { $inc: { upVotes: 1 } })
-      .then((data) => {
+      .then(() => {
         res.status(200).json({ message: 'Thank You!' });
       })
       .catch(next);

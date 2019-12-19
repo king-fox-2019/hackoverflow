@@ -35,7 +35,6 @@ export default {
   margin-top: 11%;
 }
 #form {
-  opacity: 70%;
   font-size: 1rem;
   border-radius: 2rem;
   width: 40% !important;

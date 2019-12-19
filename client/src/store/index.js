@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Swal from 'sweetalert2';
+import axiosReal from 'axios';
 import axios from '@/config/server';
 import router from '../router';
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     currentQuestion: {},
     currentComment: [],
     myQuestions: [],
+    editQuestions: {},
   },
   mutations: {
     SET_LOGGED(state, payload) {
@@ -33,23 +35,35 @@ export default new Vuex.Store({
     SET_MYQUESTIONS(state, payload) {
       state.myQuestions = payload;
     },
+    SET_EDIT(state, payload) {
+      state.editQuestions = payload;
+    },
   },
   actions: {
     votes({ dispatch }, payload) {
-      const { id, action, data } = payload;
-      const url = `/${data}/${action}/${id}`;
-      console.log(url);
-      axios
-        .patch(url)
-        .then((result) => {
-          Swal.fire(result.data.message);
-          dispatch('myQuestions');
-          dispatch('fetchQuestions');
+      if (localStorage.getItem('token')) {
+        const { id, action, data } = payload;
+        const url = `/${data}/${action}/${id}`;
+        axiosReal({
+          method: 'patch',
+          url: `http://54.169.7.220${url}`,
+          headers: {
+            token: localStorage.getItem('token'),
+          },
         })
-        .catch((err) => {
-          const fields = err.response.data.join(' | ');
-          Swal.fire(fields);
-        });
+          .then(() => {
+            dispatch('fetchQuestions');
+            if (data === 'answer') {
+              dispatch('updateComments');
+            }
+          })
+          .catch((err) => {
+            const fields = err.response.data.join(' | ');
+            Swal.fire(fields);
+          });
+      } else {
+        Swal.fire('Sorry, but you have to login first');
+      }
     },
     updateComments({ commit }) {
       axios
@@ -80,18 +94,31 @@ export default new Vuex.Store({
       dispatch('getComments', payload);
       commit('SET_CURRENT', payload);
     },
-    fetchQuestions({ commit }) {
-      axios
-        .get('/questions')
-        .then(({ data }) => {
-          commit('SET_QUESTIONS', data);
-        })
-        .catch((err) => {
-          const fields = err.response.data.join(' | ');
-          Swal.fire(fields);
-        });
+    fetchQuestions({ commit }, payload) {
+      if (payload) {
+        axios
+          .get(`/questions?q=${payload}`)
+          .then(({ data }) => {
+            commit('SET_QUESTIONS', data);
+          })
+          .catch((err) => {
+            const fields = err.response.data.join(' | ');
+            Swal.fire(fields);
+          });
+      } else {
+        axios
+          .get('/questions')
+          .then(({ data }) => {
+            commit('SET_QUESTIONS', data);
+          })
+          .catch((err) => {
+            const fields = err.response.data.join(' | ');
+            Swal.fire(fields);
+          });
+      }
     },
     logged({ commit }, payload) {
+      router.push({ name: 'home' });
       commit('SET_LOGGED', payload);
     },
     loginAttempt({ commit }, payload) {
@@ -105,12 +132,7 @@ export default new Vuex.Store({
           const { token } = data;
           localStorage.setItem('token', token);
           commit('SET_LOGGED', true);
-          Swal.fire(
-            'Login success',
-            'Welcome back!',
-            'success',
-          );
-          router.push({ name: 'home' });
+          router.push({ name: 'question' });
         })
         .catch((err) => {
           const fields = err.response.data.join(' | ');
@@ -137,6 +159,17 @@ export default new Vuex.Store({
             Swal.fire(fields);
           });
       }
+    },
+    askQuestion({ dispatch }, payload) {
+      axios
+        .post('/questions', payload)
+        .then(() => {
+          dispatch('fetchQuestions');
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
     },
     myQuestions({ commit }) {
       axios
@@ -174,6 +207,27 @@ export default new Vuex.Store({
           dispatch('myQuestions');
           dispatch('fetchQuestions');
           dispatch('updateComments');
+        })
+        .catch((err) => {
+          const fields = err.response.data.join(' | ');
+          Swal.fire(fields);
+        });
+    },
+    setEdit({ commit }, payload) {
+      commit('SET_EDIT', payload);
+    },
+    sentEdit({ dispatch, commit }, payload) {
+      const { title, description, id } = payload;
+      const url = `questions/${id}`;
+      axios
+        .put(url, {
+          title,
+          description,
+        })
+        .then(() => {
+          commit('SET_EDIT', {});
+          dispatch('fetchQuestions');
+          router.push({ name: 'question' });
         })
         .catch((err) => {
           const fields = err.response.data.join(' | ');

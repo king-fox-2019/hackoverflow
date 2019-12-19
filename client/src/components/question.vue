@@ -40,6 +40,7 @@ export default {
   methods: {
     detail(question) {
       this.$store.dispatch('current', question);
+      this.$store.dispatch('getComments', question);
     },
     vote(payload) {
       this.$store.dispatch('votes', payload);

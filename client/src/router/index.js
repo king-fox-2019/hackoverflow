@@ -35,6 +35,16 @@ const routes = [
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/login.vue'),
   },
+  {
+    path: '/ask',
+    name: 'ask',
+    component: () => import(/* webpackChunkName: "ask" */ '../views/postQuestions.vue'),
+  },
+  {
+    path: '/edit/:id',
+    name: 'edit',
+    component: () => import(/* webpackChunkName: "edit" */ '../views/editQuestion.vue'),
+  },
 ];
 
 const router = new VueRouter({

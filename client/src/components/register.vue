@@ -28,6 +28,9 @@ export default {
         password: this.password,
       };
       this.$store.dispatch('register', payload);
+      this.fullname = '';
+      this.email = '';
+      this.password = '';
     },
   },
 };
