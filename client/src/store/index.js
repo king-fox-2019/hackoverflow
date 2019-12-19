@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../../helper/server'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
       } else {
         state.isLogin = false
       }
+      router.push('/')
     }
   },
   actions: {
@@ -59,7 +61,7 @@ export default new Vuex.Store({
               title: 'You are successfully login'
             })
             context.commit('SET_USER', data)
-            // this.$router.push('/')
+            router.push('/')
           })
           .catch(err => {
             Swal.fire({
@@ -68,6 +70,29 @@ export default new Vuex.Store({
               text: err.response.data.message
             })
           })
+    },
+    register(context, formData) {
+      axios({
+        url: '/register',
+        method: 'POST',
+        data: formData
+      })
+        .then(({data}) => {
+          console.log(data)
+          Swal.fire({
+            icon: 'success',
+            title: 'You are successfully registered'
+          })
+          context.commit('SET_USER', data)
+          router.push('/')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
     }
   },
   modules: {

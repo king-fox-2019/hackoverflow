@@ -9,10 +9,16 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 export default {
   methods: {
     logout() {
       localStorage.clear()
+      Swal.fire({
+        icon: 'success',
+        title: 'You are successfully logout'
+      })
       this.$store.commit('CHECK_LOGIN')
     }
   }
