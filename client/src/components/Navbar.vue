@@ -71,6 +71,7 @@ export default {
     addQuestion () {
       this.$bvModal.hide('modal-qestion')
       this.$store.dispatch('addQuestion', this.question)
+      this.question = ''
     }
   }
 }

@@ -143,6 +143,7 @@ export default {
       this.$store.dispatch('addAnswer', payload)
         .then(() => {
           this.viewAnswer()
+          this.answer = ''
         })
       this.$bvModal.hide(`modal-${this.question._id}`)
     }

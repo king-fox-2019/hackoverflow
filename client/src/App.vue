@@ -12,6 +12,11 @@ export default {
   components: {
     Navigation
   },
+  sockets: {
+    fetchQuestion: function () {
+      this.$store.dispatch('fetchData')
+    }
+  },
   created () {
     this.$store.dispatch('checkLogin')
   }
