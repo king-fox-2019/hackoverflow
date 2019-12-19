@@ -41,7 +41,12 @@ const routes = [
     path: '/questions/:id',
     name: 'questionDetail',
     component: () =>
-      import(/* webpackChunkName: "question" */ '@/views/Question.vue')
+      import(/* webpackChunkName: "question" */ '@/views/Question.vue'),
+    children: [
+      {
+        path: 'editanswer/:answerId'
+      }
+    ]
   }
 ]
 

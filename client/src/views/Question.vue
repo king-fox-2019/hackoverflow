@@ -59,6 +59,7 @@
         <b-button
           class="text-right"
           variant="outline-secondary"
+          size="sm"
           v-if="question.author._id == $store.state.id"
           :to="`/edit/${question._id}`"
           >Edit Question</b-button
@@ -108,17 +109,36 @@
             </div>
           </template>
           <p v-html="answer.content"></p>
-          <small class="text-muted float-right">
-            {{ answer.author.email }}
-          </small>
+          <div class="text-right mr-3">
+            <small class="text-muted d-block mb-2">
+              {{
+                answer.author._id == $store.state.id
+                  ? 'You'
+                  : answer.author.email
+              }}</small
+            >
+            <b-button
+              class="text-right"
+              variant="outline-secondary"
+              size="sm"
+              v-if="answer.author._id == $store.state.id"
+              :to="`/questions/${$route.params.id}/editanswer/${answer._id}`"
+              >Edit Answer</b-button
+            >
+          </div>
         </b-media>
       </div>
     </ul>
     <div class="editor-wrapper">
       <hr class="mt-5 border-primary" />
-      <h4 class="d-inline-block mr-5 mb-0">Write your answer</h4>
-      <b-button class="mb-2  mt-2 mt-sm-0" variant="primary" @click="postAnswer"
-        >Post Answer</b-button
+      <h4 class="d-inline-block mr-5 mb-0">
+        {{ $route.params.answerId ? 'Edit Answer' : 'Write your answer' }}
+      </h4>
+      <b-button
+        class="mb-2  mt-2 mt-sm-0"
+        variant="primary"
+        @click="postAnswer"
+        >{{ $route.params.answerId ? 'Save' : 'Post Answer' }}</b-button
       >
       <vue-editor
         class="mt-2 mb-5"
@@ -144,9 +164,24 @@ export default {
       content: ''
     }
   },
+  watch: {
+    '$route.params.answerId'(val) {
+      if (val) {
+        for (const answer of this.question.answers) {
+          if (answer._id == val) {
+            this.content = answer.content
+            return window.scrollTo(0, document.body.scrollHeight)
+          }
+        }
+      } else {
+        this.content = ''
+        this.getQuestionDetail()
+      }
+    }
+  },
   methods: {
     getQuestionDetail() {
-      this.$store
+      return this.$store
         .dispatch('getQuestionDetail', this.$route.params.id)
         .then(({ data }) => (this.question = data.data))
         .catch(({ response }) => {
@@ -190,10 +225,17 @@ export default {
       }
 
       this.$store
-        .dispatch('postAnswer', { content, id: this.$route.params.id })
+        .dispatch(this.$route.params.answerId ? 'editAnswer' : 'postAnswer', {
+          content,
+          id: this.$route.params.id,
+          answerId: this.$route.params.answerId
+        })
         .then(({ data }) => {
           this.$toasted.show(data.message)
-          this.getQuestionDetail()
+          if (this.$route.params.answerId)
+            this.$router.push(`/questions/${this.$route.params.id}`)
+          else this.getQuestionDetail()
+          this.content = ''
         })
         .catch(({ response }) =>
           response.data.message.forEach(msg =>
@@ -203,7 +245,16 @@ export default {
     }
   },
   created() {
-    this.getQuestionDetail()
+    this.getQuestionDetail().then(() => {
+      if (this.$route.params.answerId) {
+        for (const answer of this.question.answers) {
+          if (answer._id == this.$route.params.answerId) {
+            this.content = answer.content
+            return window.scrollTo(0, document.body.scrollHeight)
+          }
+        }
+      }
+    })
   }
 }
 </script>
@@ -219,7 +270,7 @@ export default {
 }
 
 .editor-wrapper {
-  height: 80vh;
+  height: 70vh;
 }
 
 .quillWrapper {

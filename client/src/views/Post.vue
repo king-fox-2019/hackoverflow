@@ -121,11 +121,9 @@ export default {
   },
   created() {
     if (this.$route.params.id) {
-      console.log('sini')
       this.$store
         .dispatch('getQuestionDetail', this.$route.params.id)
         .then(({ data }) => {
-          console.log(data)
           const question = data.data
           this.title = question.title
           this.description = question.description

@@ -105,6 +105,14 @@ export default new Vuex.Store({
         { content: payload.content },
         { headers: { access_token } }
       )
+    },
+    editAnswer(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(
+        `answers/${payload.answerId}`,
+        { content: payload.content },
+        { headers: { access_token } }
+      )
     }
   },
   modules: {}
