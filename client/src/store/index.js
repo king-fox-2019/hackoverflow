@@ -8,11 +8,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     allQuestion: [],
-    oneQuestion: [],
+    oneQuestion: {},
     answerToOne: [],
     isLogin: false
   },
   mutations: {
+    setisLogin(state, payload){
+      state.isLogin = payload
+    },
     FetchAllQuestion(state, payload) {
       state.allQuestion = payload
     },
@@ -21,7 +24,6 @@ export default new Vuex.Store({
     },
     FetchOne(state, payload){
       state.answerToOne = payload
-      console.log(payload, 'asdasdasd');
     }
   },
   actions: {
@@ -31,7 +33,6 @@ export default new Vuex.Store({
         method: 'get'
       })
         .then(({ data }) => {
-          // console.log(data);
           context.commit('FetchAllQuestion', data)
         })
         .catch((err) => {
@@ -39,12 +40,11 @@ export default new Vuex.Store({
         })
     },
     FetchOneQuestion({ commit }, payload) {
-      axios({
+      return axios({
         url: `http://localhost:3000/questions/${payload}`,
         method: 'get'
       })
         .then(({ data }) => {
-          // console.log(data);
           commit('FetchOneQuestion', data)
         })
         .catch((err) => {

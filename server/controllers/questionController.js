@@ -16,7 +16,6 @@ class Controller {
     }
 
     static delete(req, res, next) {
-        console.log('asdasdasdasdasdasdasdas');
         Tanya.findByIdAndDelete(req.params.id)
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
@@ -49,6 +48,7 @@ class Controller {
     }
 
     static updateQuestion(req, res, next) {
+        console.log(req.body);
         Tanya.findByIdAndUpdate(req.params.id, {
             title: req.body.title,
             body: req.body.body,

@@ -21,7 +21,7 @@
           <hr />
           <div style="display: flex; flex-direction: row;justify-content: space-around">
             <b-card-text>{{date}}</b-card-text>
-            <b-card-text>{{data.asker.username}}</b-card-text>
+            <b-card-text>{{asker.username}}</b-card-text>
           </div>
         </div>
       </div>
@@ -47,7 +47,6 @@ export default {
           // this.$store.dispatch("FetchAllQuestion");
           this.$store.dispatch("FetchOneQuestion", this.$route.params.id);
           this.$store.dispatch("FetchTheAnswer", this.$route.params.id);
-          console.log("likes", result);
         })
         .catch(err => {
           swal.fire(err.response.data.message);
@@ -71,15 +70,16 @@ export default {
     }
   },
   mounted() {
-    console.log(this.data, "ini data");
-    console.log(this.$route.name);
   },
   computed: {
     totalVote() {
-      return this.data.upVotes.length - this.data.downVotes.length;
+      return this.data.upVotes ? (this.data.upVotes.length - this.data.downVotes.length): "" ;
     },
     date() {
       return new Date(this.data.createdAt).toLocaleString();
+    },
+    asker(){
+      return this.data.asker ? (this.data.asker): ""
     }
   }
 };

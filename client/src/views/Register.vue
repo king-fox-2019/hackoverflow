@@ -90,14 +90,14 @@ export default {
         data: this.form
       })
         .then(({ data }) => {
-          swal.fire(`Welcome ${data.user.username}!`);
+          swal.fire(`Welcome ${data.userDataSent.username}!`);
           localStorage.setItem("token", data.token);
+          localStorage.setItem('id', data.userDataSent.id)
           this.$router.push("/");
-          this.$store.state.isLogin = true
+          this.$store.commit('setisLogin', data.userDataSent.id)
         })
         .catch(err => {
           swal.fire(err.response.data.message);
-          console.log(err.response.data.message);
         });
     }
   }

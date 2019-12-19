@@ -1,4 +1,10 @@
 <template>
+<div>
+
+<div v-if="!allQuestion.length" style="margin-top:10vh">
+  <img src="https://i.kym-cdn.com/photos/images/original/001/043/243/419.gif" alt="">
+  <h2><b>Nothing on the list</b></h2>
+</div>
   <div class="overflow-auto">
     <div v-for="(item, index) in allQuestion" :key="index" id="my-table">
       <!-- {{allQuestion}} -->
@@ -6,6 +12,7 @@
         <Card :data="item" />
       </router-link>
     </div>
+  </div>
   </div>
 </template>
 
@@ -21,13 +28,11 @@ export default {
   },
   computed: {
     allQuestion() {
-      console.log("masuk");
       return this.$store.state.allQuestion;
     }
   },
   created() {
     this.$store.dispatch("FetchAllQuestion");
-    console.log(this.$route.name, "nama route");
   },
   mounted() {
     // this.items = this.allQuestion

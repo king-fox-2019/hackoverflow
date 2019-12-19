@@ -1,5 +1,6 @@
 require('dotenv').config()
 require('./config/mongoose')
+require('./helpers/cron')
 
 const express = require('express')
 const app = express()

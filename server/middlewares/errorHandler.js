@@ -24,7 +24,7 @@ module.exports = {
                 break;
 
             case 'Password incorrect':
-                statusCode = 403;
+                statusCode = 400;
                 messageError = "Password incorrect";
                 break;
 

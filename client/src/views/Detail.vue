@@ -1,7 +1,20 @@
 <template>
   <div id="container">
     <h1>Question</h1>
-    <b-button v-if="this.$store.state.isLogin" variant="danger" @click.prevent="deleteThis(item._id)">Delete</b-button>
+    <div style="display: flex; flex-direction: row;">
+      <b-button
+        v-if="userId == item.asker._id"
+        variant="danger"
+        @click.prevent="deleteThis(item._id)"
+      >Delete</b-button>
+      <Edit
+        style="margin: 0px 15px"
+        :data="item"
+        v-if="userId == item.asker._id"
+        variant="outline-info"
+        @click.prevent="updateThis(item._id)"
+      />
+    </div>
     <hr />
     <br />
     <div id="card" style="width:70%">
@@ -29,15 +42,22 @@
 import Card from "../components/Card";
 import AnswerCard from "../components/AnswerCard";
 import AddAnswer from "../components/AddAnswer";
-import axios from 'axios';
-import swal from 'sweetalert2';
+import axios from "axios";
+import swal from "sweetalert2";
+import Edit from "../components/updateQuestion";
 
 export default {
   name: "detail",
   components: {
     Card,
     AnswerCard,
-    AddAnswer
+    AddAnswer,
+    Edit
+  },
+  data(){
+    return{
+      userId: localStorage.getItem('id')
+    }
   },
   created() {
     this.$store.dispatch("FetchOneQuestion", this.$route.params.id);
@@ -52,22 +72,21 @@ export default {
     }
   },
   mounted() {
-    console.log("this answers", this.answers);
   },
-  methods:{
-    deleteThis(id){
+  methods: {
+    deleteThis(id) {
       axios({
         url: `http://localhost:3000/questions/${id}`,
-        method: 'delete',
-        headers: {token: localStorage.getItem('token')}
+        method: "delete",
+        headers: { token: localStorage.getItem("token") }
       })
-      .then((result) => {
-        this.$router.push('/')
-        swal.fire('Deleted')
-      })
-      .catch((err) => {
-        swal.fire(err.response.data.message)
-      });
+        .then(result => {
+          this.$router.push("/");
+          swal.fire("Deleted");
+        })
+        .catch(err => {
+          swal.fire('Its not yours');
+        });
     }
   }
 };
