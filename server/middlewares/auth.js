@@ -30,14 +30,14 @@ function authenticating(req, res, next) {
 }
 
 function authorizating(req, res, next) {
+    console.log(req.baseUrl);
     let Model = ''
-    if (req.baseUrl.includes('questions')) Model = Question
-    else if (req.baseUrl.includes('answers')) Model = Answer
-    else if (req.baseUrl.includes('users')) Model = User
-    console.log('masuk try', req.params);
+    if (req.baseUrl.includes('questions')) {Model = Question}
+    else if (req.baseUrl.includes('answers')) {Model = Answer}
+    else if (req.baseUrl.includes('users')) {Model = User}
     Model.findById(req.params.id)
         .then((model) => {
-            console.log(req.params);
+            console.log(req.params, 'auya');
             if (!model) {
                 next({ status: 404, msg: `${Model} not found` })
             } else if (model.asker != req.decode.id) {
@@ -47,7 +47,7 @@ function authorizating(req, res, next) {
             }
         })
         .catch(next);
-    next({ status: 500, msg: "Something went wrong" })
+    // next({ status: 500, msg: "Something went wrong" })
 }
 
 

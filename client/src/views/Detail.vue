@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <h1>Question</h1>
-    <b-button >Delete</b-button>
+    <b-button v-if="this.$store.state.isLogin" variant="danger" @click.prevent="deleteThis(item._id)">Delete</b-button>
     <hr />
     <br />
     <div id="card" style="width:70%">
@@ -29,6 +29,8 @@
 import Card from "../components/Card";
 import AnswerCard from "../components/AnswerCard";
 import AddAnswer from "../components/AddAnswer";
+import axios from 'axios';
+import swal from 'sweetalert2';
 
 export default {
   name: "detail",
@@ -51,6 +53,22 @@ export default {
   },
   mounted() {
     console.log("this answers", this.answers);
+  },
+  methods:{
+    deleteThis(id){
+      axios({
+        url: `http://localhost:3000/questions/${id}`,
+        method: 'delete',
+        headers: {token: localStorage.getItem('token')}
+      })
+      .then((result) => {
+        this.$router.push('/')
+        swal.fire('Deleted')
+      })
+      .catch((err) => {
+        swal.fire(err.response.data.message)
+      });
+    }
   }
 };
 </script>

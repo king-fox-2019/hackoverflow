@@ -16,7 +16,8 @@ class Controller {
     }
 
     static delete(req, res, next) {
-        Tanya.deleteOne(req.params.id)
+        console.log('asdasdasdasdasdasdasdas');
+        Tanya.findByIdAndDelete(req.params.id)
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })
