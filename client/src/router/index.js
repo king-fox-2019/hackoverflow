@@ -32,6 +32,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "ask" */ '../views/Ask.vue')
   },
   {
+    path: '/editor/:id',
+    name: 'editor',
+    // route level code-splitting
+    // this generates a separate chunk (ask.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "edit" */ '../views/Edit.vue')
+  },
+  {
     path: '/questions/:id',
     name: 'questions',
     // route level code-splitting
@@ -45,7 +53,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (question.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "question" */ '../views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
     path: '/personal',

@@ -10,13 +10,9 @@
                         <h4>{{detailQuestion.upVotes.length - detailQuestion.downVotes.length}}</h4>
                         <a style="margin-top:-20px;" @click="downVoteQuestion(detailQuestion._id)"> <i class="fas fa-sort-down"></i></a>
                     </div>
-                    <div class="content">
-                        <p>
-                            {{detailQuestion.question}}
-                        </p>
-                    </div>
                 </div>
             </div>
+                  
             
         <div class="title" style="width:70%;marginleft:250px">
         <p style="text-align:left;">Question title</p>
@@ -42,8 +38,15 @@
         <button type="button" class="btn btn-primary" @click="ask" style="height:50px;" >Ask Question</button>
       </div>
         <br>
+        
     <br>
     <br>
+            <div class="content">
+                <p style="text-align:left;" v-html="detailQuestion.question">
+                    <!-- {{detailQuestion.question}} -->
+                </p>
+            </div>
+
     <p style="text-align:left;margin-left:50px;font-size:24px;">Answers  : </p>
     <hr> 
     <br>

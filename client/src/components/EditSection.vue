@@ -1,8 +1,8 @@
 <template>
   <div class="col-6">
-    <h3 style="text-align:left;margin-left:50px;">Ask Section</h3>
+    <h3 style="text-align:left;margin-left:50px;">Edit Section</h3>
       <div class="question">
-          <form @submit.prevent="addQuestion">
+          <form @submit.prevent="editQuestion">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
                 <input v-model="title" type="text" class="form-control" id="text" aria-describedby="text">
@@ -27,7 +27,9 @@
 </template>
 
 <script>
+
 import VueTagsInput from '@johmun/vue-tags-input';
+import { mapState } from 'vuex';
 export default {
     data(){
         return{
@@ -35,26 +37,39 @@ export default {
             tag: '',
             tags: [],
             title: '',
+            questionId:''
         }
     },
+    computed : mapState(['detailQuestion']),
     components: {
         VueTagsInput,
     },
     methods:{
-        addQuestion(){
-            // let formData = new FormData
-            // formdata
-            let tags= []
+        editQuestion(){
+            this.$router.push(`/personal`)
+        let tags= []
             for(let i = 0 ; i < this.tags.length ; i++){
                 tags.push(this.tags[i].text)
             }
             let payload = {
                 title : this.title,
                 question : this.myHTML,
-                tags: tags
+                tags: tags,
+                questionId : this.questionId
             }
-            // console.log(payload)
-            this.$store.dispatch('addQuestion',payload)
+            this.$store.dispatch('editQuestion',payload)
+        }
+    },
+    created(){
+        this.$store.dispatch('fetchQuestionById',this.$route.params.id)
+    },
+    watch: {
+        detailQuestion(val){
+            console.log(val)
+            this.myHTML = val.question
+            this.title = val.title
+            this.tags = val.tags
+            this.questionId = val._id
         }
     }
 

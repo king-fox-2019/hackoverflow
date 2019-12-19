@@ -26,7 +26,7 @@
                 <a class="card-text" style="text-align:left;font-size:22px;font-weight:500">{{question.title}}</a>
                 <br>
                 <div class="tags">
-                    <button type="button" class="btn btn-warning" style="margin-right:10px;">Update</button>
+                    <button @click="edit(question._id)" type="button" class="btn btn-warning" style="margin-right:10px;">Update</button>
                     <button @click="remove(question._id)" type="button" class="btn btn-secondary" >Delete</button>
                 </div>
                 </div>
@@ -46,7 +46,10 @@ export default {
     methods : {
       remove(id){
           this.$store.dispatch('deleteQuestion',id)
-      }
+      },
+       edit(id){
+            this.$router.push(`/editor/${id}`)
+        },
     },
     created(){
       this.$store.dispatch('fetchMyQuestion')

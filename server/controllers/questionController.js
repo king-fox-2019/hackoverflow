@@ -17,7 +17,6 @@ class QuestionController {
     }
     
     static create(req,res,next){
-        // console.log(req.body)
         Question.create({
             userId : req.loggedUser._id,
             title : req.body.title,
@@ -82,10 +81,7 @@ class QuestionController {
         Question.deleteOne({
             _id : req.params.id
         })
-        .then(question => {
-            return Answer.deleteMany({
-                questionId : question._id
-            })
+        .then(() => {
             res.status(200).json({ message : 'question deleted!' })
         })
         .catch(next)
@@ -95,14 +91,18 @@ class QuestionController {
 
     
     static editQuestion(req,res,next){
-        const { title, text, tags } = req.body; 
+        // console.log('halo halo aglo')
         Question.updateOne({_id : req.params.id},{
-            title,text,tags
+            title : req.body.title,
+            question : req.body.question,
+            tags : req.body.tags,
         })
         .then( data =>{
             res.status(200).json(data)
         })
-        .catch(next)
+        .catch(err => {
+            next(err)
+        })
     }
 
     static upVotes(req,res,next){
@@ -287,14 +287,13 @@ class QuestionController {
             let TopThree = []
             for(let i = 0 ; i < questions.length; i++){
                 for(let j = 0 ; j < questions.length-1; j++){
-                        if(questions[j].upVotes.length < questions[j+1].upVotes.length){
-                            let temp = questions[j].upVotes
-                            questions[j].upVotes = questions[j+1].upVotes
-                            questions[j+1].upVotes = temp
+                        if((questions[j].upVotes.length + questions[j].downVotes.length) < (questions[j+1].upVotes.length + questions[j+1].downVotes.length)){
+                            let temp = questions[j]
+                            questions[j] = questions[j+1]
+                            questions[j+1] = temp
                         }
                     }
                 }
-                
             
             TopThree.push(questions[0]._id,questions[1]._id,questions[2]._id)
                return TopThisWeek.create({
@@ -320,7 +319,8 @@ class QuestionController {
             }
         })
             .then(data => {
-                res.status(200).json(data[0])
+                // console.log(data[0],'dari topthree')
+                res.status(200).json(data[data.length-1])
             })
             .catch(err => {
                 next(err)

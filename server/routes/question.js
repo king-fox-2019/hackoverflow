@@ -8,9 +8,9 @@ router.post('/topthree', question.createTopThree)
 const authorization = (req,res,next) => {
     Question.findOne({_id : req.params.id})
         .then(question => {
-            // console.log(question.userId,req.loggedUser._id)
+            console.log(question.userId,req.loggedUser._id)
             if(question.userId.toString() == req.loggedUser._id.toString()){
-                // console.log('bnerhasil?')
+                console.log('bnerhasil?')
                 next()
             }else{
                 next({
@@ -25,6 +25,7 @@ const authorization = (req,res,next) => {
 }
 
 router.use(authentication)
+router.put('/:id',authorization,question.editQuestion)
 router.delete('/:id',authorization, question.deleteQuestion)
 router.get('/myquestion', question.findByUserId)
 router.get('/topthree', question.GetTopThree)

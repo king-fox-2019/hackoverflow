@@ -8,7 +8,7 @@ new CronJob('* * * * *', function() {
        method : "post",
        url: "http://localhost:3000/questions/topthree",
    })
-   .then(data => {
+   .then(({data}) => {
        console.log(data)
    })
    .catch(err => {

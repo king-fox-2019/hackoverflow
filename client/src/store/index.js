@@ -45,6 +45,28 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    editQuestion({commit},payload){
+      // console.log(payload)
+      fetchApi({
+        method : 'put',
+        url:`questions/${payload.questionId}`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+        data :{
+          title : payload.title,
+          question : payload.question,
+          tags: payload.tags
+        }
+      })
+      .then(({data}) => {
+        // console.log(data)
+        this.dispatch('fetchMyQuestion')
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
     deleteQuestion({commit},payload){
       fetchApi({
         method : 'delete',
@@ -82,7 +104,7 @@ export default new Vuex.Store({
         url:`questions/topthree`,
       })
       .then(({data}) => {
-        // console.log(data.questionId)
+        console.log(data,'from top three')
         commit('GET_TOP_THREE',data.questionId)
       })
       .catch(({message}) => {

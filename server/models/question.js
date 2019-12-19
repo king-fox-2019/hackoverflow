@@ -24,6 +24,9 @@ const QuestionSchema = new Schema ({
     createdAt : {
         type : Date
     },
+    question : {
+        type : String
+    },
     upVotes: [
         {
             type: Schema.Types.ObjectId,
