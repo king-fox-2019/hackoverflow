@@ -38,7 +38,7 @@ export default {
         addQuestion(){
             axios({
                 method:'post',
-                url:'http://localhost:34.66.242.14/question',
+                url:'http://34.66.242.14/question',
                 headers:{token:localStorage.getItem('token')},
                 data:{
                     title:this.title,

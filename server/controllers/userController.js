@@ -9,7 +9,7 @@ class userController{
             email:req.body.email
         })
         .then(user=>{
-            let token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+            let token = jwt.sign({id:user._id},'secret')
             res.status(201).json({name:user.name,token})
         })
         .catch(next)
@@ -19,7 +19,7 @@ class userController{
         .then(user=>{
             if(user){
                 if(user.password===req.body.password){
-                    let token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+                    let token = jwt.sign({id:user._id},'secret')
                     res.status(201).json({name:user.name,token})
                 }else{
                     throw {name:404,message:'user not found'}

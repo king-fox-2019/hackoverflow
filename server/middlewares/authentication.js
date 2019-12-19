@@ -3,7 +3,7 @@ const User = require('../models/user')
 
 function authentication(req,res,next){
     if(req.headers.token){
-        let decoded = jwt.verify(req.headers.token,process.env.JWT_SECRET)
+        let decoded = jwt.verify(req.headers.token,'secret')
         req.decoded = decoded
         User.findById(decoded.id)
         .then(user=>{
