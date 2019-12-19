@@ -59,7 +59,7 @@
             <form @submit.prevent="postAnswer($store.state.question._id)">
               <div class="form-group">
                 <br />
-                <quill v-model="answerDesc" :config="config" output="html" style="heigth: 60px;"></quill>
+                <quill ref="quill"  v-model="answerDesc" :config="config" output="html" style="heigth: 60px;"></quill>
               </div>
               <b-button type="submit" variant="warning">Post your answer</b-button>
             </form>
@@ -122,6 +122,7 @@ export default {
         })
           .then(({ data }) => {
             this.answerDesc = ''
+            this.$refs.quill.$emit('set-content', [{ insert: '' }])
             Swal.fire({
               icon: 'success',
               title: 'Posted an answer!',
@@ -146,12 +147,6 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Upvoted!',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // })
         })
         .catch(err => {
           console.log(err)
@@ -168,12 +163,6 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Downvoted!',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // })
         })
         .catch(err => {
           console.log(err)
@@ -190,12 +179,6 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Upvoted!',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // })
         })
         .catch(err => {
           console.log(err)
@@ -212,12 +195,6 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Downvoted!',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // })
         })
         .catch(err => {
           console.log(err)

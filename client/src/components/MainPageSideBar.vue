@@ -59,12 +59,6 @@ export default {
         }
       })
         .then(({ data }) => {
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Tag(s) added',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // })
           this.$store.dispatch('fetchUserData')
           this.tags = []
         })

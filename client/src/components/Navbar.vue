@@ -29,8 +29,7 @@ export default {
       this.$router.push('/register')
     },
     logout () {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
+      localStorage.clear()
       this.$store.commit('setLogin', false)
       Swal.fire({
         icon: 'success',

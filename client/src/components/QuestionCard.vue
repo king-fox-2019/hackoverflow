@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     toQuestionDetailPage (questionId) {
-      // this.$router.push('/main/question-details', QuestionData)
       this.$store.dispatch('getQuestionDetails', questionId)
     }
   }

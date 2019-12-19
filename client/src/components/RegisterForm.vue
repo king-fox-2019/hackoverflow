@@ -75,7 +75,7 @@ export default {
         })
         .catch(err => {
           console.log(err.response)
-          Swal.fire('Errors', `${err.response.data.msg}`, `error`)
+          Swal.fire('Errors', `${err.response.data.errors}`, `error`)
         })
     }
   }

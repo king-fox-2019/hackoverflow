@@ -25,7 +25,6 @@ export default new Vuex.Store({
       state.questions = payload
     },
     setQuestionData (state, payload) {
-      console.log(payload)
       state.question = payload
     },
     setAllUsersQuestions (state, payload) {
@@ -155,6 +154,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          console.log(data.tags)
           commit('setUserData', data)
         })
         .catch(err => {

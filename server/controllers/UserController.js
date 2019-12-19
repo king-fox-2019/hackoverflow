@@ -72,7 +72,6 @@ class UserController {
 
   static deleteTag(req, res, next) {
     let tags = req.body.tags
-    console.log(tags);
     let id = req.loggedUser.id
     User.updateOne({ _id: id }, { $pull: { tags: { $in: tags } } })
       .then(_ => {
