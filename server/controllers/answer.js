@@ -29,7 +29,13 @@ class AnswerController {
         if(answer.votes.includes(req.loggedUser.id)) {
           next({status: 401, message: "already voted"})
         } else if (answer.downvotes.includes(req.loggedUser.id)){
-          next({status: 401, message: "already voted"})
+          Answer.updateOne({ _id: answer}, { $pull: { downvotes: req.loggedUser.id } })
+            .then(n => {
+              Answer.updateOne({ _id: answer}, { $push: { votes: req.loggedUser.id } })
+              .then(n => {
+                res.status(200).json({message: 'success upvote'})
+              })
+            })
         } else {
           Answer.updateOne({ _id: answer}, { $push: { votes: req.loggedUser.id } })
             .then(n => {
@@ -43,10 +49,16 @@ class AnswerController {
     let { answer } = req.body
     Answer.findOne({ _id: answer})
       .then(answer => {
-        if(answer.votes.includes(req.loggedUser.id)) {
+        if(answer.downvotes.includes(req.loggedUser.id)) {
           next({status: 401, message: "already voted"})
-        } else if (answer.downvotes.includes(req.loggedUser.id)){
-          next({status: 401, message: "already voted"})
+        } else if (answer.votes.includes(req.loggedUser.id)){
+          Answer.updateOne({ _id: answer}, { $pull: { votes: req.loggedUser.id } })
+            .then(n => {
+              Answer.updateOne({ _id: answer}, { $push: { downvotes: req.loggedUser.id } })
+              .then(n => {
+                res.status(200).json({message: 'success downvote'})
+              })
+            })
         } else {
           Answer.updateOne({ _id: answer}, { $push: { downvotes: req.loggedUser.id } })
             .then(n => {
