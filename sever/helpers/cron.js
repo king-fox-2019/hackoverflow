@@ -12,7 +12,7 @@ var nodemailer = require('nodemailer')
 
 // console.log(process.env.EMAIL);
 
-let time = '*/1 * * * *'
+let time = '0 6 * * 1'
 
 function cron (){
   new CronJob(time, function() {
