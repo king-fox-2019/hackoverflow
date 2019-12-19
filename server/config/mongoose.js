@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const mongoUri = process.env.MONGO_URI
+const mongoUri = process.env.MONGO_URI_ATLAS
 
 mongoose.connect(mongoUri, {
     useCreateIndex: true,
