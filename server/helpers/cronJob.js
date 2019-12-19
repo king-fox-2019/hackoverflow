@@ -12,13 +12,13 @@ function cron (){
         let transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
-            user: `${process.env.CRON_EMAIL}`,
-            pass: `${process.env.CRON_EMAIL_PASSWORD}`
+            user: `${process.env.CRON_EMAIL_HACKTIFLOW}`,
+            pass: `${process.env.CRON_EMAIL_PASSWORD_HACKTIFLOW}`
           }
         });
           
         var mailOptions = {
-          from: `${process.env.CRON_EMAIL}`,
+          from: `${process.env.CRON_EMAIL_HACKTIFLOW}`,
           to: `${user.email}`,
           subject: 'Hacktiflow',
           text: `Hello ${user.name}! Please check out our monthly newsletter on the link below.`
