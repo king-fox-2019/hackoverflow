@@ -42,18 +42,28 @@ class UserController {
             token, username: user.username
           }
           res.status(200).json({ data })
+        } else if (!user) {
+          next({ status: 400, message: "wrong email or you are not registered yet" })
         } else {
-          next({ status: 400, message: "wrong email or password" })
+          next({ status: 400, message: "wrong password" })
         }
       })
       .catch(next)
   }
 
   static updateTag(req, res, next) {
-    console.log(req.body.tags);
     let tags = req.body.tags
     let id = req.loggedUser.id
-    User.updateOne({ _id: id }, { $push: { tags } })
+    User.findById(id)
+      .then(user => {
+        let newTags = []
+        for (let i = 0; i < tags.length; i++) {
+          if(user.tags.indexOf(tags[i].toLowerCase()) == -1) {
+            newTags.push(tags[i])
+          }
+        }
+        return User.updateOne({ _id: id }, { $push: { tags: newTags } })
+      })
       .then(_ => {
         res.status(200).json({ message: 'tags updated' })
       })

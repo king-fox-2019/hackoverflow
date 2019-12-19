@@ -23,7 +23,11 @@ export default {
   },
   created () {
     this.$store.dispatch('getAllQuestions')
-    this.$store.dispatch('fetchUserData')
+    if (this.$store.state.isLogin) {
+      this.$store.dispatch('fetchUserData')
+    } else {
+      this.$store.commit('setUserData', {})
+    }
   }
 
 }

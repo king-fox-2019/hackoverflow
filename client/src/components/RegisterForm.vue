@@ -7,15 +7,15 @@
           <form @submit.prevent="register">
             <div class="form-group">
               <label for="username">Username</label>
-              <input v-model="username" type="text" class="form-control" id="username" />
+              <input v-model="username" type="text" class="form-control" id="username"/>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" />
+              <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp"/>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input v-model="password" type="password" class="form-control" id="password" />
+              <input v-model="password" type="password" class="form-control" id="password"/>
             </div>
             <button type="submit" class="btn btn-primary">Sign up</button>
           </form>
@@ -74,8 +74,8 @@ export default {
           })
         })
         .catch(err => {
-          console.log(err)
-          Swal.fire('Errors', `Invalid input format`, `error`)
+          console.log(err.response)
+          Swal.fire('Errors', `${err.response.data.msg}`, `error`)
         })
     }
   }

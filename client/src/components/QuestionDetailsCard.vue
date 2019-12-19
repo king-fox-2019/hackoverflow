@@ -146,12 +146,12 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          Swal.fire({
-            icon: 'success',
-            title: 'Upvoted!',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Upvoted!',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
         })
         .catch(err => {
           console.log(err)
@@ -168,12 +168,12 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          Swal.fire({
-            icon: 'success',
-            title: 'Downvoted!',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Downvoted!',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
         })
         .catch(err => {
           console.log(err)
@@ -190,12 +190,12 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          Swal.fire({
-            icon: 'success',
-            title: 'Upvoted!',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Upvoted!',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
         })
         .catch(err => {
           console.log(err)
@@ -212,12 +212,12 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch('getQuestionDetails', this.$route.params.id)
-          Swal.fire({
-            icon: 'success',
-            title: 'Downvoted!',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Downvoted!',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
         })
         .catch(err => {
           console.log(err)

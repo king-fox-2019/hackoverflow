@@ -15,7 +15,7 @@ export default new Vuex.Store({
     allUsersAnswers: [],
     questionGonnaBeUpdated: null,
     answerGonnaBeUpdated: null,
-    userData: ''
+    userData: {}
   },
   mutations: {
     setLogin (state, payload) {
@@ -57,7 +57,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     getQuestionDetails ({ commit }, payload) {
@@ -74,7 +74,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     getAllUsersQuestions ({ commit }) {
@@ -90,7 +90,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     getAllUsersAnswers ({ commit }) {
@@ -106,7 +106,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     fetchDataUpdateQuestion ({ commit }, questionId) {
@@ -122,7 +122,7 @@ export default new Vuex.Store({
           .catch(err => {
             console.log(err)
             reject(err)
-            Swal.fire('Errors', `Internal server error`, `error`)
+            Swal.fire('Errors', `${err.response.data.message}`, `error`)
           })
       })
     },
@@ -142,7 +142,7 @@ export default new Vuex.Store({
           .catch(err => {
             console.log(err)
             reject(err)
-            Swal.fire('Errors', `Internal server error`, `error`)
+            Swal.fire('Errors', `${err.response.data.message}`, `error`)
           })
       })
     },
@@ -159,7 +159,6 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
         })
     },
     getFilteredQuestions ({ commit }, payload) {
@@ -172,7 +171,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     }
   },

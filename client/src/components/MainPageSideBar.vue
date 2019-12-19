@@ -4,7 +4,7 @@
     <hr class="test">
     <form @submit.prevent="addUserTag">
       <div class="form-group">
-        <span for="tags">Add Watched Tags</span>
+        <span for="tags">Watch a Tag</span>
         <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags" />
       </div>
       <b-button type="submit" variant="warning"> <i class="far fa-plus-square"></i> </b-button>
@@ -12,7 +12,7 @@
     <br>
     <hr class="test">
     <div>
-      <span> Watched Tags </span>
+      <span> <i class="fas fa-eye"></i> Watched Tags </span>
       <br>
       <br>
       <UserTags v-for="(userTag, i) in user.tags" :key=i :UserTag=userTag></UserTags>
@@ -59,17 +59,22 @@ export default {
         }
       })
         .then(({ data }) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Tag(s) added',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Tag(s) added',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
           this.$store.dispatch('fetchUserData')
+          this.tags = []
         })
         .catch(err => {
-          console.log(err)
-          Swal.fire('Errors', `Internal server error`, `error`)
+          console.log(err.response.data.message)
+          if (err.response.data.message === 'jwt malformed') {
+            Swal.fire('Errors', `You need to login first`, `error`)
+          } else {
+            Swal.fire('Errors', `${err.response.data.message}`, `error`)
+          }
         })
     }
   },

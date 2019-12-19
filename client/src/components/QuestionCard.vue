@@ -3,7 +3,7 @@
     <b-row align-v="center" no-gutters class="p-3 border-bottom border-top">
       <b-col md="1">
         <p class="text-center m-1 p-1">
-          {{ QuestionData.upvotes.length }}
+          {{ QuestionData.upvotes.length - QuestionData.downvotes.length }}
           <br />votes
         </p>
       </b-col>

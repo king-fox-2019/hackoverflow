@@ -7,11 +7,11 @@
           <form @submit.prevent="login">
             <div class="form-group">
               <label for="email">Email</label>
-              <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" />
+              <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" required />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input v-model="password" type="password" class="form-control" id="password" />
+              <input v-model="password" type="password" class="form-control" id="password" required />
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%">Log in</button>
           </form>
@@ -68,8 +68,8 @@ export default {
           })
         })
         .catch(err => {
-          console.log(err)
-          Swal.fire('Errors', `Wrong email or password`, `error`)
+          console.log(err.response.data.message)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     }
   }
