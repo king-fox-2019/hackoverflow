@@ -11,7 +11,7 @@ const errorHandling = require('./middlewares/errorHandling').errorHandler
 const port = process.env.PORT
 
 
-mongoose.connect(`mongodb://dwitamaalfred:${process.env.ATLASPASSWORD}@cluster0-shard-00-00-dehxs.gcp.mongodb.net:27017,cluster0-shard-00-01-dehxs.gcp.mongodb.net:27017,cluster0-shard-00-02-dehxs.gcp.mongodb.net:27017/nike-store?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority`, { useCreateIndex: true,useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true}, function(err) {
+mongoose.connect(`mongodb://dwitamaalfred:${process.env.ATLASPASSWORD}@cluster0-shard-00-00-dehxs.gcp.mongodb.net:27017,cluster0-shard-00-01-dehxs.gcp.mongodb.net:27017,cluster0-shard-00-02-dehxs.gcp.mongodb.net:27017/hacktivOverflow?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority`, { useCreateIndex: true,useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true}, function(err) {
   if(err) console.log('failed connect database')
   else console.log('successfully connected connect database')
 })

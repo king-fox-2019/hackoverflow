@@ -14,7 +14,10 @@ const upload = gcsUpload({
     }
   })
 
+router.get('/',UserController.findAllUser)
 router.post('/login',UserController.login)
+router.get('/info',UserController.getUserInfo)
+router.post('/tags',UserController.addUserTag)
 router.post('/register',upload.single('file'),UserController.register)
 
 module.exports = router

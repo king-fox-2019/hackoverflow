@@ -74,6 +74,7 @@ export default {
                 password : this.password
             }
             this.$store.dispatch('login',payload)
+            // this.$router.go('/')
         },
         register(){
             let formData = new FormData()
@@ -84,6 +85,7 @@ export default {
                 formData.append ('file',this.file)
             
             this.$store.dispatch('register',formData)
+            // this.$router.go('/')
         }
     },
     computed: mapState(['isLogin'])

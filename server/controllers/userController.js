@@ -1,8 +1,41 @@
 const User = require('../models/user')
 const generateToken = require('../helpers/TokenGenerator').generateToken
+const { verifyToken } = require('../helpers/TokenGenerator')
 const verifyPassword =  require('../helpers/PasswordGenerator').verifyPassword
 
 class UserController {
+
+    static findAllUser(req,res,next){
+        User.find()
+            .then(users => {
+                res.status(200).json(users)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static addUserTag(req,res,next){
+        const decodeToken = verifyToken(req.headers.token)
+        User.findOneAndUpdate({ email: decodeToken.email }, { $addToSet : {tags : req.body.tag}},{new : true})
+            .then(user => {
+                res.status(201).json(user)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static getUserInfo(req,res,next){
+        const decodeToken = verifyToken(req.headers.token)
+        User.findOne({ email: decodeToken.email })
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
     
     static register(req,res,next){
         User.create({

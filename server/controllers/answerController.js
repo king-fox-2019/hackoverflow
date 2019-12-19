@@ -3,7 +3,7 @@ const Question = require('../models/question')
 
 class AnswerController {
     static addAnswer(req,res,next){
-        console.log(req.body)
+        // console.log(req.body)
         Answer.create({
             userId : req.loggedUser._id,
             text : req.body.text
@@ -14,8 +14,9 @@ class AnswerController {
                 { $push : { answers : data._id }}
                 )
         },{new : true})
-        .populate('userId')
+        // .populate('userId')
         .then(question =>{
+            console.log(question)
             res.status(201).json(question)
         })
         .catch(err => {
@@ -23,7 +24,6 @@ class AnswerController {
             next(err)
         })
     }
-
     static deleteAnswer(req,res,next){
         Answer.deleteOne({ _id : req.params.id })
         .then(() => {
@@ -35,7 +35,7 @@ class AnswerController {
         Answer.findOne({_id : req.params.id})
         .then(one => {
             if(one) {
-                console.log(one.userId, req.loggedUser._id)
+                // console.log(one.userId, req.loggedUser._id)
                 if(one.userId == req.loggedUser._id){
                     return 'VOTE_SELF'
                 }else{

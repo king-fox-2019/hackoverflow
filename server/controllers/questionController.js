@@ -2,6 +2,7 @@ const Question = require('../models/question')
 
 class QuestionController {
     static create(req,res,next){
+        // console.log(req.body)
         Question.create({
             userId : req.loggedUser._id,
             title : req.body.title,
@@ -11,7 +12,10 @@ class QuestionController {
         .then( data => {
             res.status(201).json({message:'success add question', question : data})
         })
-        .catch(next)
+        .catch(err => {
+            console.log(err)
+            next(err)
+        })
     }
 
     static findAll(req,res,next){
@@ -31,6 +35,7 @@ class QuestionController {
                 select : 'name'
             }
         })
+        .sort({createdAt : -1})
         .then(data => {
           
             res.status(200).json(data)
@@ -51,7 +56,7 @@ class QuestionController {
             }
         })
         .then( data => {
-            console.log(data)
+            // console.log(data)
             res.status(200).json(data)
         })
         .catch(next)

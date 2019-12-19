@@ -5,18 +5,7 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    beforeEnter: (to,from,next) => {
-      if(!localStorage.getItem('token')){
-        next('/login')
-      }else{
-        next()
-      }
-    }
-  },
+
   {
     path: '/tags',
     name: 'tags',
@@ -57,7 +46,19 @@ const routes = [
     // this generates a separate chunk (question.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "question" */ '../views/Login.vue')
-  }
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    beforeEnter: (to,from,next) => {
+      if(!localStorage.getItem('token')){
+        next('/login')
+      }else{
+        next()
+      }
+    }
+  },
 ]
 
 const router = new VueRouter({

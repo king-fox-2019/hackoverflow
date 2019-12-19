@@ -62,19 +62,21 @@
                     <div class="card-body"  id="tags">
                         <div class="right-content">
                             <form>
-                                <div class="form-group" style="display:flex">
-                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Tags..">
-                                    <button type="submit" class="btn btn-primary btn-sm" style="margin-left:20px;width:100px">add</button>
+                                <div class="form-group" style="display:flex;align-items:center">
+                                      <div class="form-group">
+                                        <p for="exampleFormControlSelect1" style="text-align:left;font-size:20px;">Choose tags</p>
+                                        <br>
+                                        <select v-model="choosenTag" class="form-control" style="width:200px;" id="exampleFormControlSelect1">
+                                        <option v-for="(tag,i) in allTags" :key='i' >{{tag}}</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" @click="addUserTags" class="btn btn-primary btn-sm" style="height:40px;margin-left:20px;width:100px;margin-top:40px;">add</button>
                                 </div>
                             </form>
                         </div>
 
                         <div class="tags">
-                            <button class="tag" type="submit">javascript</button>
-                            <button class="tag" type="submit">css</button>
-                            <button class="tag" type="submit">html</button>
-                            <button class="tag" type="submit">react</button>
-                            <button class="tag" type="submit">javascript</button>
+                            <button class="tag" v-for="(tag,i) in userTags" :key="i" type="submit">{{tag}}</button>
                         </div>
 
                     </div>
@@ -87,13 +89,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+    data(){
+        return {
+            choosenTag: ''
+        }
+    },
     methods: {
         article(){
             console.log('test')
+        },
+        addUserTags(){
+            this.$store.dispatch('addUserTags',this.choosenTag)
         }
-    }
-
+    },
+    created(){
+        this.$store.dispatch('getUserTags')
+    },
+    computed: mapState(['allTags','userTags'])
 }
 </script>
 

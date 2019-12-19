@@ -2,18 +2,12 @@
   <div class="col-6">
     <h3 style="text-align:left;margin-left:50px;">Ask Section</h3>
       <div class="question">
-          <form>
+          <form @submit.prevent="addQuestion">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="text" aria-describedby="text">
+                <input v-model="title" type="text" class="form-control" id="text" aria-describedby="text">
                 <small id="text" class="form-text text-muted">Be specific and imagine you’re asking a question to another person</small>
-            </div>
-           <div class="form-group">
-                <label for="exampleInputEmail1">Body</label>
-                <input type="text" class="form-control" id="text" aria-describedby="text">
-                <small id="text" class="form-text text-muted">Include all the information someone would need to answer your question</small>
-            </div>
-            
+            </div> 
             <wysiwyg v-model="myHTML" style="width:100%" />
             <br>
             <vue-tags-input class="tags-input" 
@@ -40,11 +34,29 @@ export default {
             myHTML : '',
             tag: '',
             tags: [],
+            title: '',
         }
     },
     components: {
         VueTagsInput,
     },
+    methods:{
+        addQuestion(){
+            // let formData = new FormData
+            // formdata
+            let tags= []
+            for(let i = 0 ; i < this.tags.length ; i++){
+                tags.push(this.tags[i].text)
+            }
+            let payload = {
+                title : this.title,
+                question : this.myHTML,
+                tags:tags
+            }
+            // console.log(payload)
+            this.$store.dispatch('addQuestion',payload)
+        }
+    }
 
 }
 </script>

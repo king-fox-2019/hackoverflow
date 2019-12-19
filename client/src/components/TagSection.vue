@@ -1,60 +1,19 @@
 <template>
   <div class="col-6">
     <h3 style="text-align:left;margin-left:50px;">Tags Section</h3>
+    <br>
+    <hr>
+    <br>
       <div class="top-option">
           
 
 
           <div class="tags">
-                <div class="card-body">
-                    <div class="right-content">
-                    <button class="tag" type="submit">javascript</button>
-                    <p>
-                        JavaScript (not to be confused with Java) is a high-level, dynamic, multi-paradigm, object-oriented, prototype-based, weakly-typed, and interpreted language used for both client-side and server-side scripting. Its primary use is in the rendering and manipulation of web pages. 
-                    </p>
-                    <hr>
+                
+                    <div class="right-content" style="display:flex;flex-direction:row;flex-wrap:wrap;">
+                    <button  v-for="(tag,i) in allTags" :key='i'  class="tag" type="submit">{{tag}}</button>
                     </div>
-                </div>
 
-                <div class="card-body">
-                    <div class="right-content">
-                    <button class="tag" type="submit">HTML</button>
-                    <p>
-                        HTML (Hypertext Markup Language) is the standard markup language used for structuring web pages and formatting content. HTML describes the structure of a website semantically along with cues for presentation, making it a markup language, rather than a programming language. 
-                    </p>
-                    <hr>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="right-content">
-                    <button class="tag" type="submit">swift</button>
-                    <p>
-                       Swift is a general-purpose, open-source programming language developed by Apple Inc. for its platforms and Linux. Use the tag only for questions about language features, or requiring code in Swift. 
-                    </p>
-                    <hr>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="right-content">
-                    <button class="tag" type="submit">vue</button>
-                    <p>
-                        Vue.js is an open-source, progressive Javascript framework for building user interfaces that aim to be incrementally adoptable. Vue.js is mainly used for front-end development and requires an intermediate level of HTML and CSS. 
-                    </p>
-                    <hr>
-                    </div>
-                </div>
-
-                 <div class="card-body">
-                    <div class="right-content">
-                    <button class="tag" type="submit">javascript</button>
-                    <p>
-                        JavaScript (not to be confused with Java) is a high-level, dynamic, multi-paradigm, object-oriented, prototype-based, weakly-
-                    </p>
-                    <hr>
-                    </div>
-                </div>
           </div>
 
 
@@ -63,8 +22,13 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+    computed: mapState(['allTags']),
+    created(){
+        this.$store.dispatch('getAllTags')
+    }
 }
 </script>
 
@@ -78,8 +42,10 @@ export default {
 .tag{
     width:initial ! important;
     text-align: left;
-    font-size:18px;
+    font-size:24px;
     padding-left:20px;
+    padding-right:20px;
+    margin:10px;
     
 }
 

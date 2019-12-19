@@ -17,25 +17,24 @@
                 </label>
             </div>
       </div>
-
         <div class="card" v-for="(question,i) in questions" :key="i" style="border:none">
             <hr>
             <div class="card-body">
                 <div class="votes" style="display:flex">
-                    <button type="button" class="btn-vote" style="height:60px;width:60px;margin:5px;border:none">
+                    <button type="button" class="btn-vote" style="height:100px;width:100px;margin:5px;border :none">
                         <h5 style="margin:0px">{{question.upVotes.length}}</h5>
-                        <p style="font-size:12px;margin:0px">votes</p>
+                        <p style="font-size:14px;margin:0px">votes</p>
                     </button>
                 </div>
                 <div class="votes" style="display:flex">
-                    <button type="button" class="btn-vote" style="height:60px;width:60px;margin:5px;border:none">
+                    <button type="button" class="btn-vote" style="height:100px;width:100px;margin:5px;border:none">
                         <h5 style="margin:0px">{{question.answers.length}}</h5>
-                        <p style="font-size:12px;margin:0px">answers</p>
+                        <p style="font-size:14px;margin:0px">answers</p>
                     </button>
                 </div>
                 <div class="right-content" style="width:100%;">
                     
-                <a @click.prevent="article(question._id)" class="card-text" style="text-align:left;font-weight:700">{{question.title}}</a>
+                <a @click.prevent="article(question._id)" class="card-text" style="text-align:left;font-size:22px;font-weight:500">{{question.title}}</a>
                 <br>
                 <div class="tags">
                     <button v-for="(tag,index) in question.tags" :key="index" class="tag" type="submit">{{tag}}</button>
@@ -44,7 +43,8 @@
                      <br>
                     <div class="lower-card">
                     <p style="font-size:14px;text-align:right;margin-top:5px;">
-                        <img :src="question.userId.profilePicture" style="height:40px;border-radius:5%;margin-right:10px;" alt="">
+                         <img :src="question.userId.profilePicture" style="height:40px;width:40px;object-fit: cover; border-radius:5%;margin-right:10px;margin-top:10px;" alt="">
+                        <!-- <img :src="question.userId.profilePicture" style="height:40px;border-radius:5%;margin-right:10px;" alt=""> -->
                          asked by 
                     <strong>{{question.userId.name}}</strong> 
                     <p style="font-size:14px;text-align:right;margin-top:-25px;">
@@ -75,6 +75,7 @@ export default {
     },
     created(){
             this.$store.dispatch('fetchQuestion') 
+            this.$store.dispatch('getAllTags')
     }
     
 
@@ -167,5 +168,11 @@ p{
 hr{
     margin :0 ! important;
     /* padding:0px; */
+}   
+
+
+button:focus {
+    outline:none !important;
 }
+
 </style>

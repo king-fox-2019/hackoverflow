@@ -4,13 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import fetchApi from '../../apis/server'
-import router from '../router/index'
+import router from '../router/'
 
 export default new Vuex.Store({
   state: {
     isLogin : false,
     questions:[],
-    detailQuestion: {}
+    detailQuestion: {},
+    allTags:[],
+    userTags:[],
+    allUsers: []
   },
   mutations: {
     CHANGE_ISLOGIN(state,payload){
@@ -21,9 +24,133 @@ export default new Vuex.Store({
     },
     DETAIL_QUESTION(state,payload){
       state.detailQuestion=payload
+    },
+    GET_ALL_TAGS(state,payload){
+      state.allTags = payload
+    },
+    GET_USER_TAGS(state,payload){
+      state.userTags = payload
+    },
+    GET_ALL_USERS(state,payload){
+      state.allUsers = payload
     }
   },
   actions: {
+    getAllUser({commit}){
+      fetchApi({
+        method : 'get',
+        url:'users/',
+      })
+      .then(({data}) => {
+        commit('GET_ALL_USERS',data)
+        console.log(data)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    addUserTags({commit},payload){
+      fetchApi({
+        method : 'post',
+        url:'users/tags',
+        data : {
+          tag : payload
+        }
+      })
+      .then(({data}) => {
+        
+        let tags = []
+        for(let i = 0 ; i < data.tags.length; i++){
+              tags.push(data.tags[i]);
+           
+        }
+        this.dispatch('getUserTags')
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    getUserTags({commit}){
+      
+      fetchApi({
+        method : 'get',
+        url:'users/info',
+      })
+      .then(({data}) => {
+        let tags = []
+        for(let i = 0 ; i < data.tags.length; i++){
+              tags.push(data.tags[i]);
+           
+        }
+        commit('GET_USER_TAGS',tags)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    getAllTags({commit}){
+      fetchApi({
+        method : 'get',
+        url:'questions',
+      })
+      .then(({data}) => {
+        
+        let tags = []
+        for(let i = 0 ; i < data.length; i++){
+            for( let j = 0 ; j < data[i].tags.length; j++){
+                if(tags.indexOf(data[i].tags[j]) === -1) {
+                    tags.push(data[i].tags[j]);
+                }
+            }
+        }
+        commit('GET_ALL_TAGS',tags)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    addQuestion({commit},payload){
+      // console.log(payload)
+      fetchApi({
+        method : 'post',
+        url:`questions`,
+        data: {
+          title : payload.title,
+          question : payload.question,
+          tags: payload.tags
+        }
+      })
+      .then(({data}) => {
+        router.push('/')
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    downVoteAnswer({commit},payload){
+      fetchApi({
+        method : 'post',
+        url:`answers/${payload.answerId}/downvotes`,
+      })
+      .then(({data}) => {
+        this.dispatch('fetchQuestionById',payload.questionId)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
+    upVoteAnswer({commit},payload){
+      fetchApi({
+        method : 'post',
+        url:`answers/${payload.answerId}/upvotes`,
+      })
+      .then(({data}) => {
+        this.dispatch('fetchQuestionById',payload.questionId)
+      })
+      .catch(({message}) => {
+        console.log(message)
+      })
+    },
     upVoteQuestion({commit}, payload){
       fetchApi({
         method : 'post',
@@ -49,6 +176,7 @@ export default new Vuex.Store({
       })
     },
     addAnswer({commit},payload){
+      console.log(payload.questionId,payload.text)
       fetchApi({
         method : 'post',
         url:`answers/${payload.questionId}`,
@@ -58,7 +186,8 @@ export default new Vuex.Store({
       })
       .then(({data}) => {
         // console.log(data)
-        commit('DETAIL_QUESTION',data)
+        // commit('DETAIL_QUESTION',data)
+        this.dispatch('fetchQuestionById',payload.questionId)
       })
       .catch(({message}) => {
         console.log(message)
@@ -118,8 +247,8 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        commit('CHANGE_ISLOGIN',true)
         router.push('/')
+        commit('CHANGE_ISLOGIN',true)
         localStorage.setItem('token',data.token)
       })
       .catch(({message}) => {

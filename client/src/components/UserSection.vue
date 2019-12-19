@@ -5,35 +5,19 @@
           
 
 
-          <div class="users">
+          <div class="users" >
 
-                <div class="card-body">
+                <div class="card-body" v-for="(user,i) in allUsers" :key="i">
                     <div class="right-content">
                     <div class="user">
-                            <img src="https://avatars1.githubusercontent.com/u/8036315?v=4&s=460" alt="">
+                            <img :src=user.profilePicture style="object-fit: cover" alt="">
                     </div>
                     <div class="content">
                     <h6>
-                        Dwitama Alfred
+                        {{user.name}}
                     </h6>
                     <p>
-                        Fullstack developer students at Hacktiv8
-                    </p>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="right-content">
-                    <div class="user">
-                            <img src="https://avatars1.githubusercontent.com/u/8036315?v=4&s=460" alt="">
-                    </div>
-                    <div class="content">
-                    <h6>
-                        Dwitama Alfred
-                    </h6>
-                    <p>
-                        Fullstack developer students at Hacktiv8
+                        {{user.profile}}
                     </p>
                     </div>
                     </div>
@@ -47,7 +31,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+    created(){
+        this.$store.dispatch('getAllUser')
+    }
+    ,computed : mapState(['allUsers'])
 
 }
 </script>

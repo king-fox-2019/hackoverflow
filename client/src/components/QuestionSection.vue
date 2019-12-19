@@ -39,9 +39,9 @@
     <div class="answer" style="margin-bottom:0px;text-align:left;margin-left:50px;">
         <div v-for="(answer,i) in detailQuestion.answers" :key=i class="title" style="width:100%;display:flex;">
             <div class="vote-bar" style="width:30%;display:flex;flex-direction:column;justify-content:space-around;height:100px;align-items:flex-end;margin-right:100px;">
-                <a style="margin-bottom:-20px;" @click="upVoteAnswer(answer._id)" > <i class="fas fa-sort-up"></i></a>
+                <a style="margin-bottom:-20px;" @click="upVoteAnswer(answer._id,detailQuestion._id)" > <i class="fas fa-sort-up"></i></a>
                 <h4>{{answer.upVotes.length - answer.downVotes.length}}</h4>
-                <a style="margin-top:-20px;" @click="downVoteAnswer(answer._id)"> <i class="fas fa-sort-down"></i></a>
+                <a style="margin-top:-20px;" @click="downVoteAnswer(answer._id,detailQuestion._id)"> <i class="fas fa-sort-down"></i></a>
             </div>
             <div class="content" style="min-width:600px;max-width:800px">
 
@@ -103,11 +103,19 @@ export default {
         downVoteQuestion(id){
             this.$store.dispatch('downVoteQuestion',id)
         },
-        upVoteAnswer(id){
-            this.$store.dispatch('upVoteAnswer',id)
+        upVoteAnswer(id,questionId){
+            let payload = {
+                answerId : id,
+                questionId : questionId
+            }
+            this.$store.dispatch('upVoteAnswer',payload)
         },
-        downVoteAnswer(id){
-            this.$store.dispatch('downVoteAnswer',id)
+        downVoteAnswer(id,questionId){
+            let payload = {
+                answerId : id,
+                questionId : questionId
+            }
+            this.$store.dispatch('downVoteAnswer',payload)
         }
     },
     computed: mapState(['detailQuestion']),

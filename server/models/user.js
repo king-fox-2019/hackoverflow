@@ -23,7 +23,10 @@ const userSchema = new Schema({
   },
   profile: {
     type: String,
-  }
+  },
+  tags:[{
+    type:String
+  }]
 }, {
   timestamps: true, versionKey : false
 })
