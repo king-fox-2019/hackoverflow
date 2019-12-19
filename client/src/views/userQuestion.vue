@@ -36,7 +36,7 @@ export default {
       getUserQuestion(){
           axios({
           method:'get',
-          url:'http://localhost:3000/question?userquestion=1',
+          url:'http://localhost:34.66.242.14/question?userquestion=1',
           headers:{token:localStorage.getItem('token')}
             })
             .then(({data})=>{
@@ -48,7 +48,7 @@ export default {
           console.log(questionId)
           axios({
               method:'delete',
-              url:'http://localhost:3000/question',
+              url:'http://localhost:34.66.242.14/question',
               headers:{token:localStorage.getItem('token')},
               data:{
                   id:questionId

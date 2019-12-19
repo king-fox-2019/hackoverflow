@@ -82,7 +82,7 @@ export default {
         upVote(){
             axios({
                 method:'put',
-                url:'http://localhost:3000/question/'+this.questionId,
+                url:'http://localhost:34.66.242.14/question/'+this.questionId,
                 data:{vote:1},
                 headers:{token:localStorage.getItem('token')}
             })
@@ -104,7 +104,7 @@ export default {
         downVote(){
             axios({
                 method:'put',
-                url:'http://localhost:3000/question/'+this.questionId,
+                url:'http://localhost:34.66.242.14/question/'+this.questionId,
                 data:{vote:-1},
                 headers:{token:localStorage.getItem('token')}
             })
@@ -126,7 +126,7 @@ export default {
         updateAnswer(id){
             axios({
                 method:'put',
-                url:'http://localhost:3000/answer',
+                url:'http://localhost:34.66.242.14/answer',
                 headers:{token:localStorage.getItem('token')},
                 data:{
                     id:id,
@@ -151,7 +151,7 @@ export default {
         updateQuestion(){
             axios({
                 method:'put',
-                url:'http://localhost:3000/question',
+                url:'http://localhost:34.66.242.14/question',
                 headers:{token:localStorage.getItem('token')},
                 data:{
                     id:this.questionId,
@@ -178,7 +178,7 @@ export default {
         getQuestion(){
             axios({
                 method:'get',
-                url:'http://localhost:3000/question?questionId='+this.questionId,
+                url:'http://localhost:34.66.242.14/question?questionId='+this.questionId,
                 headers:{token:localStorage.getItem('token')}
             })
             .then(({data})=>{
@@ -211,7 +211,7 @@ export default {
         createAns(){
             axios({
                 method:'post',
-                url:'http://localhost:3000/answer',
+                url:'http://localhost:34.66.242.14/answer',
                 headers:{token:localStorage.getItem('token')},
                 data:{
                     description:this.description,
@@ -239,7 +239,7 @@ export default {
         getAns(){
             axios({
                 method:'get',
-                url:'http://localhost:3000/answer?questionId='+this.$route.params.id,
+                url:'http://localhost:34.66.242.14/answer?questionId='+this.$route.params.id,
                 headers:{token:localStorage.getItem('token')}
             })
             .then(({data})=>{

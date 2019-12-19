@@ -26,7 +26,7 @@ const actions = {
     getAllQuestion({commit}){
         axios({
             method:'get',
-            url:'http://localhost:3000/question',
+            url:'http://localhost:34.66.242.14/question',
             headers:{token:localStorage.getItem('token')}
         })
         .then(({data})=>{
