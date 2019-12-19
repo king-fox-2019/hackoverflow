@@ -107,6 +107,19 @@ class AnswerController {
          next(error)
       }
    }
+
+   static async getOne(req, res, next) {
+
+      try {
+         console.log(req.params.id)
+         const answer = await Answer.findOne({_id: req.params.id}).populate('user')
+
+         res.status(200).json({answer})
+      }
+      catch(error) {
+         next(error)
+      }
+   }
 }
 
 module.exports = AnswerController

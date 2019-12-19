@@ -27,11 +27,13 @@ class QuestionController {
    static async getAll(req, res, next) {
 
       try {
-         const getQuery = Question.find()
+         const getQuery = Question.find().populate('answers')
 
-         if(req.query.tag) getQuery.where({tags: req.query.tag})
+         if(req.query.tag) {
+            getQuery.where({tags: req.query.tag})
+         }
 
-         res.status(200).json(await getQuery)   
+         res.status(200).json({questions: await getQuery})   
       }
       catch(err) {
          next(err)
@@ -41,7 +43,9 @@ class QuestionController {
    static async getOne(req, res, next) {
 
       try{
-         res.status(200).json({question: await Question.findOne({_id: req.params.id})})
+         const question = await Question.findOne({_id: req.params.id}).populate('answers')
+
+         res.status(200).json({question})
       }
       catch(error) {
          next(error)

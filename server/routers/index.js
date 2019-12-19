@@ -13,6 +13,8 @@ router.get(
       else next()
 }, UserController.readAll)
 
+router.get('/user/:id', UserController.getOne)
+
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 router.use('/question', questionRouter)
