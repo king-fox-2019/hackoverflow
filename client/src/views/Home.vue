@@ -22,6 +22,8 @@ export default {
   }, 
   created(){
         if(localStorage.getItem('token')){
+          
+            this.$store.commit('CHANGE_ISLOGIN',true)
             this.$store.dispatch('fetchQuestion') 
             this.$store.dispatch('getAllTags')
         }

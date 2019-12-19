@@ -41,7 +41,7 @@
                 </div>
                  <div class="update">
                      <br>
-                    <div class="lower-card">
+                    <div class="lower-card" style="margin-top:-50px;margin-bottom:0px;">
                     <p style="font-size:14px;text-align:right;margin-top:5px;">
                          <img :src="question.userId.profilePicture" style="height:40px;width:40px;object-fit: cover; border-radius:5%;margin-right:10px;margin-top:10px;" alt="">
                         <!-- <img :src="question.userId.profilePicture" style="height:40px;border-radius:5%;margin-right:10px;" alt=""> -->
@@ -83,7 +83,7 @@ export default {
         }
     },
     created(){
-    //   this.$store.dispatch('fetchQuestion')
+      this.$store.dispatch('fetchQuestion')
     }
     
 

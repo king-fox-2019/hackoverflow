@@ -46,10 +46,14 @@
                     <!-- {{detailQuestion.question}} -->
                 </p>
             </div>
-
+    <br>
+    <br>
+    <br>
     <p style="text-align:left;margin-left:50px;font-size:24px;">Answers  : </p>
     <hr> 
     <br>
+   
+
 
     <div class="answer" style="margin-bottom:0px;text-align:left;margin-left:-200px;">
         <div v-for="(answer,i) in detailQuestion.answers" :key=i class="title" style="width:100%;display:flex;">

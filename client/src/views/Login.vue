@@ -74,7 +74,6 @@ export default {
                 password : this.password
             }
             this.$store.dispatch('login',payload)
-            // this.$router.push('/')
         },
         register(){
             let formData = new FormData()
@@ -84,7 +83,6 @@ export default {
                 formData.append ('profile',this.profile)
                 formData.append ('file',this.file)
                 this.$store.dispatch('register',formData)
-            // this.$router.push('/')
         }
     },
     created(){

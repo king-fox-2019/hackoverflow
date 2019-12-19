@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -42,11 +43,11 @@ export default new Vuex.Store({
     },
     GET_MY_QUESTION(state,payload){
       state.myQuestion = payload
-    }
+    },
+
   },
   actions: {
     editQuestion({commit},payload){
-      // console.log(payload)
       fetchApi({
         method : 'put',
         url:`questions/${payload.questionId}`,
@@ -60,28 +61,62 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        // console.log(data)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your data has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.dispatch('fetchMyQuestion')
       })
       .catch(({message}) => {
-        console.log(message)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Something wrong',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
     },
     deleteQuestion({commit},payload){
-      fetchApi({
-        method : 'delete',
-        url:`questions/${payload}`,
-        headers : {
-          token : localStorage.getItem('token')
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't undo this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+
+        fetchApi({
+          method : 'delete',
+          url:`questions/${payload}`,
+          headers : {
+            token : localStorage.getItem('token')
+          }
+        })
+        .then(({data}) => {
+          console.log(data)
+          this.dispatch('fetchMyQuestion')
+        })
+        .catch(({message}) => {
+          console.log(message)
+        })
+
+        if (result.value) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Successfully deleted',
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       })
-      .then(({data}) => {
-        console.log(data)
-        this.dispatch('fetchMyQuestion')
-      })
-      .catch(({message}) => {
-        console.log(message)
-      })
+
     },
     fetchMyQuestion({commit}){
       
@@ -224,7 +259,6 @@ export default new Vuex.Store({
       })
     },
     addQuestion({commit},payload){
-      // console.log(payload)
       fetchApi({
         method : 'post',
         url:`questions`,
@@ -235,6 +269,13 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your data has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
         router.push('/')
       })
       .catch(({message}) => {
@@ -299,8 +340,13 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        // console.log(data)
-        // commit('DETAIL_QUESTION',data)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your answer has been posted',
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.dispatch('fetchQuestionById',payload.questionId)
       })
       .catch(({message}) => {
@@ -342,12 +388,24 @@ export default new Vuex.Store({
         data : payload
       })
       .then(({data}) => {
+        Swal.fire(
+          'Success!',
+          'Now you are signed in!',
+          'success'
+          )
         commit('CHANGE_ISLOGIN',true)
         localStorage.setItem('token',data.token)
-        router.push('/')
+        setTimeout(function() {
+          router.push('/')
+        },2000)
       })
-      .catch(({message}) => {
-        console.log(message)
+      .catch((response) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Register failed',
+          text: 'Email already taken',
+        })
+        console.log(response)
       })
     },
 
@@ -361,11 +419,24 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        commit('CHANGE_ISLOGIN',true)
         localStorage.setItem('token',data.token)
-        router.push('/')
+        Swal.fire(
+          'Success!',
+          'Now you are signed in!',
+          'success'
+        )
+        setTimeout(function() {
+          commit('CHANGE_ISLOGIN',true)
+          router.push('/')
+          this.dispatch('fetchQuestion')
+        },2000)
       })
       .catch(({message}) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Signin failed',
+          text: 'Wrong username/password!',
+        })
         console.log(message)
       })
     }

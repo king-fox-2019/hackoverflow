@@ -5,11 +5,11 @@
 
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRqsSVN5OXqT5pMow7ob7BajkpHTZvu2qvUVOdaWKlqLphB195r" @click="home" style="width:170px" alt="">
             </button>
-              <div class="input-group mb-2" style="margin-top:10px;padding-left:250px;padding-right:250px">
+              <div v-if="isLogin === true" class="input-group mb-2" style="margin-top:10px;padding-left:250px;padding-right:250px">
                 <div class="input-group-prepend">
                 <div class="input-group-text"></div>
                 </div>
-                <form @submit.prevent="filter" style="width:50%;">
+                <form  @submit.prevent="filter" style="width:50%;">
                     <input v-model="keyword" style="border-left:none" type="text" class="form-control" id="inlineFormInputGroup" placeholder="search...">
                 </form>
             </div>
