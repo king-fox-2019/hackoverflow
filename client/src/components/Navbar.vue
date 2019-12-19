@@ -7,8 +7,8 @@
       </b-navbar-brand>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="w-50">
-            <b-input size="sm" class="mr-sm-2" placeholder="Search" type="text"></b-input>
-            <b-button size="sm" class="my-2 my-sm-0 btn search-button" type="submit">Search</b-button>
+            <b-input size="sm" class="mr-sm-2" placeholder="Search" type="text" v-model="search"></b-input>
+            <b-button size="sm" class="my-2 my-sm-0 btn search-button" @click.prevent="searchQuestion">Search</b-button>
       </b-navbar-nav>
 
       <b-navbar-nav class="mr-2 ml-2">
@@ -24,18 +24,29 @@
 export default {
   data () {
     return {
-
+      search: ''
     }
   },
   methods: {
     logout () {
       localStorage.clear()
       this.$store.commit('user/SET_IS_LOGIN', false)
+      this.$router.push('/')
+    },
+    searchQuestion () {
+      this.$store.dispatch('question/searchQuestion', this.search)
     }
   },
   computed: {
     isLogin () {
       return this.$store.state.user.isLogin
+    }
+  },
+  watch:{
+    search(val){
+      if(val === ''){
+        this.$store.dispatch('question/fetchQuestion')
+      }
     }
   }
 }

@@ -59,8 +59,8 @@
               <b-button type="reset" variant="danger">Reset</b-button>
             </div>
             <div class="d-flex justify-content-start ml-2 h-100 w-50">
-              <a href="" class="have-account mt-2" v-if="router === 'register'"><p>Already have account ?</p></a>
-              <a href="" class="have-account mt-2" v-else-if="router === 'login'"><p>Dont have account?</p></a>
+              <a href="" class="have-account mt-2" v-if="router === 'register'" @click.prevent="goLogin"><p>Already have account ?</p></a>
+              <a href="" class="have-account mt-2" v-else-if="router === 'login'" @click.prevent="goRegister"><p>Dont have account?</p></a>
             </div>
           </div>
         </b-form>
@@ -96,10 +96,10 @@ export default {
         }
         this.$store.dispatch('user/userLogin', payload)
           .then(({ data }) => {
-            console.log(data)
             this.$router.push('/')
             localStorage.setItem('token', data.token)
             this.$store.commit('user/SET_IS_LOGIN', true)
+            this.$store.commit('user/SET_ID', data.user._id)
             this.onReset()
             toast.fire({
               icon: 'success',
@@ -151,6 +151,12 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    goRegister () {
+      this.$router.push('/register')
+    },
+    goLogin () {
+      this.$router.push('/login')
     }
   },
   computed: {

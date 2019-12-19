@@ -19,6 +19,7 @@ class AnswerController {
         Answer.find({
             questionId: req.params.id
         })
+        .populate('author')
         .then(answer => {
             res.status(200).json(answer)
         })
@@ -29,6 +30,7 @@ class AnswerController {
         Answer.findOne({
             _id: req.params.id
         })
+        .populate('author')
         .then(answer => {
             res.status(200).json(answer)
         })
@@ -40,34 +42,19 @@ class AnswerController {
             _id: req.params.id
         })
         .then(answer => {
-            let upvote = answer.upvote
-            if(upvote.include(req.decoded.id)){
-                return Answer.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $pull : {
-                        upvote: req.decoded.id
-                    }
-                },
-                {
-                    new: true
-                })   
+            if(answer.upvote.includes(req.decoded.id)){
+                answer.upvote.pull(req.decoded.id)
+                answer = answer.save()
             }else{
-                return Answer.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $push: {
-                        upvote: req.decoded.id
-                    }
-                },
-                {
-                    new: true
-                })
+                if(answer.downvote.includes(req.decoded.id)){
+                    answer.downvote.pull(req.decoded.id)
+                    answer.upvote.push(req.decoded.id)
+                    answer = answer.save()
+                }else{
+                    answer.upvote.push(req.decoded.id)
+                    answer = answer.save()
+                }
             }
-        })
-        .then(answer => {
             res.status(200).json(answer)
         })
         .catch(next)
@@ -78,34 +65,19 @@ class AnswerController {
             _id: req.params.id
         })
         .then(answer => {
-            let downvote = answer.downvote
-            if(downvote.include(req.decoded.id)){
-                return Answer.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $pull: {
-                        downvote: req.decoded.id
-                    }
-                },
-                {
-                    new: true
-                })
+            if(answer.downvote.includes(req.decoded.id)){
+                answer.downvote.pull(req.decoded.id)
+                answer = answer.save()
             }else{
-                return Answer.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $push:{
-                        downvote: req.decoded.id
-                    }
-                },
-                {
-                    new: true
-                })
+                if(answer.upvote.includes(req.decoded.id)){
+                    answer.upvote.pull(req.decoded.id)
+                    answer.downvote.push(req.decoded.id)
+                    answer = answer.save()
+                }else{
+                    answer.downvote.push(req.decoded.id)
+                    answer = answer.save()
+                }
             }
-        })
-        .then(answer => {
             res.status(200).json(answer)
         })
         .catch(next)

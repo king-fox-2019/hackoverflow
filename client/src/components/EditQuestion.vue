@@ -2,10 +2,10 @@
   <div class="container mt-3 ask-form d-flex align-items-center justify-content-center">
     <div class="form-wrap w-100 p-2 ">
         <div class="container">
-        <h1 class="display-4">Ask Public Question</h1>
+        <h1 class="display-4">Edit Your Question</h1>
         </div>
         <div class="container">
-            <form @submit.prevent="askQuestion">
+            <form @submit.prevent="editQuestion">
                 <div class="form-group">
                     <label for="titleInput">Title</label>
                     <small id="titleHelp" class="form-text text-muted">Be specific and imagine you’re asking a question to another person</small>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Toast from '@/plugins/swal.js'
+import Toast from '../plugins/swal'
 export default {
   data () {
     return {
@@ -41,33 +41,49 @@ export default {
   },
   methods: {
     cancel () {
-      this.$router.push('/')
+      let questionId = this.$route.params.id
+      this.$router.push(`/detail/${questionId}`)
     },
-    askQuestion () {
-      let arr = this.tags.split(' ')
-      let payload = {
+    editQuestion () {
+      let questionId = this.$route.params.id
+      let newTags = this.tags.split(' ')
+      let form = {
         title: this.title,
         desc: this.myHTML,
-        tags: arr
+        tags: newTags
       }
-      this.$store.dispatch('question/createQuestion', payload)
+      let payload = {
+        id: questionId,
+        data: form
+      }
+      this.$store.dispatch('question/editQuestion', payload)
         .then(({ data }) => {
-          this.$store.commit('question/SET_LIST_QUESTION', data)
+          let questionId = this.$route.params.id
           Toast.fire({
             icon: 'success',
-            title: 'Create Question',
-            text: 'Success Create Question!'
+            title: 'Edit Question',
+            text: 'Edit Success!'
           })
-          this.$router.push('/')
+          this.$router.push(`/detail/${questionId}`)
         })
         .catch(err => {
           Toast.fire({
             icon: 'error',
-            title: 'Create Question',
+            title: 'Edit Question',
             text: `${err.response.data.message}`
           })
         })
     }
+  },
+  created () {
+    let questionId = this.$route.params.id
+    this.$store.dispatch('question/detailQuestion', questionId)
+    let question = this.$store.state.question.currentQuestion
+    this.title = question.title
+    this.myHTML = question.desc
+    this.tags = question.tags
+  },
+  computed: {
   }
 }
 </script>

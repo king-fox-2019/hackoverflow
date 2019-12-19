@@ -16,11 +16,6 @@
       </div>
     </div>
     <div class="d-flex flex-column mt-2">
-      <!-- Card -->
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
       <Card></Card>
     </div>
   </div>
@@ -29,18 +24,21 @@
 <script>
 import Card from '@/components/Card.vue'
 export default {
-  components:{
+  components: {
     Card
   },
-  data(){
+  data () {
     return {
 
     }
   },
-  methods:{
-    askQuestion(){
+  methods: {
+    askQuestion () {
       this.$router.push('/add')
     }
+  },
+  created () {
+    this.$store.dispatch('question/fetchQuestion')
   }
 }
 </script>

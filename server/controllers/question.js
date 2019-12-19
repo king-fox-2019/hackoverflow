@@ -20,6 +20,7 @@ class QuestionController {
         Question.findOne({
             _id: id
         })
+        .populate('author')
         .then(question => {
             res.status(200).json(question)
         })
@@ -27,11 +28,36 @@ class QuestionController {
     }
 
     static getAllQuestion(req,res,next){
-        Question.find()
+        const { title, tags } = req.query
+        if(title){
+            Question.find({
+                title : { $regex : `${title}`, $options: '-i'}
+            })
+            .populate('author')
             .then(questions => {
                 res.status(200).json(questions)
             })
             .catch(next)
+        }else if (!title && tags){
+            Question.find()
+            .populate('author')
+            .then(questions => {
+                let arr = []
+                questions.forEach(data => {
+                    if(data.tags.includes(tags)){
+                        arr.push(data)
+                    }
+                })
+                res.status(200).json(arr)
+            })
+            .catch(next)  
+        }else{
+            Question.find()
+            .then(questions => {
+                res.status(200).json(questions)
+            })
+            .catch(next)
+        }
     }
 
     static editQuestion(req,res,next){
@@ -58,30 +84,17 @@ class QuestionController {
             _id: req.params.id
         })
         .then(question => {
-            let upvote = question.upvote
-            if(upvote.include(req.decoded.id)){
-                return Question.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $pull: { upvote : req.decoded.id }
-                },
-                {
-                    new: true
-                })
+            if(question.upvote.includes(req.decoded.id)){
+                question.upvote.pull(req.decoded.id)
             }else{
-                return Question.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $push: { upvote : req.decoded.id }
-                },
-                {
-                    new: true
-                })
+                if(question.downvote.includes(req.decoded.id)){
+                    question.downvote.pull(req.decoded.id)
+                    question.upvote.push(req.decoded.id)
+                }else{
+                    question.upvote.push(req.decoded.id)
+                }
             }
-        })
-        .then(question => {
+            question = question.save()
             res.status(200).json(question)
         })
         .catch(next)
@@ -92,30 +105,17 @@ class QuestionController {
             _id: req.params.id
         })
         .then(question => {
-            let downvote = question.downvote
-            if(downvote.include(req.decoded.id)){
-                return  Question.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $pull : { downvote : req.decoded.id }
-                },
-                {
-                    new: true
-                })
+            if(question.downvote.includes(req.decoded.id)){
+                question.downvote.pull(req.decoded.id)
             }else{
-                return Question.findOneAndUpdate({
-                    _id: req.params.id
-                },
-                {
-                    $push : { downvote : req.decoded.id }
-                },
-                {
-                    new: true
-                })
+                if(question.upvote.includes(req.decoded.id)){
+                    question.upvote.pull(req.decoded.id)
+                    question.downvote.push(req.decoded.id)
+                }else{
+                    question.downvote.push(req.decoded.id)
+                }
             }
-        })
-        .then(question => {
+            question = question.save()
             res.status(200).json(question)
         })
         .catch(next)
@@ -127,11 +127,11 @@ class QuestionController {
         })
         .then(question => {
             let views = question.views
-            if(views.include(req.decoded.id)){
+            if(views.includes(req.decoded.id)){
                 res.status(200).json(question)
             }else{
                 return Question.findOneAndUpdate({
-                    _id: req.decoded.id
+                    _id: req.params.id
                 },
                 {
                     $push : {
