@@ -24,14 +24,14 @@ class AnswerCon {
             .catch(next)
     }
     static update(req,res,next){
-        question.updateOne({_id: req.params.id},req.body)
+        answer.updateOne({_id: req.params.id},req.body)
             .then(respone =>{
                 res.status(200).json(respone)
             })
             .catch(next)
     }
     static upVote(req,res,next){
-        question.findOne({_id: req.params.id})
+        answer.findOne({_id: req.params.id})
             .then(data=>{
                 let upVotes = data.upVotes
                 let downVotes = data.downVotes
@@ -43,7 +43,7 @@ class AnswerCon {
                 }else{
                     upVotes.splice(upVotes.indexOf(req.user._id),1)
                 }
-                return question.updateOne({_id: req.params.id},{upVotes:upVotes,downVotes:downVotes})
+                return answer.updateOne({_id: req.params.id},{upVotes:upVotes,downVotes:downVotes})
                 .then(data=>{
                     res.status(200).json(data)
                 })
@@ -52,7 +52,7 @@ class AnswerCon {
             .catch(next)
     }
     static downVote(req,res,next){
-        question.findOne({_id: req.params.id})
+        answer.findOne({_id: req.params.id})
             .then(data=>{
                 let upVotes = data.upVotes
                 let downVotes = data.downVotes
@@ -64,7 +64,7 @@ class AnswerCon {
                 }else{
                     downVotes.splice(upVotes.indexOf(req.user._id),1)
                 }
-                return question.updateOne({_id: req.params.id},{upVotes:upVotes,downVotes:downVotes})
+                return answer.updateOne({_id: req.params.id},{upVotes:upVotes,downVotes:downVotes})
                 .then(data=>{
                     res.status(200).json(data)
                 })

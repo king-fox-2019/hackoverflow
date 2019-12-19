@@ -9,6 +9,10 @@ module.exports = (err,req,res,next) => {
             messageError.push(err.errors[error].message)
         }
         break
+        case 'JsonWebTokenError':
+            statusCode = 400
+            messageError.push('invalid token')
+        break
         default :
         statusCode = 500
         messageError.push('Internal service error')

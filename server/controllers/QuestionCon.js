@@ -82,6 +82,13 @@ class QuestionCon {
             })
             .catch(next)
     }
+    static destroy(req,res,next){
+        question.deleteOne({id:req.params.id})
+            .then(respone=>{
+                res.status(200).json(respone)
+            })
+            .catch(next)
+    }
 
 }
 
