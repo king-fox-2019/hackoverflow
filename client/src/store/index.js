@@ -143,8 +143,8 @@ export default new Vuex.Store({
         url:`questions/${payload}`,
       })
       .then(({data}) => {
+        console.log(data)
         commit('FETCH_DATA',data)
-        router.push('/')
       })
       .catch(({message}) => {
         console.log(message)

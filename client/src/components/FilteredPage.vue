@@ -1,8 +1,8 @@
 <template>
   <div class="col-6">
       <div class="top-option">
-          <h3>Questions Section</h3>
-          <button type="button" class="btn btn-primary" @click="ask" >Ask Question</button>
+          <h3>Filtered Section</h3>
+          <button type="button" class="btn btn-primary" @click="ask" >Filtered Page</button>
       </div>
       <div class="filter-bar" style="margin-bottom:20px;margin-top:-20px">
             <div class="btn-group btn-group-toggle" style="color: transparent;" data-toggle="buttons">
@@ -83,7 +83,7 @@ export default {
         }
     },
     created(){
-    //   this.$store.dispatch('fetchQuestion')
+      this.$store.dispatch('fetchQuestion')
     }
     
 

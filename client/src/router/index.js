@@ -32,6 +32,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "ask" */ '../views/Ask.vue')
   },
   {
+    path: '/filteredpage',
+    name: 'filteredpage',
+    // route level code-splitting
+    // this generates a separate chunk (ask.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "ask" */ '../views/FilteredPage.vue')
+  },
+  {
     path: '/editor/:id',
     name: 'editor',
     // route level code-splitting

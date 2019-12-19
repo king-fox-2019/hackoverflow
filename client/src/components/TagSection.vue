@@ -33,7 +33,7 @@ export default {
         filter(keyword){
             // console.log(keyword)
             this.$store.dispatch('filterData',keyword)
-            // this.$router.push('/')
+            this.$router.push('/filteredpage')
         }
     }
 }
