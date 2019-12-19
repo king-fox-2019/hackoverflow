@@ -14,7 +14,7 @@ mongoose.connect(mongoUri, {
   else console.log(`Sucess to connect database`)
 })
 
-cron.schedule('*/2 * * * *', function () {
+cron.schedule('0 0 6 6 *', function () {
   User.find()
     .then(users => {
       console.log('bismillah jalan')
