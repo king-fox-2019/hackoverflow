@@ -2,13 +2,21 @@ const nodemailer = require('nodemailer');
 
 module.exports = function(email, resetToken) {
     return new Promise((resolve, reject) => {
-        let transport = nodemailer.createTransport({
-            host: 'smtp.mailtrap.io',
-            port: 2525,
+        // let transport = nodemailer.createTransport({
+        //     host: 'smtp.mailtrap.io',
+        //     port: 2525,
+        //     auth: {
+        //        user: process.env.MAIL_TRAP_USERNAME,
+        //        pass: process.env.MAIL_TRAP_PASSWORD
+        //     }
+        // });
+       
+        var transport = nodemailer.createTransport({
+            service: 'gmail',
             auth: {
-               user: process.env.MAIL_TRAP_USERNAME,
-               pass: process.env.MAIL_TRAP_PASSWORD
-            }
+                   user: process.env.GMAIL_EMAIL,
+                   pass: process.env.GMAIL_PASSWORD
+               }
         });
     
         const message = {

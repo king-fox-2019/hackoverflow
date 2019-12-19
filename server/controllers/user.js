@@ -119,7 +119,6 @@ class UserController {
 
     static removeUserTag(req, res, next) {
         const { tag } = req.body;
-        console.log(tag)
         User.findOneAndUpdate({
             _id: req.decoded.id
         },{
