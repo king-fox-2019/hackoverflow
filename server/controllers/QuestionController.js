@@ -1,4 +1,5 @@
 const Question = require('../models/question')
+const Answer = require('../models/answer')
 
 class QuestionController {
   static create(req, res, next) {
@@ -68,7 +69,10 @@ class QuestionController {
 
   static deleteQuestion(req, res, next) {
     const { id } = req.params
-    Question.deleteOne({ _id: id })
+    Answer.deleteMany({ question_id: id })
+      .then(_ => {
+        return Question.deleteOne({ _id: id })
+      })
       .then(result => {
         res.status(200).json(result)
       })

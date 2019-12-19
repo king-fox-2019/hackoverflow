@@ -118,6 +118,7 @@ export default {
             timer: 1500
           })
           this.$store.dispatch('getAllUsersQuestions')
+          this.$store.dispatch('getAllUsersAnswers')
         })
         .catch(err => {
           console.log(err)
@@ -168,9 +169,6 @@ export default {
         return this.$store.state.userData
       }
     }
-  },
-  created () {
-    this.tags = this.$store.state.userData.tags
   }
 }
 </script>
