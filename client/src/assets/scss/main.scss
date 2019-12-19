@@ -1,3 +1,7 @@
+* {
+  outline: none;
+}
+
 $primary: #7871aa;
 $secondary: #5d707f;
 $accent: #4e5283;
@@ -13,9 +17,6 @@ $theme-colors: (
   'danger': $danger
 );
 
-* {
-  outline: none;
-}
-
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
+@import './style.scss';

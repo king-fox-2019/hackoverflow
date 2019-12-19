@@ -15,6 +15,8 @@
               :state.sync="validateEmail"
               required
               placeholder="Email"
+              autocomplete="off"
+              autofocus
             ></b-form-input>
           </b-form-group>
 
@@ -27,6 +29,7 @@
               :state.sync="validatePassword"
               required
               placeholder="Password"
+              autocomplete="off"
             ></b-form-input>
           </b-form-group>
 

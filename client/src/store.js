@@ -87,6 +87,10 @@ export default new Vuex.Store({
       return server.patch(`answers/${payload.id}/${payload.side}vote`, null, {
         headers: { access_token }
       })
+    },
+    postQuestion(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server.post('questions', payload, { headers: { access_token } })
     }
   },
   modules: {}

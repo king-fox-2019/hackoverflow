@@ -14,9 +14,9 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faCaretUp, faCaretDown)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 dom.watch()
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
@@ -41,7 +41,8 @@ router.beforeEach((to, from, next) => {
       else next()
     })
     .catch(() => {
-      next()
+      if (to.matched.some(record => record.meta.requiresAuth)) next('/')
+      else next()
     })
     .finally(() => loader.hide())
 })

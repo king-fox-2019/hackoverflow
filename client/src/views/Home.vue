@@ -1,11 +1,17 @@
 <template>
   <div id="home">
-    <b-jumbotron class="text-light text-center" bg-variant="primary" fluid>
+    <b-jumbotron
+      class="text-light text-center"
+      lead-tag="div"
+      bg-variant="primary"
+      fluid
+    >
       <template v-slot:header>Stun Overflow</template>
 
       <template v-slot:lead
-        >Having unanswered questions? Ask for help and get stunned
-        together!</template
+        ><p>
+          Having unanswered questions? Ask for help and get stunned together!
+        </p></template
       >
 
       <hr class="my-4 w-75 border-success" />
@@ -15,7 +21,7 @@
       >
     </b-jumbotron>
 
-    <b-container>
+    <b-container id="question-list">
       <router-link class="text-decoration-none" to="/">
         <h1>All Question</h1>
       </router-link>
@@ -29,7 +35,7 @@
         <b-button variant="primary" type="submit">Search</b-button>
       </b-form>
 
-      <hr class="mt-3 mb-4 border-primary" />
+      <hr class="mt-4 mb-5 border-primary" />
 
       <ul class="list-unstyled">
         <b-media
@@ -104,18 +110,18 @@ export default {
     getQuestions() {
       const loader = this.$loading.show({ container: this.$refs.questionList })
       this.$store
-        .dispatch(
-          'getAllQuestions',
-          this.searchQuerry || this.$route.query.search || undefined
-        )
+        .dispatch('getAllQuestions', this.$route.query.search || undefined)
         .finally(() => loader.hide())
     },
     search() {
-      this.$router.push(`/search?search=${this.searchQuerry}`)
+      this.$router.push(
+        `/${this.searchQuerry ? `search?search=${this.searchQuerry}` : ''}`
+      )
     }
   },
   watch: {
-    '$route.fullPath'() {
+    '$route.fullPath'(val) {
+      console.log(val)
       this.getQuestions()
     }
   },
@@ -129,5 +135,9 @@ export default {
 .stat-box {
   width: 4rem;
   height: 4rem;
+}
+
+#question-list {
+  min-height: 80vh;
 }
 </style>

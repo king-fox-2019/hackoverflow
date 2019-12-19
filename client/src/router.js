@@ -22,6 +22,14 @@ const routes = [
     }
   },
   {
+    path: '/post',
+    name: 'post',
+    component: () => import(/* webpackChunkName: "post" */ '@/views/Post.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/questions/:id',
     name: 'questionDetail',
     component: () =>
