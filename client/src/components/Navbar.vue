@@ -8,7 +8,7 @@
       <b-navbar-nav class="ml-auto" v-if="onSession">
         <b-nav-item to="/post">Post Question</b-nav-item>
         <b-nav-item-dropdown :text="$store.state.email" right>
-          <b-dropdown-item to="/profile">Profile</b-dropdown-item>
+          <!-- <b-dropdown-item to="/watchedtags">Watched Tags</b-dropdown-item> -->
           <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>

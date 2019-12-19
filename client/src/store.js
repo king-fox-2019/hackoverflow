@@ -9,6 +9,7 @@ export default new Vuex.Store({
     onSession: null,
     id: '',
     email: '',
+    watchedTags: [],
     questions: []
   },
   mutations: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     SET_EMAIL(state, email) {
       state.email = email
     },
+    SET_WATCHED_TAGS(state, tags) {
+      state.watchedTags = tags
+    },
     SET_QUESTIONS(state, questions) {
       state.questions = questions
     }
@@ -32,6 +36,7 @@ export default new Vuex.Store({
         commit('SET_SESSION', true)
         commit('SET_EMAIL', response.data.data.email)
         commit('SET_ID', response.data.data._id)
+        commit('SET_WATCHED_TAGS', response.data.data.watchedTags)
         return response
       })
     },
@@ -41,6 +46,7 @@ export default new Vuex.Store({
         commit('SET_SESSION', true)
         commit('SET_EMAIL', response.data.data.email)
         commit('SET_ID', response.data.data._id)
+        commit('SET_WATCHED_TAGS', response.data.data.watchedTags)
         return response
       })
     },
@@ -51,12 +57,23 @@ export default new Vuex.Store({
           commit('SET_SESSION', true)
           commit('SET_EMAIL', response.data.data.email)
           commit('SET_ID', response.data.data._id)
+          commit('SET_WATCHED_TAGS', response.data.data.watchedTags)
           return response
         })
         .catch(response => {
           commit('SET_SESSION', false)
           commit('SET_EMAIL', '')
           commit('SET_ID', '')
+          commit('SET_WATCHED_TAGS', [])
+          return response
+        })
+    },
+    onUpdateWatchedTags({ commit }, watchedTags) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .patch('user/watchedtags', watchedTags, { headers: { access_token } })
+        .then(response => {
+          commit('SET_WATCHED_TAGS', response.data.data.watchedTags)
           return response
         })
     },
@@ -65,6 +82,7 @@ export default new Vuex.Store({
       commit('SET_SESSION', false)
       commit('SET_EMAIL', '')
       commit('SET_ID', '')
+      commit('SET_WATCHED_TAGS', [])
     },
     getAllQuestions({ commit }, searchQuery) {
       return server

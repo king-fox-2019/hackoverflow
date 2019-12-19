@@ -27,17 +27,80 @@
 
     <b-container id="question-list">
       <router-link class="text-decoration-none" to="/">
-        <h1>All Question</h1>
+        <h1 class="d-inline-block">All Question</h1>
       </router-link>
-      <b-form inline @submit.prevent="search">
-        <b-input
-          class="mb-2 mr-sm-2 mb-sm-0"
-          v-model="searchQuerry"
-          placeholder="Search Question"
-        ></b-input>
 
-        <b-button variant="primary" type="submit">Search</b-button>
-      </b-form>
+      <b-row>
+        <b-form
+          class="col-12 col-sm-8 col-lg-6 d-flex flex-wrap align-items-center px-0"
+          @submit.prevent="search"
+        >
+          <b-row class="w-100 mx-0 ">
+            <b-col cols="12" sm="10">
+              <b-input
+                class="w-100"
+                v-model="searchQuerry"
+                placeholder="Search Question"
+              ></b-input>
+            </b-col>
+            <b-col
+              class="text-center text-sm-right mt-2 mt-sm-0"
+              cols="12"
+              sm="2"
+            >
+              <b-button variant="primary" type="submit">Search</b-button>
+            </b-col>
+          </b-row>
+        </b-form>
+
+        <b-form
+          class="col-12 col-sm-8 col-lg-6 d-flex flex-wrap align-items-center mt-2 mt-lg-0 px-0"
+          @submit.prevent="updateWatchedTags"
+          v-if="onEditWatchedTags"
+        >
+          <b-row class="w-100 mx-0 ">
+            <b-col cols="12" sm="10">
+              <b-input
+                class="w-100"
+                v-model="watchedTagsString"
+                placeholder="Watch Tags"
+              ></b-input>
+            </b-col>
+            <b-col
+              class="text-center text-sm-right mt-2 mt-sm-0"
+              cols="12"
+              sm="2"
+            >
+              <b-button variant="primary" type="submit">Save</b-button>
+            </b-col>
+          </b-row>
+        </b-form>
+
+        <div
+          class="col-12 col-md-8 col-lg-6 d-flex flex-column flex-sm-row align-items-center mt-2 mt-lg-0"
+          v-else
+        >
+          <h6 class="mb-0 text-accent">Watched Tags:</h6>
+          <div>
+            <b-badge
+              class="mx-1"
+              variant="secondary"
+              v-for="tag in watchedTags"
+              :key="tag"
+              :to="`/search?search=${tag}`"
+              >{{ tag }}</b-badge
+            >
+          </div>
+          <b-button
+            class="mt-2 mt-sm-0 ml-sm-3"
+            variant="outline-primary"
+            size="sm"
+            pill
+            @click="setEditWatchedTags"
+            >Edit Tags</b-button
+          >
+        </div>
+      </b-row>
 
       <hr class="mt-4 mb-5 border-primary" />
 
@@ -102,12 +165,17 @@ export default {
   name: 'home',
   data() {
     return {
-      searchQuerry: ''
+      searchQuerry: '',
+      watchedTagsString: '',
+      onEditWatchedTags: false
     }
   },
   computed: {
     onSession() {
       return this.$store.state.onSession
+    },
+    watchedTags() {
+      return this.$store.state.watchedTags
     },
     questions() {
       return this.$store.state.questions
@@ -124,6 +192,25 @@ export default {
       this.$router.push(
         `/${this.searchQuerry ? `search?search=${this.searchQuerry}` : ''}`
       )
+    },
+    setEditWatchedTags() {
+      this.watchedTagsString = this.watchedTags.join(', ')
+      this.onEditWatchedTags = true
+    },
+    updateWatchedTags() {
+      this.$store
+        .dispatch('onUpdateWatchedTags', {
+          watchedTags: this.watchedTagsString
+        })
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+        })
+        .catch(({ response }) =>
+          response.data.message.forEach(msg =>
+            this.$toasted.show(msg, { type: 'error' })
+          )
+        )
+        .finally(() => (this.onEditWatchedTags = false))
     }
   },
   watch: {
