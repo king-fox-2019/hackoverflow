@@ -1,0 +1,87 @@
+<template>
+    <sui-message id="message">
+        <sui-header>{{data.title}}</sui-header>
+        <small>{{ createdAt}}</small>
+        <sui-card-description>
+            {{ data.description }}
+        </sui-card-description>
+        <hr>
+        <div>
+            <a is="sui-list-description">
+                <sui-icon name="chat"/>
+                {{ dataAnswer.length }}
+                /
+                <sui-icon name="thumbs up outline"/>
+                {{ dataUpVotes.length}}
+                /
+                <sui-icon name="thumbs down outline"/>
+                {{ dataDownVotes.length }}
+            </a>
+        </div>
+        <sui-list divided relaxed id="list">
+            <answer v-for="answer in dataAnswer" :key="answer._id" :answer="answer"/>
+        </sui-list>
+    </sui-message>
+</template>
+
+<script>
+    // import axios from "../../config/axios";
+    import axios from 'axios'
+    import answer from "../answer";
+
+    export default {
+        name: "detailQuestion",
+        data() {
+            return {
+                id: String,
+                data: Object,
+                dataAnswer: [],
+                dataUpVotes: [],
+                dataDownVotes: []
+            }
+        },
+        methods: {
+            fetchDataDetail() {
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:3000/questions/' + this.id,
+                    headers: {
+                        Authorization: 'token ' + this.$cookies.get('token')
+                    }
+                }).then(response => {
+                    // console.log(response.data.data);
+                    this.data = response.data.data;
+                    this.dataAnswer = response.data.data.answer;
+                    this.dataUpVotes = response.data.data.upVotes;
+                    this.dataDownVotes = response.data.data.downVotes;
+                }).catch(err => {
+                    console.log(err.response);
+                })
+            }
+        },
+        mounted() {
+            this.id = this.$route.params.id;
+            this.fetchDataDetail();
+        },
+        computed: {
+            createdAt() {
+                let date = new Date(this.data.created_at);
+                return date.toLocaleString(
+                    "en-US",
+                    {timeZone: "Asia/Jakarta"}
+                );
+            }
+        },
+        components: {
+            answer
+        }
+    }
+</script>
+
+<style scoped>
+
+    #list{
+        padding: 10px;
+        background-color: #d6e5fa !important;
+    }
+</style>
