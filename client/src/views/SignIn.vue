@@ -15,6 +15,10 @@
       </b-col>
       <b-col class>
         <div>
+          <h1
+            style="text-align:left;border-bottom:5px solid orange;width:18rem"
+            class="mb-4"
+          >Login Form</h1>
           <form>
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Email Address / Username</label>
@@ -31,6 +35,15 @@
                 style="background-color:orange;color:white"
                 role="button"
               >Sign In</a>
+            </div>
+            <h6 style="text-align:center" class="mx-4 my-2">OR</h6>
+            <div class="d-flex justify-content-center">
+              <router-link
+                to="/signup"
+                class="btn rounded-0"
+                style="background-color:orange;color:white"
+                role="button"
+              >Sign Up</router-link>
             </div>
           </form>
         </div>

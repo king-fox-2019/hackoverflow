@@ -30,7 +30,7 @@ class UserController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        res.status(400).json(err);
+        next(err);
       });
   }
   static signinUser(req, res, next) {
@@ -38,7 +38,6 @@ class UserController {
     const condition = {
       $or: [{ username: emailUsername }, { email: emailUsername }]
     };
-    console.log(req.body);
     User.findOne(condition)
       .then(user => {
         if (user) {

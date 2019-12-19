@@ -53,7 +53,7 @@
               class="pl-2"
               style="text-align:left;border-left:3px solid orange"
             ></div>
-            <div class="pt-2 d-flex justify-content-start pl-0">
+            <div v-if="currentQuestion._id" class="pt-2 d-flex justify-content-start pl-0">
               <div
                 class="btn rounded-0"
                 style="background-color:white;color:orange;border:3px solid orange"
@@ -111,7 +111,7 @@
               class="pl-2"
               style="text-align:left;border-left:3px solid orange"
             ></div>
-            <div class="pt-2 d-flex justify-content-start pl-0">
+            <div v-if="currentQuestion._id" class="pt-2 d-flex justify-content-start pl-0">
               <div
                 class="btn rounded-0"
                 style="background-color:white;color:orange;border:3px solid orange;width:6.5rem"
@@ -139,7 +139,7 @@
               >
                 <span>
                   <i class="fa fa-user-circle"></i>
-                  {{currentQuestion.author.name}}
+                  {{answer.author.name}}
                 </span>
                 <span style="margin-left:30px">
                   <i class="fa fa-calendar-alt"></i>

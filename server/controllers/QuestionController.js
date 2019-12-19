@@ -66,7 +66,10 @@ class QuestionController {
     const id = req.params.id;
     Question.findById(id)
       .populate("author")
-      .populate("answers")
+      .populate({
+        path: "answers",
+        populate: { path: "author", model: "User" }
+      })
       .then(question => {
         if (question) {
           const responses = {

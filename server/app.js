@@ -8,8 +8,11 @@ const cors = require("cors");
 const routes = require("./routes");
 const connectToDatabase = require("./config/connectToDatabase");
 const errorHandler = require("./middlewares/errorHandler");
+const cronSendMail = require("./jobs/sendMail");
 
 connectToDatabase();
+
+cronSendMail();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
