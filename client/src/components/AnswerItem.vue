@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-sm-1 text-right" v-if="$store.state.isLogin">
         <span @click="upvote"><i class="fa fa-arrow-up"></i></span>
-        <span><i class="fa fa-arrow-down"></i></span>
       </div>
       <div class="col-sm-1 status">
         <div class="number">{{answer.votes.length}}</div>

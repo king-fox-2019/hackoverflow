@@ -12,7 +12,11 @@ const questionSchema = new Schema({
   },
   votes: [{ 
     type: Schema.Types.ObjectId,
-    ref: 'User' 
+    ref: 'User'
+  }],
+  downvotes: [{ 
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }],
   answers: [{ 
     type: Schema.Types.ObjectId,

@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-sm-1 text-right" v-if="$store.state.isLogin">
         <span @click="upvote"><i class="fa fa-arrow-up"></i></span>
-        <span><i class="fa fa-arrow-down"></i></span>
+        <span @click="downvote"><i class="fa fa-arrow-down"></i></span>
       </div>
       <div class="col-sm-1 status">
-        <div class="number">{{question.votes.length}}</div>
+        <div class="number">{{question.votes.length - question.downvotes.length}}</div>
         Vote
       </div>
       <div class="col-sm-1 status">
@@ -20,6 +20,7 @@
         <div class="text-right">
           <button class="btn btn-warning btn-sm m-2" @click="viewAnswer">View Answer</button>
           <button type="button" class="btn btn-warning btn-sm m-2" v-if="$store.state.isLogin" @click="popModal"> Add Answer </button>
+          <a href="#" @click.prevent="deleteQuestion" v-if="$store.state.isLogin"><i class="fa fa-trash"></i></a>
         </div>
       </div>
     </div>
@@ -58,16 +59,57 @@ export default {
     question: Object
   },
   methods: {
+    deleteQuestion () {
+      axios({
+        method: 'delete',
+        url: `/question/${this.question._id}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('fetchData')
+        })
+        .catch(() => {
+          this.$swal.fire(
+            'sumting wong',
+            'alredy voted',
+            'error'
+          )
+        })
+    },
     refresh () {
       this.viewAnswer()
       setTimeout(() => {
         this.viewAnswer()
-      }, 250)
+      }, 1000)
     },
     upvote () {
       axios({
         method: 'PATCH',
         url: `/question`,
+        data: {
+          question: this.question._id
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('fetchData')
+        })
+        .catch(() => {
+          this.$swal.fire(
+            'sumting wong',
+            'alredy voted',
+            'error'
+          )
+        })
+    },
+    downvote () {
+      axios({
+        method: 'PATCH',
+        url: `/question/downvote`,
         data: {
           question: this.question._id
         },

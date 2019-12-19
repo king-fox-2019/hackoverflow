@@ -119,7 +119,6 @@ export default {
               'please login',
               'success'
             )
-            console.log(data)
           })
           .catch(() => {
             this.$swal.fire(

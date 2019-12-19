@@ -17,6 +17,10 @@ const answerSchema = new Schema({
   votes: [{ 
     type: Schema.Types.ObjectId,
     ref: 'User' 
+  }],
+  downvotes: [{ 
+    type: Schema.Types.ObjectId,
+    ref: 'User' 
   }]
 })
 

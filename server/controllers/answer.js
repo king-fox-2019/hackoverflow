@@ -28,10 +28,29 @@ class AnswerController {
       .then(answer => {
         if(answer.votes.includes(req.loggedUser.id)) {
           next({status: 401, message: "already voted"})
+        } else if (answer.downvotes.includes(req.loggedUser.id)){
+          next({status: 401, message: "already voted"})
         } else {
           Answer.updateOne({ _id: answer}, { $push: { votes: req.loggedUser.id } })
             .then(n => {
               res.status(200).json({message: 'success upvote'})
+            })
+        }
+      })
+      .catch(next)
+  }
+  static downvote(req, res, next) {
+    let { answer } = req.body
+    Answer.findOne({ _id: answer})
+      .then(answer => {
+        if(answer.votes.includes(req.loggedUser.id)) {
+          next({status: 401, message: "already voted"})
+        } else if (answer.downvotes.includes(req.loggedUser.id)){
+          next({status: 401, message: "already voted"})
+        } else {
+          Answer.updateOne({ _id: answer}, { $push: { downvotes: req.loggedUser.id } })
+            .then(n => {
+              res.status(200).json({message: 'success downvote'})
             })
         }
       })
