@@ -2,8 +2,8 @@
   <div class="container">
     <div class="home row">
       <div class="col-md-2 overflow-hidden">
-        <img v-if="!$store.state.isLogin" alt="Vue logo" src="../assets/logo.png" class="img-fluid">
-        <div v-if="$store.state.isLogin">
+        <img v-if="!$store.state.user" alt="Vue logo" src="../assets/logo.png" class="img-fluid">
+        <div v-if="$store.state.user">
           <img alt="Vue logo" :src="$store.state.user.image" class="img-fluid">
           <div>
             <h5>Watched tags: </h5>
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Main from '@/components/Main.vue'
 
 export default {

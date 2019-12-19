@@ -22,7 +22,7 @@
         <b-nav-form v-if="!$store.state.isLogin">
           <router-link to="/user">
             <b-button size="sm" class="ml-2 mr-2 btn btn-warning btn-sm">
-              User
+              Login / Register
             </b-button>
           </router-link>
         </b-nav-form>

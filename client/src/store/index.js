@@ -16,6 +16,7 @@ export default new Vuex.Store({
     },
     LOGOUT (state) {
       state.isLogin = false
+      state.user = null
       localStorage.clear()
     },
     FETCH_DATA (state, payload) {
@@ -66,6 +67,7 @@ export default new Vuex.Store({
     },
     checkLogin (context) {
       if (localStorage.getItem('token')) {
+        context.dispatch('fetchUser')
         context.commit('LOGIN')
       }
     },
@@ -97,6 +99,7 @@ export default new Vuex.Store({
         url: `/question`
       })
         .then(({ data }) => {
+          data.sort((a, b) => (a.votes) < (b.votes))
           context.commit('FETCH_DATA', data)
         })
         .catch(err => {
