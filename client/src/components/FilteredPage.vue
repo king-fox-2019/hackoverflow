@@ -4,19 +4,7 @@
           <h3>Filtered Section</h3>
           <button type="button" class="btn btn-primary" @click="ask" >Filtered Page</button>
       </div>
-      <div class="filter-bar" style="margin-bottom:20px;margin-top:-20px">
-            <div class="btn-group btn-group-toggle" style="color: transparent;" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="options" @click="fetchAll" id="option1" autocomplete="off" checked> Newest
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" @click="unanswered" id="option1" autocomplete="off"> Unanswered
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" @click="popular" id="option1" autocomplete="off"> Popular
-                </label>
-            </div>
-      </div>
+
         <div class="card" v-for="(question,i) in questions" :key="i" style="border:none">
             <hr>
             <div class="card-body">
@@ -83,7 +71,7 @@ export default {
         }
     },
     created(){
-      this.$store.dispatch('fetchQuestion')
+    //   this.$store.dispatch('fetchQuestion')
     }
     
 

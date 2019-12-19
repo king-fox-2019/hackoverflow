@@ -22,7 +22,7 @@ export default {
   }, 
   created(){
         if(localStorage.getItem('token')){
-            this.$store.dispatch('fetchQuestion') 
+            // this.$store.dispatch('fetchQuestion') 
             this.$store.dispatch('getAllTags')
         }
     }
