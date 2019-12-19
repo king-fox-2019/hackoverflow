@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <h1>Question</h1>
-    <br />
+    <b-button >Delete</b-button>
     <hr />
     <br />
     <div id="card" style="width:70%">
@@ -16,22 +16,30 @@
       <AnswerCard :data="answer" />
       <hr />
     </div>
+    <h1 v-if="!answers.length">No one give response to this post yet</h1>
+    <br />
+    <br />
+    <hr />
+    <br />
+    <AddAnswer />
   </div>
 </template>
 
 <script>
 import Card from "../components/Card";
-import AnswerCard from '../components/AnswerCard';
+import AnswerCard from "../components/AnswerCard";
+import AddAnswer from "../components/AddAnswer";
 
 export default {
   name: "detail",
   components: {
     Card,
-    AnswerCard
+    AnswerCard,
+    AddAnswer
   },
   created() {
     this.$store.dispatch("FetchOneQuestion", this.$route.params.id);
-    this.$store.dispatch("FetchTheAnswer", this.$route.params.id)
+    this.$store.dispatch("FetchTheAnswer", this.$route.params.id);
   },
   computed: {
     item() {
@@ -41,8 +49,8 @@ export default {
       return this.$store.state.answerToOne;
     }
   },
-  mounted(){
-    console.log('this answers', this.answers);
+  mounted() {
+    console.log("this answers", this.answers);
   }
 };
 </script>
@@ -67,6 +75,6 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #0e9915;
 }
 </style>

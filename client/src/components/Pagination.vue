@@ -6,12 +6,6 @@
         <Card :data="item" />
       </router-link>
     </div>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
   </div>
 </template>
 
@@ -23,15 +17,9 @@ export default {
     Card
   },
   data() {
-    return {
-      perPage: 1,
-      currentPage: 1
-    };
+    return {};
   },
   computed: {
-    rows() {
-      return this.allQuestion.length;
-    },
     allQuestion() {
       console.log("masuk");
       return this.$store.state.allQuestion;
@@ -39,7 +27,7 @@ export default {
   },
   created() {
     this.$store.dispatch("FetchAllQuestion");
-    console.log(this.$route.name, 'nama route');
+    console.log(this.$route.name, "nama route");
   },
   mounted() {
     // this.items = this.allQuestion
@@ -49,7 +37,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#my-table{
+#my-table {
   margin: 10px 0px;
 }
 h3 {
@@ -63,10 +51,12 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a , a:visited{
-  color: #42b983;
+a,
+a:visited {
+  color: #000000;
 }
-a:hover, a:active{
+a:hover,
+a:active {
   text-decoration: none;
   color: rgb(12, 72, 236);
 }

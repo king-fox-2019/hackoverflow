@@ -24,7 +24,7 @@ class Controller {
     }
 
     static getAllQuestion(req, res, next) {
-        Tanya.find({}, null, {sort: '-date'}).populate('asker')
+        Tanya.find({}, null, { sort: '-date' }).populate('asker')
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })
@@ -60,14 +60,10 @@ class Controller {
     }
 
     static increaseVote(req, res, next) {
-        Tanya.findById(req.params.id)
-            .then((pertanyaan) => {
-                if (!pertanyaan.upVotes.includes(req.decode.id)) {
-                    return Tanya.findByIdAndUpdate(req.params.id, {
-                        $push: { upVotes: req.decode.id }
-                    }, { new: true })
-                }
-            })
+        Tanya.findByIdAndUpdate(req.params.id, {
+            $addToSet: { upVotes: req.decode.id },
+            $pull: { downVotes: req.decode.id }
+        }, { new: true })
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })
@@ -75,14 +71,10 @@ class Controller {
     }
 
     static decreaseVote(req, res, next) {
-        Tanya.findById(req.params.id)
-            .then((pertanyaan) => {
-                if (!pertanyaan.downVotes.includes(req.decode.id)) {
-                    return Tanya.findByIdAndUpdate(req.params.id, {
-                        $pull: { downVotes: req.decode.id }
-                    }, { new: true })
-                }
-            })
+        Tanya.findByIdAndUpdate(req.params.id, {
+            $addToSet: { downVotes: req.decode.id },
+            $pull: { upVotes: req.decode.id }
+        }, { new: true })
             .then((pertanyaan) => {
                 res.status(200).json(pertanyaan)
             })

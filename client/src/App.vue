@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Navbar />
-      <!-- <router-link to="/">Home</router-link> | 
-      <router-link to="/about">About</router-link>-->
+      <Navbar style="position:fixed; top:0;width: 100vw; z-index:100" />
+      <br />
+      <br />
+      <br />
     </div>
     <router-view />
   </div>

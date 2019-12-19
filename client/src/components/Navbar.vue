@@ -18,6 +18,7 @@
         </router-link>
       </b-navbar-brand>
       <b-navbar-brand  v-if="this.$store.state.isLogin">
+        <b-button variant="outline-dark" class="mr-sm-2"><Add/></b-button>
         <b-button @click.prevent="Logout" variant="primary">Logout</b-button>
       </b-navbar-brand>
     </b-navbar>
@@ -25,8 +26,12 @@
 </template>
 
 <script>
+import Add from "../components/AddQuestion"
+
+
 export default {
   name: "Navbar",
+  components: {Add},
   methods: {
     Logout() {
       localStorage.clear();

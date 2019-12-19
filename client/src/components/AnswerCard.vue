@@ -5,15 +5,21 @@
       <div style="display:flex; flex-direction: row">
         <div id="left-btn">
           <b-button @click.prevent="upVote">^</b-button>
-          
-          <b-card-text><br>{{data.upVotes.length-data.downVotes.length}}</b-card-text>
+          <!-- {{data.upVotes.length}} abc -->
+          <b-card-text>
+            <br />
+            {{totalVote}}
+          </b-card-text>
           <b-button @click.prevent="downVote">v</b-button>
         </div>
         <div style="width: 100%">
-          <b-card-text>{{data.body}}</b-card-text><br><hr>
+          <!-- {{data}} -->
+          <b-card-text>{{data.body}}</b-card-text>
+          <br />
+          <hr />
           <hr />
           <div style="display: flex; flex-direction: row;justify-content: space-around">
-            <b-card-text>{{data.createdAt}}</b-card-text>
+            <b-card-text>{{date}}</b-card-text>
             <b-card-text>{{data.user.username}}</b-card-text>
           </div>
         </div>
@@ -27,7 +33,7 @@ import axios from "axios";
 import swal from "sweetalert2";
 
 export default {
-  name: "card",
+  name: "cardAnswer",
   props: ["data"],
   methods: {
     upVote() {
@@ -37,7 +43,9 @@ export default {
         headers: { token: localStorage.getItem("token") }
       })
         .then(result => {
-          this.$store.dispatch("FetchTheAnswer");
+          // this.$store.dispatch("FetchTheAnswer");
+          this.$store.dispatch("FetchOneQuestion", this.$route.params.id);
+          this.$store.dispatch("FetchTheAnswer", this.$route.params.id);
         })
         .catch(err => {
           swal.fire(err.response.data.message);
@@ -50,7 +58,9 @@ export default {
         headers: { token: localStorage.getItem("token") }
       })
         .then(result => {
-          this.$store.dispatch("FetchTheAnswer");
+          // this.$store.dispatch("FetchTheAnswer");
+          this.$store.dispatch("FetchOneQuestion", this.$route.params.id);
+          this.$store.dispatch("FetchTheAnswer", this.$route.params.id);
         })
         .catch(err => {
           swal.fire(err.response.data.message);
@@ -60,6 +70,14 @@ export default {
   mounted() {
     // console.log(this.data);
     // console.log(this.$route.name);
+  },
+  computed: {
+    totalVote() {
+      return this.data.upVotes.length - this.data.downVotes.length;
+    },
+    date(){
+      return new Date(this.data.createdAt).toLocaleString()
+    }
   }
 };
 </script>

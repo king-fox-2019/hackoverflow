@@ -2,12 +2,12 @@ const Jawab = require('../models/answer')
 
 class Controller {
 
-    static getall(req,res,next){
+    static getall(req, res, next) {
         Jawab.find()
-        .then((jawaban) => {
-            res.status(200).json(jawaban)
-        })
-        .catch(next);
+            .then((jawaban) => {
+                res.status(200).json(jawaban)
+            })
+            .catch(next);
     }
 
     static createAnswer(req, res, next) {
@@ -16,10 +16,10 @@ class Controller {
             question: req.params.id,
             user: req.decode.id
         })
-        .then((jawaban) => {
-            res.status(201).json(jawaban)
-        })
-        .catch(next);
+            .then((jawaban) => {
+                res.status(201).json(jawaban)
+            })
+            .catch(next);
     }
 
     static showQuestionAnswers(req, res, next) {
@@ -31,24 +31,20 @@ class Controller {
     }
 
     static updateAnswer(req, res, next) {
-        Tanya.findByIdAndUpdate(req.params.id, {
+        Jawab.findByIdAndUpdate(req.params.id, {
             body: req.body.body,
         }, { new: true })
-            .then((pertanyaan) => {
-                res.status(200).json(pertanyaan)
+            .then((jawaban) => {
+                res.status(200).json(jawaban)
             })
             .catch(next);
     }
 
     static increaseVote(req, res, next) {
-        Jawab.findById(req.params.id)
-            .then((jawaban) => {
-                if (!jawaban.upVotes.includes(req.decode.id)) {
-                    return Jawab.findByIdAndUpdate(req.params.id, {
-                        $push: { upVotes: req.decode.id }
-                    }, { new: true })
-                }
-            })
+        Jawab.findByIdAndUpdate(req.params.id, {
+            $addToSet: { upVotes: req.decode.id },
+            $pull: { downVotes: req.decode.id }
+        }, { new: true })
             .then((jawaban) => {
                 res.status(200).json(jawaban)
             })
@@ -56,20 +52,15 @@ class Controller {
     }
 
     static decreaseVote(req, res, next) {
-        Jawab.findById(req.params.id)
-            .then((jawaban) => {
-                if (!jawaban.downVotes.includes(req.decode.id)) {
-                    return Jawab.findByIdAndUpdate(req.params.id, {
-                        $pull: { downVotes: req.decode.id }
-                    }, { new: true })
-                }
-            })
+        Jawab.findByIdAndUpdate(req.params.id, {
+            $addToSet: { downVotes: req.decode.id },
+            $pull: { upVotes: req.decode.id }
+        }, { new: true })
             .then((jawaban) => {
                 res.status(200).json(jawaban)
             })
             .catch(next);
     }
-
 }
 
 module.exports = Controller

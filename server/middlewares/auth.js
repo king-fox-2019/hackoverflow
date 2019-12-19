@@ -9,7 +9,7 @@ const Question = require('../models/question')
 function authenticating(req, res, next) {
     console.log('masuk authen');
     try {
-        // console.log('asdasd', verifyToken(req.headers.token))
+        console.log(req.headers.token)
         req.decode = verifyToken(req.headers.token)
         console.log(req.decode);
         User.findById(req.decode.id)
