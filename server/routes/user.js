@@ -6,7 +6,7 @@ const { authenticate } = require('../middlewares/auth')
 router.post('/register', UserController.register)
 
 // login
-router.post('/login', UserController.register)
+router.post('/login', UserController.login)
 
 // get one user
 router.get('/info', authenticate, UserController.getInfo)

@@ -1,4 +1,4 @@
-const { Schema,model,Model } = require('mongoose')
+const { Schema,model } = require('mongoose')
 const { hash } = require('../helpers/bcrypt')
 
 const userSchema = new Schema({
@@ -12,7 +12,7 @@ const userSchema = new Schema({
         match: [/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i, 'Your email is not valid'],
         validate:{
             validator(val){
-                Model.findOne({
+                return User.findOne({
                     email: val
                 })
                 .then(user => {
@@ -38,6 +38,7 @@ const userSchema = new Schema({
 
 
 userSchema.pre('save', function(next){
+    console.log(this.password)
     this.password = hash(this.password)
     next()
 })
