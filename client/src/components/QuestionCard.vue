@@ -5,8 +5,8 @@
          <span class="text-gray-700">Total votes</span>
       </div>
       <div class="px-2 flex flex-col items-start">
-         <router-link :to="`/question/${question._id}`" class="text-3xl font-bold text-gray-600 hover:text-gray-800 border-b border-gray-700 mb-2">{{question.title}}</router-link>
-         <p class="text-gray-700">{{question.description}}</p>
+         <router-link :to="`/question/${question._id}`" class="text-left text-3xl font-bold text-gray-600 hover:text-gray-800 border-b border-gray-700 mb-2">{{question.title}}</router-link>
+         <p class="text-gray-700 text-left">{{question.description}}</p>
       </div>
    </div>
 </template>

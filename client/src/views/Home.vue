@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center my-12">
-    <div class="border border-gray-500 p-6">
+    <div class="border border-gray-500 p-6" id="question-card-container">
       <question-card v-for="question in questions" :key="question._id" :question="question" />
     </div>
   </div>
@@ -33,3 +33,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #question-card-container {
+    max-width: 70%
+  }
+</style>

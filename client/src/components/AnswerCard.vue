@@ -6,8 +6,8 @@
          <i class="fas fa-chevron-down cursor-pointer font-bold text-3xl text-gray-500 hover:text-gray-800" :class="{'text-blue-700': voteFlag == 'down'}" @click="vote('down')"></i>
       </div>
       <div class="flex flex-col items-start p-2 mx-2">
-         <p class="leading-normal">{{answer.content}}</p>
-         <p class="text-gray-500 hover:text-gray-800">By: {{answer.user.username}}</p>
+         <p class="leading-normal text-left">{{answer.content}}</p>
+         <p class="text-gray-500 hover:text-gray-800 text-left">By: {{answer.user.username}}</p>
 
          <div v-if="userIsOwner" class="flex mt-3">
             <router-link :to="`/answer/${answerId}/edit`">

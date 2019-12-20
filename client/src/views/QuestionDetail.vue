@@ -1,6 +1,6 @@
 <template>
    <div class="flex flex-col items-center mt-12">
-      <div class="flex items-center mb-8 border border-gray-500 p-6">
+      <div class="flex items-center mb-8 border border-gray-500 p-6" id="card-detail-container">
          <div class="flex flex-col px-2">
             <i class="fas fa-chevron-up cursor-pointer font-bold text-3xl text-gray-500 hover:text-gray-800" :class="{'text-blue-700': voteFlag == 'up'}" @click="vote('up')"></i>
             <i class="fas fa-chevron-down cursor-pointer font-bold text-3xl text-gray-500 hover:text-gray-800" :class="{'text-blue-700': voteFlag == 'down'}" @click="vote('down')"></i>
@@ -9,9 +9,9 @@
             <i class="far fa-plus-square text-blue-300 hover:text-blue-700 text-5xl mx-4 px-4 cursor-pointer"></i>
          </router-link>
          <div class="flex flex-col items-start">
-            <h2 class="text-gray-700 font-semibold text-xl">{{question.title}}</h2>
-            <h3 class="text-gray-600 font-thin hover:text-gray-800">By: {{user.username}}</h3>
-            <p>{{question.description}}</p>
+            <h2 class="text-gray-700 font-semibold text-xl text-left">{{question.title}}</h2>
+            <h3 class="text-gray-600 font-thin hover:text-gray-800 text-left">By: {{user.username}}</h3>
+            <p class="text-left">{{question.description}}</p>
             <div v-if="userIsOwner" class="flex mt-3">
                <router-link :to="`/question/${this.$route.params.questionId}/edit`">
                   <i class="fas fa-pencil-alt text-2xl mx-3 text-gray-500 hover:text-green-500 cursor-pointer"></i>
@@ -150,6 +150,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+   #card-detail-container {
+      max-width: 70%;
+   }
 </style>
