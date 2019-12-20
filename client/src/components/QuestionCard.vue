@@ -13,7 +13,11 @@
     <hr class="mt-3 mb-3" />
     <b-card-text class="mb-5">{{ detail.description }}</b-card-text>
     <div class="d-flex align-items-baseline justify-content-between">
-      <VoteButton :totalVotes="totalVote" />
+      <VoteButton
+        :totalVotes="totalVote"
+        :questionId="detail._id"
+        :urlTarget="'questions'"
+      />
       <b-button
         size="sm"
         variant="info"

@@ -6,7 +6,12 @@
       <b-card-sub-title class="font-italic mb-3"
         >By {{ detail.owner.username }}</b-card-sub-title
       >
-      <VoteButton :totalVotes="totalVote" />
+      <VoteButton
+        :totalVotes="totalVote"
+        :answerId="detail._id"
+        :questionId="questionId"
+        :urlTarget="'answers'"
+      />
     </b-card>
   </div>
 </template>
@@ -16,7 +21,7 @@ import VoteButton from '@/components/VoteButton.vue';
 
 export default {
   name: 'AnswerCard',
-  props: ['detail'],
+  props: ['detail', 'questionId'],
   components: {
     VoteButton,
   },
