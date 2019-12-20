@@ -11,10 +11,10 @@
                 <sui-icon name="chat"/>
                 {{ dataAnswer.length }}
                 /
-                <sui-icon name="thumbs up outline"/>
+                <a><sui-icon name="thumbs up outline" @click="like"/></a>
                 {{ dataUpVotes.length}}
                 /
-                <sui-icon name="thumbs down outline"/>
+                <a><sui-icon name="thumbs down outline" @click="unLike"/></a>
                 {{ dataDownVotes.length }}
             </a>
         </div>
@@ -47,6 +47,40 @@
                 axios({
                     method: 'get',
                     url: 'http://localhost:3000/questions/' + this.id,
+                    headers: {
+                        Authorization: 'token ' + this.$cookies.get('token')
+                    }
+                }).then(response => {
+                    // console.log(response.data.data);
+                    this.data = response.data.data;
+                    this.dataAnswer = response.data.data.answer;
+                    this.dataUpVotes = response.data.data.upVotes;
+                    this.dataDownVotes = response.data.data.downVotes;
+                }).catch(err => {
+                    console.log(err.response);
+                })
+            },
+            like() {
+                axios({
+                    method: 'patch',
+                    url: 'http://localhost:3000/questions/' + this.id + '/like',
+                    headers: {
+                        Authorization: 'token ' + this.$cookies.get('token')
+                    }
+                }).then(response => {
+                    // console.log(response.data.data);
+                    this.data = response.data.data;
+                    this.dataAnswer = response.data.data.answer;
+                    this.dataUpVotes = response.data.data.upVotes;
+                    this.dataDownVotes = response.data.data.downVotes;
+                }).catch(err => {
+                    console.log(err.response);
+                })
+            },
+            unLike() {
+                axios({
+                    method: 'patch',
+                    url: 'http://localhost:3000/questions/' + this.id + '/unlike',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }

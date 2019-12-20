@@ -13,5 +13,9 @@ router.post('/create', controllerQuestion.create);
 router.get('/:id', controllerQuestion.viewOne);
 //delete question
 router.delete('/:id', controllerQuestion.delete);
+//give like
+router.patch('/:id/like/',controllerQuestion.like);
+//give unlike
+router.patch('/:id/unlike/',controllerQuestion.unLike);
 
 module.exports = router;
