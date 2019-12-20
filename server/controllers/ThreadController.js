@@ -1,4 +1,5 @@
 const Thread = require('../models/Thread')
+const Reply = require('../models/Reply')
 
 class ThreadController {
   static getAll(req, res, next) {
@@ -45,7 +46,10 @@ class ThreadController {
 
   static delete(req, res, next) {
     const id = req.params.id
-    Thread.findByIdAndDelete(id)
+    Reply.deleteMany({thread: id})
+      .then(_ => {
+        return Thread.findByIdAndDelete(id)
+      })
       .then(thread => {
         res.status(200).json(thread)
       })

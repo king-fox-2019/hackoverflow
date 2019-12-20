@@ -10,6 +10,11 @@
           <h1>{{$store.state.currentThread.title}}</h1>
           <p>{{$store.state.currentThread.content}}</p>
         </div>
+          <b-button 
+            class="flex-to-right" 
+            variant="danger" 
+            @click="deleteThread($store.state.currentThread._id)">Delete
+          </b-button>
       </b-col>
       <b-col>
         <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" class="mb-5 mt-4">
@@ -70,9 +75,15 @@ export default {
         data: this.form
       }
       this.$store.dispatch('replyThread', payload)
+      
+      // this.form.content = ''
     },
     onReset() {
       this.form.content = ''
+    },
+    deleteThread(id) {
+      console.log(id)
+      this.$store.dispatch('deleteThread', id)
     }
   }
 }
@@ -94,5 +105,9 @@ export default {
   }
   .button-group button {
     margin-left: 1rem;
+  }
+  .flex-to-right {
+    margin-left: auto;
+    align-self: flex-start;
   }
 </style>

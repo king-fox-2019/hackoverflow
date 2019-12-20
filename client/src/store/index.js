@@ -230,6 +230,34 @@ export default new Vuex.Store({
             })
           })
       }
+    },
+    deleteThread(context, id) {
+      axios({
+        url: `/thread/${id}`,
+        method: 'DELETE',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({data}) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thread successfully deleted'
+          })
+          router.push('/')
+        })
+        .catch(err => {
+          let msg = err.response.data.message
+          if (err.response.data.message === "jwt malformed") {
+            msg = 'You need to login first'
+          }
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: msg
+          })
+        })
     }
   },
   modules: {
