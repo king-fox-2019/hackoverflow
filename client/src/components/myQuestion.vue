@@ -9,6 +9,7 @@
 
         <div style="margin-top:20px" v-if="update">
             <h3>add Question</h3>
+            <b-form-input v-model="title" placeholder="Enter your title" ></b-form-input>
             <wysiwyg v-model="myQuestion" />
             <button @click.prevent ='save(data._id)' class="btn btn-secondary btn-lg btn-block">Create</button>
         </div>
@@ -23,6 +24,7 @@ export default {
     props:["data"],
     data:function(){
         return {
+            title : this.data.title,
             myQuestion : this.data.desc,
             update: false
         }
@@ -43,10 +45,12 @@ export default {
                 token : localStorage.getItem('token')
             },
             data:{
+                title: this.title,
                 desc: this.myQuestion
             }
             })
             .then(() =>{
+                this.$emit("fetch")
                 this.update = false
             })
         },

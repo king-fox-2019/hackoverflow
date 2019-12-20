@@ -5,7 +5,6 @@
             <b-card-text v-html="data.desc"></b-card-text>
 
             <a @click="showUpdate" class="card-link" style="color:black">Update</a>
-            <b-link href="#" class="card-link" style="color:red">Delete</b-link>
         </b-card>
 
          <div style="margin-top:20px" v-if="update">
@@ -49,6 +48,7 @@ export default {
             })
             .then(() =>{
                 this.update = false
+                this.$emit("fetch")
             })
         }
     }

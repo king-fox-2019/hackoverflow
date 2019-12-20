@@ -8,7 +8,8 @@ const mongoose = require('mongoose')
 const routes = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
 const app = express()
-
+const cronJob = require('./helpers/cron')
+cronJob()
 
 mongoose.connect('mongodb://localhost:27017/gitOverflow',{useNewUrlParser: true, useUnifiedTopology: true})
         .then(() => {

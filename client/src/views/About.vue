@@ -9,18 +9,19 @@
       </div>
     </div>
     <div v-if="setUser">
+      <b-col lg="4" class="pb-2"><b-button size="sm" @click.prevent="logout">LogOut</b-button></b-col>
       <div>
         <b-card no-body>
           <b-tabs card>
             <b-tab title="My Questions" active>
               <div v-for="question in allQuestion" :key="question.id">
-                <myQuestion :data="question"/>
+                <myQuestion :data="question" @fetch="fetchNew"/>
                 <hr>
               </div>
             </b-tab>
             <b-tab title="My Answers">
               <div v-for="answer in allAnswer" :key="answer.id">
-                <myAnswer :data="answer"/>
+                <myAnswer :data="answer" @fetch="fetchNew"/>
                 <hr>
               </div>
             </b-tab>
@@ -59,7 +60,15 @@ export default {
     ...mapActions({
       fetchAnswer: 'myAnswer/fetchAction',
       fetchAction: 'myQuestion/fetchAction',
-    })
+    }),
+    fetchNew(){
+      this.fetchAnswer()
+      this.fetchAction()
+    },
+    logout(){
+      localStorage.clear()
+      this.$router.push('/')
+    }
   },
   created(){
     if(localStorage.getItem('token')){
