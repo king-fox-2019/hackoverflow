@@ -15,6 +15,7 @@ class ThreadController {
   static getOne(req, res, next) {
     Thread.findById(req.params.id)
       .populate('author')
+      .populate('replies')
       .then(thread => {
         res.status(200).json(thread)
       })

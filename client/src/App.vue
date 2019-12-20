@@ -25,6 +25,8 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
+
 
 * {
   color: #353535;

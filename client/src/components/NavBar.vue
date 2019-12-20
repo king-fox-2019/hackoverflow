@@ -1,10 +1,10 @@
 <template>
   <div id="nav">
-    <span>HI, {{name}}</span> |
+    <span v-if="$store.state.isLogin">HI, {{name}} </span>
     <router-link to="/">HOME</router-link>
     <router-link v-if="!$store.state.isLogin" to="/login">LOGIN</router-link>
     <router-link v-if="!$store.state.isLogin" to="/register">REGISTER</router-link>
-    <router-link v-if="$store.state.isLogin" to="/mythread">MY THREAD</router-link>
+    <!-- <router-link v-if="$store.state.isLogin" to="/mythread">MY THREAD</router-link> -->
     <a href="/" v-if="$store.state.isLogin" @click.prevent="logout">LOGOUT</a>
   </div>
 </template>
@@ -15,7 +15,6 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
-      name: localStorage.getItem('name').toUpperCase()
     }
   },
   methods: {
@@ -26,6 +25,11 @@ export default {
         title: 'You are successfully logout'
       })
       this.$store.commit('CHECK_LOGIN')
+    }
+  },
+  computed: {
+    name: function() {
+      return localStorage.getItem('name').toUpperCase()
     }
   }
 }

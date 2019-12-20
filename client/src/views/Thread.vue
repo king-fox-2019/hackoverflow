@@ -66,7 +66,6 @@ export default {
 </script>
 
 <style scoped>
-  @import "~vue-wysiwyg/dist/vueWysiwyg.css";
   .home {
     width: 80%;
     height: 500px;

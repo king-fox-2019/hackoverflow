@@ -11,6 +11,7 @@ export default new Vuex.Store({
     isLogin: false,
     isLoading: true,
     threads: [],
+    currentThread: {},
     user: {}
   },
   mutations: {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
         state.isLogin = false
       }
       router.push('/#')
+    },
+    SET_CURRENT_THREAD(state, dataThread) {
+      state.currentThread = dataThread
     }
   },
   actions: {
@@ -122,13 +126,79 @@ export default new Vuex.Store({
         method: 'GET'
       })
         .then(({data}) => {
-          console.log(data)
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'You are successfully registered'
-          // })
-          // context.commit('SET_USER', data)
-          // router.push('/')
+          context.commit('SET_CURRENT_THREAD', data)
+          if (router.currentRoute.path !== `/view/${id}`) {
+            router.push(`/view/${id}`)
+          }
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
+    },
+    replyThread(context, payload) {
+      const overrideToken = localStorage.getItem('token')
+      axios({
+        url: `/reply/${payload.id}`,
+        method: 'POST',
+        data: payload.data,
+        headers: {
+          token: overrideToken
+        }
+      })
+        .then(({data}) => {
+          context.dispatch('viewThread', payload.id)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
+    },
+    upvote(context, payload) {
+      const overrideToken = localStorage.getItem('token')
+      axios({
+        url: `/${payload.url}/${payload.id}/upvote`,
+        method: 'PATCH',
+        headers: {
+          token: overrideToken
+        }
+      })
+        .then(({data}) => {
+          if (payload.thread) {
+            context.dispatch('viewThread', payload.thread)
+          } else {
+            context.dispatch('viewThread', payload.id)
+          }
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        })
+    },
+    downvote(context, payload) {
+      const overrideToken = localStorage.getItem('token')
+      axios({
+        url: `/${payload.url}/${payload.id}/downvote`,
+        method: 'PATCH',
+        headers: {
+          token: overrideToken
+        }
+      })
+        .then(({data}) => {
+          if (payload.thread) {
+            context.dispatch('viewThread', payload.thread)
+          } else {
+            context.dispatch('viewThread', payload.id)
+          }
         })
         .catch(err => {
           Swal.fire({
