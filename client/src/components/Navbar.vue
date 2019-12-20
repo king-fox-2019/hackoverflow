@@ -2,7 +2,7 @@
 <nav class="navbar d-flex justify-content-center navbar-expand-lg navbar-light navbar-style p-0">
     <div class="d-flex justify-content-center">
         <button type="button" class="btn button-style p-0">
-            <img src="../assets/stunOverflow.png" @click="$router.push('/')" alt="logo" class="logo-style p-2">
+            <img src="../assets/stunOverflow.png" @click="$router.push('/'), $store.dispatch('getdataQuestion')" alt="logo" class="logo-style p-2">
         </button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

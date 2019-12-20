@@ -47,11 +47,19 @@ function errorHandling(err, req, res, next) {
         })
         err.name
     } else {
-        errors.push(message)
-        res.status(500).json({
-            message : `Internal Server Error`,
-            errors
-        })
+        if (err.status == 404 || err.status == 400) {
+            errors.push(message)
+            res.status(err.status).json({
+                message : `Validation Error`,
+                errors
+            })
+        } else {
+            errors.push(message)
+            res.status(500).json({
+                message : `Internal Server Error`,
+                errors
+            })
+        }
     }
 }
 module.exports = errorHandling

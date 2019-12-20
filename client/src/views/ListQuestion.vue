@@ -5,7 +5,7 @@
     <div class="col-3 column-one pr-0" v-if="$route.path != '/questions/ask'">
       <div class="mt-5 d-flex justify-content-end">
         <div class="d-flex flex-column">
-        <button type="button" class="btn button-style-home" @click="$router.push('/questions')"> Home </button>
+        <button type="button" class="btn button-style-home" @click="$router.push('/questions'),$store.dispatch('getdataQuestion')"> Home </button>
         <span class="pr-1"><i>  <i class="fas fa-globe-asia mt-3"></i> PUBLIC </i></span>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-2"> Tags </button>
         <button type="button" class="btn button-style-home-public pl-5 ml-5 mt-1"> Popular </button>
@@ -20,6 +20,7 @@
             <h3>Top Questions</h3>
           </div>
           <div class="col pt-5 text-right">
+            <button type="button" class="btn btn-success btn-sm mr-3" v-if="reset" @click="resetTag">Reset</button>
             <button type="button" class="btn btn-sm btn-primary" @click="$router.push('/questions/ask')"> Ask Question </button>
           </div>
         </div>
@@ -92,7 +93,7 @@
           </div>
           <div class="d-flex flex-row">
             <div class="d-flex flex-row mt-1 text-left" v-for="(tag,i) in listWatchTags" :key="i">
-            <span class="badge badge-btn p-2 mr-1">{{ tag }} <button type="button" @click="deleteTag(i)" class="btn btn-danger btn-sm p-0 px-2">x</button></span>
+            <span class="badge badge-btn p-2 mr-1" @click="watchTagSearch(tag)">{{ tag }} <button type="button" @click="deleteTag(i)" class="btn btn-danger btn-sm p-0 px-2">x</button></span>
           </div>
         </div>
         </div>
@@ -117,11 +118,33 @@ export default {
   data() {
     return {
       tagCustom: '',
+      reset: false,
       watchTag: false,
       listWatchTags: [],
     }
   },
   methods: {
+    resetTag(){
+      this.reset = false
+      this.$store.dispatch('getdataQuestion')
+    },
+    watchTagSearch(tag){
+      axios({
+        url: '/question/tag',
+        method: 'POST',
+        data : { tag },
+        headers: { 
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({ data })=>{
+        this.$store.commit('SET_DATA_QUESTIONS', data)
+        this.reset = true
+      })
+      .catch(error=>{
+        console.log(error.response.data);
+      })
+    },
     deleteTag(index){
       let temp = []
       this.listWatchTags.forEach((tag,i)=>{

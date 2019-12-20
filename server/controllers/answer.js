@@ -51,14 +51,12 @@ module.exports = {
     },
     delete(req, res, next) {
         const { productId } = req.body
-        AnswerModel.findOneAndDelete({
-            _id : req.params.id
-        })
+        AnswerModel.findOneAndDelete({ _id : req.params.id }, { new:true })
         .then(question => {
             return QuestionModel.findOneAndUpdate({ _id: productId },{ $pull: { answerId: req.params.id }},{ new:true, runValidators: true})
         })
         .then(result=>{
-            res.status(200).json({ result, message : 'Delete Success' })
+            res.status(200).json({ message : 'Delete Success' })
         })
         .catch(next)
     },

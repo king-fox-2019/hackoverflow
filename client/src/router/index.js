@@ -24,6 +24,13 @@ const routes = [
     component: Register
   },
   {
+    beforeEnter: (to, from, next) => {
+      if(localStorage.getItem('token')){
+        next()
+      } else {
+        next('/')
+      }
+    },
     path: '/questions',
     name: 'questions',
     component: () => import(/* webpackChunkName: "listquestions" */ '../views/ListQuestion.vue'),

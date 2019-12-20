@@ -2,6 +2,17 @@ const QuestionModel = require('../models/question')
 const UserModel = require('../models/user')
 
 module.exports = {
+    watchTag(req,res,next){
+        const { tag } = req.body
+        QuestionModel.find({ tags : tag }).sort({ createdAt: -1 })
+            .populate('userId')
+            // .populate('answerId')
+            .populate({ path: 'answerId', populate: { path: 'userId'} })
+            .then(question=>{
+                res.status(200).json(question)
+            })
+            .catch(next)
+    },
     findSearch(req,res,next){
         const { search } = req.body
         QuestionModel.find({}).sort({ createdAt: -1 })
@@ -55,40 +66,12 @@ module.exports = {
             .catch(next)
     },
     findAll(req, res, next) {
-        let tags = []
-        let flag = false
-        UserModel.findOne({ _id: req.loggedUser.id })
-            .then(user=>{
-                if (user.watchedTags.length > 0) {
-                    tags = user.watchedTags
-                    flag = true
-                }
-                return QuestionModel.find({}).sort({ createdAt: -1 })
-                    .populate('userId')
-                    // .populate('answerId')
-                    .populate({ path: 'answerId', populate: { path: 'userId'} })
-            })
+        QuestionModel.find({}).sort({ createdAt: -1 })
+            .populate('userId')
+            // .populate('answerId')
+            .populate({ path: 'answerId', populate: { path: 'userId'} })
             .then(question => {
-                if (!flag) {
-                    res.status(200).json(question)
-                } else {
-                    let questionTemp = []
-                    question.forEach(questionOne=>{
-                        questionOne.tags.forEach(tagQuestion=>{
-                            let flagr = false
-                            if (!flagr) {
-                                tags.forEach(tagUser=>{
-                                    if (tagUser == tagQuestion && !flagr) {
-                                        questionTemp.push(question)
-                                        flagr = true
-                                    }
-                                })
-                            }
-                        })
-                    })
-                    question = questionTemp
-                    res.status(200).json(question)
-                }
+                res.status(200).json(question)
             })
             .catch(next)
     },

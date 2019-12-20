@@ -52,12 +52,12 @@ jika tidak maka kamu akan melihat error dengan status code `500`  ``` CANNOT GET
 |`DELETE`|`/question/:id`|delete question| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">✔️</p>
 
 
-## 2. Answer Router
+## 3. Answer Router
 |Method|ANSWER|<i>detail</i>|<i>Details Status</i>|<i>Authentication</i>|<i>Authorization</i>|
 |-|-|-|-|-|-|
 |`GET`|`/answer`|Get all Answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
 |`GET`|`/answer/:id`|Get one Answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
-|`POST`|`/answer`|Create Answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
+|`POST`|`/answer/:id`|Create Answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
 |`PUT`|`/answer/:id/updated`|Update Answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">✔️</p>
 |`PATCH`|`/answer/:id/upvotes`|update votes answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
 |`PATCH`|`/answer/:id/downvotes`|update votes answer| [ℹ️details](#article-route) | <p  align="center">✔️</p>|<p  align="center">❌</p>
@@ -101,89 +101,49 @@ jika tidak maka kamu akan melihat error dengan status code `500`  ``` CANNOT GET
 # DETAIL ROUTE
 
 ## USER ROUTE
+### 1. [POST] /user/register
 
-### 1. [GET] BASE_URL/user
-
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-		▶️ SUCCESS [Status 200 OK!]
-		
-		[
-			{
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
-			},
-		]
-		
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-		{
-			"message":  "Json Web Token Error",
-			"errors": [
-				{
-					"name": "JsonWebTokenError",
-					"message": "jwt must be provided"
-				}
-			]
-		}
-		--------------------------------------------
-		{
-			"message":  "Validation Error",
-			"errors":  [
-				"Unauthorized, Not Admin!"
-			]
-		}
-		
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 2. [GET] BASE_URL/user/logged/:email
-		▶️ PARAMS { email : STRING }
+		▶️ BODY {
+			email : STRING,
+			password : STRING,
+			image : FILE
+		}	
 	
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "account has found!",
-			"account":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
-			}
-		}
-  
+		▶️ SUCCESS [STATUS 201 CREATED!]
+			{
+				"message":  "create user successfuly",
+					"token": jwt_token,
+					"user":  {
+						"popular":  0,
+						"image":  [
+							"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+						],
+						"watchedTags":  [],
+						"_id":  "5dfc2bf28bd8410d1acb0305",
+						"email":  "angga_banny@mail.com",
+						"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+						"createdAt":  "2019-12-20T02:03:30.910Z",
+						"updatedAt":  "2019-12-20T02:03:30.910Z"
+					}
+				}
+	
 		▶️ FAILED [STATUS 400 BAD REQUEST]
-		{
-			"message":  "Validation Error",
-			"errors":  [
-				"not account found!"
-			]
-		}
-
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"Invalid Email Format",
+					"email is required",
+					"password is required",
+					"Please Fill Your PhotoProfile",
+				]
+			}
+			
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
+			{
+				"message": "Internal Server Error",
+			}
 
-### 3. [POST] /user/login
+### 2. [POST] /user/login
 
 		▶️ BODY {
 			email : STRING,
@@ -192,23 +152,28 @@ jika tidak maka kamu akan melihat error dengan status code `500`  ``` CANNOT GET
 	
 		▶️ SUCCESS [STATUS 200 OK!]
 			{
-			"message":  "login successfuly!",
-			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZjZkYzljMTU3MGJhNTNlOTAyZmZhMSIsImlhdCI6MTU3NjQ4NDgwMX0.w1ZOh2qpmVuopqNPdN-CZJL-6JC139pC5YrE66YX4sE",
-			"user":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
+				"token": jwt_token,
+				"user":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+					],
+					"watchedTags":  [],
+					"_id":  "5dfc2bf28bd8410d1acb0305",
+					"email":  "angga_banny@mail.com",
+					"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+					"createdAt":  "2019-12-20T02:03:30.910Z",
+					"updatedAt":  "2019-12-20T02:03:30.910Z"
+				}
 			}
-		}
+	
+		▶️ FAILED [STATUS 404 NOT FOUND]
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"Email is Wrong!"
+				]
+			}
 	
 		▶️ FAILED [STATUS 400 BAD REQUEST]
 			{
@@ -218,111 +183,40 @@ jika tidak maka kamu akan melihat error dengan status code `500`  ``` CANNOT GET
 				]
 			}
 			
-		▶️ FAILED [STATUS 404 NOT FOUND]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Email Not Found!"
-				]
-			}
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
 			{
 				"message": "Internal Server Error",
 			}
 
-### 4. [POST] BASE_URL/user/register
-		▶️ BODY {
-			name : STRING,
-			email : STRING,
-			password : STRING,
-			image : FILE
-		}
-		
-		▶️ SUCCESS [STATUS 201 CREATED!]
-		{
-			"message":  "create user successfuly!",
-			"user":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
-			}
-		}
-		
-		▶️ FAILED [STATUS 400 BAD REQUEST]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"name is required",
-					"email is required",
-					"password is required",
-					"image is required"
-				]
-			}
-			
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"email is Already Exist"
-				]
-			}
-			
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-			{
-				"message": "Internal Server Error",
-			}
+### 3. [GET] /user/myaccount
 
-
-### 5. [PATCH] BASE_URL/user/:id
 		▶️ HEADERS {
-			token : jwt_token
-		}
-		
-		▶️ PARAMS {
-			id : User_Id
-		}
-		
+			token : jwt_token ,
+		}	
+	
 		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "Updated Role Success",
-			"user":  {
-				"role":  "admin",
+			{
+				"popular":  0,
 				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
+					"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
 				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  418814
+				"watchedTags":  [],
+				"_id":  "5dfc2bf28bd8410d1acb0305",
+				"email":  "angga_banny@mail.com",
+				"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+				"createdAt":  "2019-12-20T02:03:30.910Z",
+				"updatedAt":  "2019-12-20T02:03:30.910Z"
 			}
-		}
-			
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
 			{
 				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			---------------------------------------
-			{
-				"message":  "Id Not Found"
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
 			}
 			
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
@@ -330,747 +224,775 @@ jika tidak maka kamu akan melihat error dengan status code `500`  ``` CANNOT GET
 				"message": "Internal Server Error",
 			}
 
-### 6. [PATCH] BASE_URL/user/money/topup
+### 4. [PATCH] /user/addWatchedTags
+
 		▶️ HEADERS {
-			token : jwt_token
-		}
+			token : jwt_token ,
+		}	
 		
 		▶️ BODY {
-			money : NUMBER
-		}
+			tag : STRING,
+			condition : BOOLEAN,
+		}	
 		
+		⇒ condition is True When you non active checking of dublicated tag [ADD TAG]
+		⇒ condition is False When you actived checking of dublicated tag [DESTROY TAG]
+
 		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "add money success",
-			"user":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  418814
-			}
-		}
-			
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
 			{
-				"message":  "Id Not Found"
+				"token": jwt_token,
+				"user":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+					],
+					"watchedTags":  [
+						"java"
+					],
+					"_id":  "5dfc2bf28bd8410d1acb0305",
+					"email":  "angga_banny@mail.com",
+					"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+					"createdAt":  "2019-12-20T02:03:30.910Z",
+					"updatedAt":  "2019-12-20T02:03:30.910Z"
+				}
 			}
-			--------------------------
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
 			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
 			}
 			
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
 			{
 				"message": "Internal Server Error",
 			}
-  
-### 7. [PATCH] BASE_URL/user/money/:id/transfer
+
+
+## QUESTION ROUTE
+
+### 1. [GET] /question
 		▶️ HEADERS {
-			token : jwt_token
+			token : jwt_token ,
 		}
-		
-		▶️ PARAMS {
-			id : User_Id
-		}
-		
-		▶️ BODY {
-			money : NUMBER
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "transfer money success to : anggabanny",
-			"user":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
-			}
-		}
-			
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-			
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-			{
-				"message": "Internal Server Error",
-			}
-  
-  
-### 8. [DELETE] BASE_URL/user/:id
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-		
-		▶️ PARAMS {
-			id : User_Id
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"user":  {
-				"role":  "customer",
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576459421355-FV4687_SL_eCom.jpg"
-				],
-				"bookmark":  [],
-				"_id":  "5df6dc9c1570ba53e902ffa1",
-				"name":  "anggabanny",
-				"email":  "anggabanny@member.com",
-				"password":  "$2a$11$efuoLmXR1BteeOZAq.DeOOdiU/7ZftoG/KGBr1C1yv1FapmSw0adi",
-				"createdAt":  "2019-12-16T01:23:40.048Z",
-				"updatedAt":  "2019-12-16T01:23:40.048Z",
-				"money":  438814
-			},
-			"message":  "Delete Success"
-		}
-			
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			-----------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-			----------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-			
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-			{
-				"message": "Internal Server Error",
-			}  
-
-  
-  
-
-## PRODUCT ROUTE
-
-### 1. [GET] BASE_URL/product
-		▶️ SUCCESS [STATUS 200 OK!]
-		[
-			{
-				"size":  [
-					{
-						"sold":  0,
-						"_id":  "5df5c2826c13820bf7801948",
-						"size":  32,
-						"stock":  20,
-						"createdAt":  "2019-12-15T05:20:02.532Z",
-						"updatedAt":  "2019-12-15T05:20:02.532Z"
-					}
-				],
-				"discount":  -1,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576387190437-DA9305_BL_eCom.jpg",
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576387191182-DA9305_BLT_eCom.jpg",
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576387191206-DA9305_D1_eCom.jpg",
-				],
-				"_id":  "5df5c2826c13820bf7801949",
-				"name":  "adidas",
-				"price":  200000,
-				"discountPercent":  "0%",
-				"createdAt":  "2019-12-15T05:20:02.726Z",
-				"updatedAt":  "2019-12-15T05:20:02.947Z"
-			}
-		]
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 2. [POST] BASE_URL/product
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-
-		▶️ BODY {
-			name : STRING,
-			size : NUMBER,
-			price : NUMBER,
-			stock : NUMBER,
-			image : FILE
-		}
-		
-		▶️ SUCCESS [STATUS 201 CREATED!]
-		{
-			"message":  "create product successfuly!",
-			"product":  {
-				"size":  [
-					"5df74e643587621492be1327"
-				],
-				"discount":  -1,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547578-profil_avatdwdar.jpg"
-				],
-				"_id":  "5df74e643587621492be1328",
-				"name":  "nike",
-				"price":  5000,
-				"discountPercent":  "0%",
-				"createdAt":  "2019-12-16T09:29:08.468Z",
-				"updatedAt":  "2019-12-16T09:29:08.481Z"
-			}
-		}
-
-		▶️ FAILED [STATUS 400 BAD REQUEST]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"name is required",
-					"price is required",
-					"size is required",
-					"stock is required",
-					"image is required"
-				]
-			}
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 3. [PUT] BASE_URL/product/:id
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-
-		▶️ PARAMS {
-			id : Product_Id
-		}
-
-		▶️ BODY {
-			name : STRING,
-			size : NUMBER,
-			price : NUMBER,
-			stock : NUMBER,
-			image : FILE
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "updated product successfuly!",
-			"product":  {
-				"size":  [
-					"5df74e643587621492be1327"
-				],
-				"discount":  -1,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-				],
-				"_id":  "5df74e643587621492be1328",
-				"name":  "nike",
-				"price":  5000,
-				"discountPercent":  "0%",
-				"createdAt":  "2019-12-16T09:29:08.468Z",
-				"updatedAt":  "2019-12-16T09:29:08.481Z"
-			}
-		}
-
-		▶️ FAILED [STATUS 400 BAD REQUEST]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"name is required",
-					"price is required",
-					"image is required"
-				]
-			}
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 4. [PATCH] BASE_URL/product/:id
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-
-		▶️ PARAMS {
-			id : Product_Id
-		}
-		
-		▶️ BODY {
-			price : NUMBER,
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "updated product price successfuly!",
-			"product":  {
-				"size":  [
-					"5df74e643587621492be1327"
-				],
-				"discount":  -1,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-				],
-				"_id":  "5df74e643587621492be1328",
-				"name":  "nike",
-				"price":  5000,
-				"discountPercent":  "0%",
-				"createdAt":  "2019-12-16T09:29:08.468Z",
-				"updatedAt":  "2019-12-16T09:29:08.481Z"
-			}
-		}
-
-		▶️ FAILED [STATUS 400 BAD REQUEST]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"price is required",
-				]
-			}
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 5. [PATCH] BASE_URL/product/discount
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-
-		▶️ BODY {
-			price : NUMBER,
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "updated product discount successfuly!",
-			"product":  {
-				"size":  [
-					"5df74e643587621492be1327"
-				],
-				"discount":  450,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-				],
-				"_id":  "5df74e643587621492be1328",
-				"name":  "nike",
-				"price":  5000,
-				"discountPercent":  "10%",
-				"createdAt":  "2019-12-16T09:29:08.468Z",
-				"updatedAt":  "2019-12-16T09:29:08.481Z"
-			}
-		}
-
-		▶️ FAILED [STATUS 400 BAD REQUEST]
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"discount is 0% s/d 100%",
-				]
-			}
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-
-
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 6. [DELETE] BASE_URL/product/:id
-		▶️ HEADERS [ADMIN ONLY!]
-			token : jwt_token
-
-		▶️ PARAMS {
-			id : Product_Id
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-		{
-			"message":  "delete product succesfully",
-			"product":  {
-				"size":  [
-					"5df74e643587621492be1327"
-				],
-				"discount":  450,
-				"image":  [
-					"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-				],
-				"_id":  "5df74e643587621492be1328",
-				"name":  "nike",
-				"price":  5000,
-				"discountPercent":  "10%",
-				"createdAt":  "2019-12-16T09:29:08.468Z",
-				"updatedAt":  "2019-12-16T09:29:08.481Z"
-			}
-		}
-
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Validation Error",
-				"errors":  [
-					"Unauthorized, Not Admin!"
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-
-## CART ROUTE
-### 1. [POST] BASE_URL/product
-		▶️ HEADERS {
-			token : jwt_token
-		}
-		
-		▶️ BODY {
-			size : NUMBER,
-			quantities : NUMBER,
-			price : NUMBER
-		}
-		
-		▶️ SUCCESS [STATUS 201 CREATED!]
-			{
-				"size":  [],
-				"status":  "oncart",
-				"_id":  "5df75ad7bb9c8218608dbc72",
-				"quantities":  3,
-				"price":  3000,
-				"productId":  "5df74e643587621492be1328",
-				"userId":  "5df6dc9b1570ba53e902ffa0",
-				"createdAt":  "2019-12-16T10:22:15.315Z",
-				"updatedAt":  "2019-12-16T10:22:15.315Z"
-			}
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
-			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-
-		▶️ FAILED [STATUS 404 NOT FOUND]
-			{
-				"message":  "Id Not Found"
-			}
-
-		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
-
-### 2. [GET] BASE_URL/cart
-		▶️ HEADERS {
-			token : jwt_token
-		}
-			
+	
 		▶️ SUCCESS [STATUS 200 OK!]
 			[
 				{
-					"size":  [],
-					"status":  "oncart",
-					"_id":  "5df75ad7bb9c8218608dbc72",
-					"quantities":  3,
-					"price":  3000,
-					"productId":  {
-						"size":  [
-							"5df74e643587621492be1327"
-						],
-						"discount":  -1,
-						"discountPercent":  "0%",
-					"	image":  [
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547578-profil_avatdwdar.jpg"
-						],
-						"_id":  "5df74e643587621492be1328",
-						"name":  "nike",
-						"price":  5000,
-						"createdAt":  "2019-12-16T09:29:08.468Z",
-						"updatedAt":  "2019-12-16T09:29:08.481Z"
-					},
-				"userId":  "5df6dc9b1570ba53e902ffa0",
-				"createdAt":  "2019-12-16T10:22:15.315Z",
-				"updatedAt":  "2019-12-16T10:22:15.315Z"
-				}
-			]
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
+				"answerId":  [],
+				"tags":  [],
+				"upvotes":  [],
+				"downvotes":  [],
+				"_id":  "5dfc37d9eaaf04121b7b083d",
+				"title":  "nodejs",
+				"description":  "ndejsjsjs",
+				"userId":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+					],
+					"watchedTags":  [
+						"javascript"
+					],
+					"_id":  "5dfc2bf28bd8410d1acb0305",
+					"email":  "angga_banny@mail.com",
+					"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+					"createdAt":  "2019-12-20T02:03:30.910Z",
+					"updatedAt":  "2019-12-20T02:42:23.929Z"
+				},
+				"createdAt":  "2019-12-20T02:54:18.099Z",
+				"updatedAt":  "2019-12-20T02:54:18.099Z"
+			}
+		]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
 			{
 				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
 
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
-		}
+			{
+				"message": "Internal Server Error",
+			}
 
-### 3. [PATCH] BASE_URL/cart/:id/status
+
+### 2. [GET] /question/:id
 		▶️ HEADERS {
-			token : jwt_token
+			token : jwt_token ,
 		}
 
 		▶️ PARAMS {
-			id : Product_Id
+			id: questionId
+		}	
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			[
+				{
+				"answerId":  [],
+				"tags":  [],
+				"upvotes":  [],
+				"downvotes":  [],
+				"_id":  "5dfc37d9eaaf04121b7b083d",
+				"title":  "nodejs",
+				"description":  "ndejsjsjs",
+				"userId":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+					],
+					"watchedTags":  [
+						"javascript"
+					],
+					"_id":  "5dfc2bf28bd8410d1acb0305",
+					"email":  "angga_banny@mail.com",
+					"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+					"createdAt":  "2019-12-20T02:03:30.910Z",
+					"updatedAt":  "2019-12-20T02:42:23.929Z"
+				},
+				"createdAt":  "2019-12-20T02:54:18.099Z",
+				"updatedAt":  "2019-12-20T02:54:18.099Z"
+			}
+		]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 3. [POST] /question
+		▶️ HEADERS {
+			token : jwt_token ,
 		}
-		
+
 		▶️ BODY {
-			status : STRING,
-			['oncart' >>  'process' >>  'confirm' >> 'complete']
-		}
-		
-		▶️ SUCCESS [STATUS 200 OK!]
-			[
-				"message": "update status cart process product success!",
-				"cart": {
-					"size":  [],
-					"status":  "process",
-					"_id":  "5df75ad7bb9c8218608dbc72",
-					"quantities":  3,
-					"price":  3000,
-					"productId":  {
-						"size":  [
-							"5df74e643587621492be1327"
-						],
-						"discount":  -1,
-						"discountPercent":  "0%",
-					"	image":  [
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547578-profil_avatdwdar.jpg"
-						],
-						"_id":  "5df74e643587621492be1328",
-						"name":  "nike",
-						"price":  5000,
-						"createdAt":  "2019-12-16T09:29:08.468Z",
-						"updatedAt":  "2019-12-16T09:29:08.481Z"
-					},
-				"userId":  "5df6dc9b1570ba53e902ffa0",
-				"createdAt":  "2019-12-16T10:22:15.315Z",
-				"updatedAt":  "2019-12-16T10:22:15.315Z"
-				}
-			]
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
+			title : STRING,
+			description : STRING,
+			tags : STRING, ARRAY
+		}	
+	
+		▶️ SUCCESS [STATUS 201 CREATED!]
 			{
-				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
+				"message":  "create question success",
+				"question":  {
+					"answerId":  [],
+					"tags":  [],
+					"upvotes":  [],
+					"downvotes":  [],
+					"_id":  "5dfc37d9eaaf04121b7b083d",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T02:54:18.099Z",
+					"updatedAt":  "2019-12-20T02:54:18.099Z"
+				}
+			}
+	
+		▶️ FAILED [STATUS 400 BAD REQUEST]
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"title is required",
+					"description is required"
 				]
 			}
-			--------------------------------------------
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
 			{
-				"message":  "Id Not Found"
-			}
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
 
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
+			{
+				"message": "Internal Server Error",
+			}
+
+### 4. [POST] /question/search
+		▶️ HEADERS {
+			token : jwt_token ,
 		}
 
-### 6. [DELETE] BASE_URL/cart/:id
+		▶️ BODY {
+			search : STRING
+		}	
+	
+		▶️ SUCCESS [STATUS 200 CREATED!]
+			[
+				{
+				"answerId":  [],
+				"tags":  [],
+				"upvotes":  [],
+				"downvotes":  [],
+				"_id":  "5dfc37d9eaaf04121b7b083d",
+				"title":  "nodejs",
+				"description":  "ndejsjsjs",
+				"userId":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576807409269-profil_avatar.jpg"
+					],
+					"watchedTags":  [
+						"java",
+						"javascript"
+					],
+					"_id":  "5dfc2bf28bd8410d1acb0305",
+					"email":  "angga_banny@mail.com",
+					"password":  "$2a$11$EpkfuSWy11cOK8p19cJR/u9NAuCZj8AQuKLQxUIv63SyTHIn5Ueaq",
+					"createdAt":  "2019-12-20T02:03:30.910Z",
+					"updatedAt":  "2019-12-20T02:42:23.929Z"
+				},
+				"createdAt":  "2019-12-20T02:54:18.099Z",
+				"updatedAt":  "2019-12-20T02:54:18.099Z"
+			}
+		]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 5. [POST] /question
 		▶️ HEADERS {
-			token : jwt_token
+			token : jwt_token ,
+		}
+
+		▶️ BODY {
+			title : STRING,
+			description : STRING,
+			tags : STRING, ARRAY
+		}	
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "updated question success",
+				"question":  {
+					"answerId":  [],
+					"tags":  [],
+					"upvotes":  [],
+					"downvotes":  [],
+					"_id":  "5dfc37d9eaaf04121b7b083d",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T02:54:18.099Z",
+					"updatedAt":  "2019-12-20T02:54:18.099Z"
+				}
+			}
+	
+		▶️ FAILED [STATUS 400 BAD REQUEST]
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"title is required",
+					"description is required"
+				]
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 5. [PATCH] /question/:id/upvotes
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: questionId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "berhasil menambahkan vote",
+				"question":  {
+					"answerId":  [],
+					"tags":  [],
+					"upvotes":  [
+						"5dfc2bf28bd8410d1acb0305"
+					],
+					"downvotes":  [],
+					"_id":  "5dfc37d9eaaf04121b7b083d",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T02:54:18.099Z",
+					"updatedAt":  "2019-12-20T02:54:18.099Z"
+				}
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 6. [PATCH] /question/:id/downvotes
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		▶️ PARAMS {
+			id: questionId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "berhasil menambahkan vote",
+				"question":  {
+					"answerId":  [],
+					"tags":  [],
+					"upvotes":  [],
+					"downvotes":  [
+						"5dfc2bf28bd8410d1acb0305"
+					],
+					"_id":  "5dfc37d9eaaf04121b7b083d",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T02:54:18.099Z",
+					"updatedAt":  "2019-12-20T02:54:18.099Z"
+				}
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 7. [DELETE] /question/:id
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: questionId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"question":  {
+					"answerId":  [
+						"5dfc43a3475a15191bfd74bc"
+					],
+					"tags":  [
+						"javascript"
+					],
+					"upvotes":  [],
+					"downvotes":  [],
+					"_id":  "5dfc3c141eae8616b347d220",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T03:12:20.694Z",
+					"updatedAt":  "2019-12-20T03:44:35.646Z"
+				},
+			"message":  "Delete Success"
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+## ANSWER ROUTE
+
+### 1. [GET] /answer
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			[
+				{
+				"upvotes":  [],
+				"downvotes":  [],
+				"_id":  "5dfb6058826be1765f2a6941",
+				"description":  "adaw",
+				"userId":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576738778913-profil_avatar.jpg"
+					],
+					"watchedTags":  [],
+					"_id":  "5dfb1fdb001f90473016dc1c",
+					"email":  "anggabanny123@gmail.com",
+					"password":  "$2a$11$if7E15nIbup3dguUQz.1Ye.H4Ul9abIjOIxVbjNlz9uS37Iw1PPGi",
+					"createdAt":  "2019-12-19T06:59:39.814Z",
+					"updatedAt":  "2019-12-19T21:38:53.539Z"
+				},
+			"createdAt":  "2019-12-19T11:34:48.900Z",
+			"updatedAt":  "2019-12-19T11:34:48.900Z"
+			},
+		]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+
+### 2. [GET] /answer/:id
+		▶️ HEADERS {
+			token : jwt_token ,
 		}
 
 		▶️ PARAMS {
-			id : Cart_Id
-		}
-		
+			id: answerId
+		}	
+	
 		▶️ SUCCESS [STATUS 200 OK!]
 			[
-				"message":  "delete cart product success!",
-				"cart": {
-					"size":  [],
-					"status":  "process",
-					"_id":  "5df75ad7bb9c8218608dbc72",
-					"quantities":  3,
-					"price":  3000,
-					"productId":  {
-						"size":  [
-							"5df74e643587621492be1327"
-						],
-						"discount":  -1,
-						"discountPercent":  "0%",
-					"	image":  [
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547577-profil_avatar.jpg",
-							"https://storage.googleapis.com/image-bucket-ecommerce-sportstation/1576488547578-profil_avatdwdar.jpg"
-						],
-						"_id":  "5df74e643587621492be1328",
-						"name":  "nike",
-						"price":  5000,
-						"createdAt":  "2019-12-16T09:29:08.468Z",
-						"updatedAt":  "2019-12-16T09:29:08.481Z"
-					},
-				"userId":  "5df6dc9b1570ba53e902ffa0",
-				"createdAt":  "2019-12-16T10:22:15.315Z",
-				"updatedAt":  "2019-12-16T10:22:15.315Z"
-				}
-			]
-
-
-		▶️ FAILED [STATUS 401 UNAUTHORIZED]
+				{
+				"upvotes":  [],
+				"downvotes":  [],
+				"_id":  "5dfb6058826be1765f2a6941",
+				"description":  "adaw",
+				"userId":  {
+					"popular":  0,
+					"image":  [
+						"https://storage.googleapis.com/imagebucket-stunoverflow/1576738778913-profil_avatar.jpg"
+					],
+					"watchedTags":  [],
+					"_id":  "5dfb1fdb001f90473016dc1c",
+					"email":  "anggabanny123@gmail.com",
+					"password":  "$2a$11$if7E15nIbup3dguUQz.1Ye.H4Ul9abIjOIxVbjNlz9uS37Iw1PPGi",
+					"createdAt":  "2019-12-19T06:59:39.814Z",
+					"updatedAt":  "2019-12-19T21:38:53.539Z"
+				},
+			"createdAt":  "2019-12-19T11:34:48.900Z",
+			"updatedAt":  "2019-12-19T11:34:48.900Z"
+			},
+		]
+	
+		▶️ FAILED [STATUS 401 UnAuthorized]
 			{
 				"message":  "Json Web Token Error",
-				"errors": [
-					{
-						"name": "JsonWebTokenError",
-						"message": "jwt must be provided"
-					}
-				]
-			}
-			--------------------------------------------
-			{
-				"message":  "Id Not Found"
-			}
-
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
 
 		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
-		{
-			"message": "Internal Server Error",
+			{
+				"message": "Internal Server Error",
+			}
+
+### 3. [POST] /answer/:id
+		▶️ HEADERS {
+			token : jwt_token ,
 		}
+		
+		▶️ PARAMS {
+			id: questionId
+		}
+
+		▶️ BODY {
+			description : STRING
+		}	
+	
+		▶️ SUCCESS [STATUS 201 CREATED!]
+			{
+				"message":  "create answer success",
+				"question":  {
+					"answerId":  [
+						"5dfc43a3475a15191bfd74bc"
+					],
+					"tags":  [],
+					"upvotes":  [],
+					"downvotes":  [],
+					"_id":  "5dfc37d9eaaf04121b7b083d",
+					"title":  "nodejs",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T02:54:18.099Z",
+					"updatedAt":  "2019-12-20T02:54:18.099Z"
+				}
+			}
+	
+		▶️ FAILED [STATUS 400 BAD REQUEST]
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"title is required",
+					"description is required"
+				]
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 4. [PUT] /answer/:id/updated
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: questionId
+		}
+
+		▶️ BODY {
+			description : STRING
+		}	
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "updated answer success",
+				"question":  {
+					"upvotes":  [],
+					"downvotes":  [],
+					"_id":  "5dfc43a3475a15191bfd74bc",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T03:44:35.636Z",
+					"updatedAt":  "2019-12-20T03:48:10.141Z"
+				}
+			}
+	
+		▶️ FAILED [STATUS 400 BAD REQUEST]
+			{
+				"message":  "Validation Error",
+				"errors":  [
+					"title is required",
+					"description is required"
+				]
+			}
+
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 5. [PATCH] /answer/:id/upvotes
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: answerId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "berhasil menambahkan vote",
+				"finalResult":  {
+					"upvotes":  [
+						"5dfc2bf28bd8410d1acb0305"
+					],
+					"downvotes":  [],
+					"_id":  "5dfc43a3475a15191bfd74bc",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T03:44:35.636Z",
+					"updatedAt":  "2019-12-20T03:51:36.978Z"
+				}
+			}
+			
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 6. [PATCH] /answer/:id/downvotes
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: answerId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "berhasil menambahkan vote",
+				"finalResult":  {
+					"upvotes":  [],
+					"downvotes":  [
+						"5dfc2bf28bd8410d1acb0305"
+					],
+					"_id":  "5dfc43a3475a15191bfd74bc",
+					"description":  "ndejsjsjs",
+					"userId":  "5dfc2bf28bd8410d1acb0305",
+					"createdAt":  "2019-12-20T03:44:35.636Z",
+					"updatedAt":  "2019-12-20T03:51:36.978Z"
+				}
+			}
+			
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
+### 7. [DELETE] /answer/:id
+		▶️ HEADERS {
+			token : jwt_token ,
+		}
+		
+		▶️ PARAMS {
+			id: answerId
+		}
+	
+		▶️ SUCCESS [STATUS 200 OK!]
+			{
+				"message":  "Delete Success"
+			}
+			
+		▶️ FAILED [STATUS 401 UnAuthorized]
+			{
+				"message":  "Json Web Token Error",
+				"errors":  [ {
+					"name":  "JsonWebTokenError",
+					"message":  "jwt malformed",
+								OR
+					"message":  "jwt must be provided"
+				} ]
+			}			
+
+		▶️ FAILED [STATUS 500 INTERNAL SERVER ERROR]
+			{
+				"message": "Internal Server Error",
+			}
+
 
 # information
 
