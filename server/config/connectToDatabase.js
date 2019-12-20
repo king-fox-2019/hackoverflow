@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 module.exports = () => {
   mongoose.connect(
-    "mongodb://localhost:27017/hacktivOverflow",
-    // process.env.MONGODB_ATLAS,
+    // "mongodb://localhost:27017/hacktivOverflow",
+    process.env.MONGODB_ATLAS,
     {
       useFindAndModify: false,
       useNewUrlParser: true,
