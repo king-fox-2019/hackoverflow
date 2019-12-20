@@ -19,7 +19,8 @@ const questionSchema = new Schema({
     ],
     author:{type:Schema.Types.ObjectId, ref:'User'},
     answers:[{type:Schema.Types.ObjectId, ref:'Answer'}],
-    totalVotes:Number
+    totalVotes:Number,
+    tags:[String]
 })
 
 const Question = mongoose.model('Question',questionSchema)

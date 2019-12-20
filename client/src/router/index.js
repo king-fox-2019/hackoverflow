@@ -24,6 +24,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "detail" */ '../views/detail.vue')
   },
+  {
+    path: '/tag/:tag',
+    name: 'tag',
+    component: () => import(/* webpackChunkName: "tag" */ '../views/tag.vue')
+  }
 ]
 
 const router = new VueRouter({

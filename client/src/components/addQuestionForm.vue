@@ -14,6 +14,9 @@
           ></b-form-textarea>
           <!-- <wysiwyg v-model="description" /> -->
       </b-form-group>
+      <b-form-group id="input-group-1" label="Tags:" label-for="input-1" >
+        <b-form-input v-model="tags" id="input-2" type="text" required placeholder="Enter tags"></b-form-input>
+      </b-form-group>
       <b-btn variant="outline-dark" @click="addQuestion">Submit</b-btn>
     </b-form>
   </div>
@@ -28,7 +31,8 @@ export default {
     data(){
         return {
             title:'',
-            description:''
+            description:'',
+            tags:''
         }
     },
     computed:{
@@ -36,30 +40,42 @@ export default {
     },
     methods:{
         addQuestion(){
-            axios({
-                method:'post',
-                url:'http://34.66.242.14/question',
-                headers:{token:localStorage.getItem('token')},
-                data:{
-                    title:this.title,
-                    description:this.description
-                }
+            return new Promise((resolve,reject)=>{
+                if(this.tags!==''){
+                    let tags = this.tags.split(' ')
+                    resolve(tags)
+                }else{
+                    tags=[]
+                    resolve(tags)
+                } 
             })
-            .then(({data})=>{
-                $('#myModal1').modal('hide')
-                this.$store.commit('question/ADD_QUESTION',data)
-                this.$swal({
-                    type:'success',
-                    title:'Add Success',
-                    timer:'1000'
+            .then(tags=>{
+                axios({
+                    method:'post',
+                    url:'http://localhost:3000/question',
+                    headers:{token:localStorage.getItem('token')},
+                    data:{
+                        title:this.title,
+                        description:this.description,
+                        tags: tags
+                    }
                 })
-            })
-            .catch(err=>{
-                console.log(err)
-                this.$swal({
-                    type:'error',
-                    title:'Fail add',
-                    timer:1000
+                .then(({data})=>{
+                    $('#myModal1').modal('hide')
+                    this.$store.commit('question/ADD_QUESTION',data)
+                    this.$swal({
+                        type:'success',
+                        title:'Add Success',
+                        timer:'1000'
+                    })
+                })
+                .catch(err=>{
+                    console.log(err)
+                    this.$swal({
+                        type:'error',
+                        title:'Fail add',
+                        timer:1000
+                    })
                 })
             })
         }

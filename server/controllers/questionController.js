@@ -8,17 +8,32 @@ class questionController{
             description:req.body.description,
             votes:[],
             author:mongoose.Types.ObjectId(req.decoded.id),
-            answers:[]
+            answers:[],
+            tags:req.body.tags
         })
         .then(question=>res.status(201).json(question))
         .catch(next)
     }
     static get(req,res,next){
+        let option = {}
         if(req.query.userquestion){
+            option = {
+                author: req.decoded.id
+            }
             Question.find({author:req.decoded.id})
             .populate('answers')
             .populate('author')
             .then(questions=>res.status(200).json(questions))
+            .catch(next)
+        }else if(req.query.tag){
+            console.log(req.body.tag)
+            Question.find({tags:req.query.tag})
+            .populate('answers')
+            .populate('author')
+            .then(questions=>{
+                console.log(questions, '<<<')
+                res.status(200).json(questions)
+            })
             .catch(next)
         }else if(req.query.questionId){
             Question.findOne({_id:req.query.questionId})
@@ -36,7 +51,7 @@ class questionController{
         }
     }
     static update(req,res,next){
-        Question.updateOne({_id:req.body.id},{
+        Question.updateOne({_id:mongoose.Types.ObjectId(req.body.id)},{
             $set:{
                 title:req.body.title,
                 description:req.body.description
@@ -47,7 +62,8 @@ class questionController{
         .catch(next)
     }
     static delete(req,res,next){
-        Question.deleteOne({_id:req.body.id})
+        console.log('masuk')
+        Question.deleteOne({_id:mongoose.Types.ObjectId(req.body.id)})
         .then(result=>res.status(201).json(result))
         .catch(next)
     }

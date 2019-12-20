@@ -12,10 +12,10 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-form>
+          <!-- <b-nav-form>
             <b-form-input size="sm" class="mr-s$('#myModal').modal('hide')m-2" placeholder="Search"></b-form-input>
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-          </b-nav-form>
+          </b-nav-form> -->
 
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
@@ -36,15 +36,6 @@
       </b-collapse>
     </b-navbar>
 
-    <!-- <div>
-      <b-modal centered :hide-footer="true" id="modal1" :title="form">
-        <loginRegisterForm></loginRegisterForm>
-        <div class="row justify-content-center">
-          <p v-if="form==='Login'">Don't have an account yet? <a href="" @click.prevent="register">Register</a></p>
-          <p v-if="form==='Register'">Back to Login? <a href="" @click.prevent="login">Login</a></p>
-        </div>
-      </b-modal>
-    </div>-->
     <div class="modal" id="myModal">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

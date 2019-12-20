@@ -49,7 +49,7 @@ export default {
       upVote(){
             axios({
                 method:'put',
-                url:'http://34.66.242.14/answer/'+this.id,
+                url:'http://localhost:3000/answer/'+this.id,
                 data:{vote:1},
                 headers:{token:localStorage.getItem('token')}
             })
@@ -71,7 +71,7 @@ export default {
         downVote(){
             axios({
                 method:'put',
-                url:'http://34.66.242.14/answer/'+this.id,
+                url:'http://localhost:3000/answer/'+this.id,
                 data:{vote:-1},
                 headers:{token:localStorage.getItem('token')}
             })
@@ -100,7 +100,7 @@ export default {
       updateAns(){
           axios({
               method:'put',
-              url:'http://34.66.242.14/answer',
+              url:'/answer',
               headers:{token:localStorage.getItem('token')},
               data:{
                   id:this.id,

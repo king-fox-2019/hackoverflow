@@ -8,7 +8,6 @@ const state = {
 
 const mutations = {
     SET_QUESTION(state,questions){
-        console.log(questions)
         state.question = questions
     },
     ADD_QUESTION(state,question){
@@ -26,7 +25,7 @@ const actions = {
     getAllQuestion({commit}){
         axios({
             method:'get',
-            url:'http://34.66.242.14/question',
+            url:'http://localhost:3000/question',
             headers:{token:localStorage.getItem('token')}
         })
         .then(({data})=>{
