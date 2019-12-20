@@ -4,12 +4,16 @@ export default {
   state: {
     isLogin: false,
     userInfo: {},
-    tag: []
+    tag: [],
+    filterTag: []
   },
   getters: {
     isLogin: state => state.isLogin
   },
   mutations: {
+    SET_FILTER_TAG(state, payload) {
+      state.filterTag = payload;
+    },
     SET_USER_LOGIN(state, payload) {
       state.isLogin = payload;
     },
@@ -21,7 +25,25 @@ export default {
     }
   },
   actions: {
-    addTag({ commit }, payload) {
+    filterTag({ commit }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "GET",
+          url: `/user/filter/${payload}`,
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
+    addTag({ commit, dispatch }, payload) {
       let token = localStorage.getItem("token");
       return new Promise((resolve, reject) => {
         axios({
@@ -35,7 +57,7 @@ export default {
           }
         })
           .then(({ data }) => {
-            console.log("===========");
+            dispatch("getUserInfo");
             resolve(data);
           })
           .catch(err => {

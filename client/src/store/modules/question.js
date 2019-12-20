@@ -12,9 +12,22 @@ export default {
     },
     FETCH_DETAIL_QUESTION(state, payload) {
       state.detailQuestion = payload;
+    },
+    FILTER_TAG(state, payload) {
+      state.detailQuestion = payload;
     }
   },
   actions: {
+    filterTag({ commit, dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: `/user/filter/${payload}`,
+        headers: {
+          token
+        }
+      }).then(({ data }) => {});
+    },
     editQuestion({ dispatch }, payload) {
       let token = localStorage.getItem("token");
       return new Promise((resolve, reject) => {

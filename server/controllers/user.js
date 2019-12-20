@@ -2,6 +2,7 @@ const User = require("../model/user");
 const avatar = "https://api.adorable.io/avatars/285";
 const { compare } = require("../helpers/bcrypt");
 const { genereteToken } = require("../helpers/jwt");
+const Question = require("../model/question");
 
 class UserController {
   static register(req, res, next) {
@@ -71,24 +72,44 @@ class UserController {
       .catch(next);
   }
 
+  static filterTag(req, res, next) {
+    console.log(req.params);
+    let searchQuery = {};
+    if (req.params.filter) {
+      searchQuery = {
+        tags: new RegExp(`${req.params.filter}`, `ig`)
+      };
+    } else {
+      searchQuery = {};
+    }
+    console.log(searchQuery);
+    Question.find(searchQuery)
+      .then(question => {
+        console.log(question);
+        res.status(200).json(question);
+      })
+      .catch(next);
+  }
+
   static addTag(req, res, next) {
     const { tag } = req.body;
     User.findOne({
       _id: req.decoded.id
     })
       .then(user => {
+        console.log(user, user.tag);
         if (user.tag.includes(tag)) {
           throw {
             status: 400,
             message: "Tag already exists"
           };
         } else {
-          User.findOneAndUpdate(
+          return User.findOneAndUpdate(
             {
-              _id: req.params.id
+              _id: req.decoded.id
             },
             {
-              $push: { tag }
+              $push: { tag: tag }
             },
             {
               new: true
@@ -98,7 +119,7 @@ class UserController {
       })
       .then(user => {
         res.status(200).json({
-          message: "Add tags success"
+          message: "Add tag success"
         });
       })
       .catch(next);

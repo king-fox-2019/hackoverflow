@@ -1,9 +1,5 @@
 <template>
-  <v-col
-    class="py-0"
-    cols="8"
-    style="border-right:0.4px solid rgba(0,0,0,0.5);"
-  >
+  <v-col class="py-0" cols="8" style="border-right:0.4px solid rgba(0,0,0,0.5);">
     <v-row
       class="px-5 py-5"
       d-flex
@@ -25,9 +21,7 @@
       >
         <v-input style="width:10px;"></v-input>
       </v-text-field>
-      <v-btn depressed color="primary" @click="$router.push('/ask')"
-        >ask question</v-btn
-      >
+      <v-btn depressed color="primary" @click="$router.push('/ask')">ask question</v-btn>
     </v-row>
     <!--  -->
     <div class="detailQuestion" v-if="$route.params.id">
@@ -37,12 +31,7 @@
         flex-row
         style="border-bottom:0.4px solid rgba(0,0,0,0.5);"
       >
-        <v-col
-          cols="3"
-          d-flex
-          flex-direction-row
-          style="display:flex; align-items:center;"
-        >
+        <v-col cols="3" d-flex flex-direction-row style="display:flex; align-items:center;">
           <v-row class="py-auto">
             <v-col class="text-center align-center">
               <v-btn icon id="upvote" @click="upVote">
@@ -50,7 +39,7 @@
               </v-btn>
               <p :style="color">
                 {{
-                  detailQuestion.upvote.length - detailQuestion.downvote.length
+                detailQuestion.upvote.length - detailQuestion.downvote.length
                 }}
               </p>
               <v-btn icon id="downvote" @click="downVote">
@@ -59,20 +48,14 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col
-          cols="9"
-          d-flex
-          flex-direction-column
-          class="text-left align-center"
-        >
+        <v-col cols="9" d-flex flex-direction-column class="text-left align-center">
           <pre class="prettyprint" v-html="detailQuestion.desc"></pre>
           <v-chip
             color="primary"
             class="mr-2"
             v-for="(tag, index) in detailQuestion.tags"
             :key="index"
-            >{{ tag }}</v-chip
-          >
+          >{{ tag }}</v-chip>
           <v-spacer></v-spacer>
           <v-btn
             v-if="authorCrud"
@@ -109,17 +92,10 @@
         flex-row
         style="border-bottom:0.4px solid rgba(0,0,0,0.5);"
       >
-        <v-col
-          cols="3"
-          d-flex
-          flex-direction-row
-          style="display:flex; align-items:center;"
-        >
+        <v-col cols="3" d-flex flex-direction-row style="display:flex; align-items:center;">
           <v-row class="py-auto">
             <v-col class="text-center" @click="onDetailQuestion(question._id)">
-              <p id="total">
-                {{ question.upvote.length - question.downvote.length }}
-              </p>
+              <p id="total">{{ question.upvote.length - question.downvote.length }}</p>
               <p id="total">votes</p>
             </v-col>
             <v-col class="text-center" @click="onDetailQuestion(question._id)">
@@ -132,22 +108,9 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col
-          cols="9"
-          d-flex
-          flex-direction-column
-          align-center
-          class="text-left"
-        >
-          <h2 id="question-title" @click="onDetailQuestion(question._id)">
-            {{ question.title }}
-          </h2>
-          <v-chip
-            class="mr-2"
-            v-for="(tag, index) in question.tags"
-            :key="index"
-            >{{ tag }}</v-chip
-          >
+        <v-col cols="9" d-flex flex-direction-column align-center class="text-left">
+          <h2 id="question-title" @click="onDetailQuestion(question._id)">{{ question.title }}</h2>
+          <v-chip class="mr-2" v-for="(tag, index) in question.tags" :key="index">{{ tag }}</v-chip>
         </v-col>
       </v-row>
     </div>

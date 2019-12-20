@@ -17,4 +17,7 @@ router.get("/", authenticate, UserController.getAllUser);
 //add tag
 router.post("/addtag", authenticate, UserController.addTag);
 
+//filter tag
+router.get("/filter/:filter", authenticate, UserController.filterTag);
+
 module.exports = router;

@@ -4,7 +4,7 @@
       <v-row style="height:auto; background-color:white;" color="white">
         <v-col cols="2" style="border-right:0.4px solid rgba(0,0,0,0.5);">
           <v-flex d-flex flex-column justify-center>
-            <v-btn depressed to="/">home</v-btn>
+            <v-btn depressed @click="testaje">home</v-btn>
             <v-btn depressed>Tag</v-btn>
           </v-flex>
         </v-col>
@@ -14,8 +14,14 @@
           <h1>Watch Tag</h1>
           <v-form @submit.prevent="addTag">
             <v-text-field label="tag" v-model="tag"></v-text-field>
-            <v-chip color="primary" close="true">javascript</v-chip>
           </v-form>
+          <div
+            style="display:flex; flex-direction:column; align-items:center; justify-content:center;"
+            v-for="(tag,index) in getTagInfo"
+            :key="index"
+          >
+            <v-chip @click="filterTag(tag)" color="primary" close="true">{{ tag }}</v-chip>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -37,6 +43,24 @@ export default {
     };
   },
   methods: {
+    testaje() {
+      console.log(this.$route);
+      if (this.$route.path != "/") {
+        this.$router.push("/");
+      } else {
+        this.$store.dispatch("question/fetchAllQuestion");
+      }
+    },
+    filterTag(tag) {
+      this.$store
+        .dispatch("user/filterTag", tag)
+        .then(data => {
+          this.$store.commit("question/FETCH_ALL_QUESTION", data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     addTag() {
       this.$store
         .dispatch("user/addTag", this.tag)
@@ -67,6 +91,11 @@ export default {
     },
     fetchAllQuestion() {
       this.$store.dispatch("question/fetchAllQuestion");
+    }
+  },
+  computed: {
+    getTagInfo() {
+      return this.$store.state.user.userInfo.tag;
     }
   },
   created() {

@@ -13,7 +13,7 @@ function sendEmail(user) {
     to: `${email}`,
     subject: "Bismillah berkah dunia akhirat",
     html: `
-        <h1>Tolong doakan saya lulus phase2 dan 3 ya</h1>
+        <h1>Tolong doakan</h1>
         <p>Amin</p>
         `
   };
