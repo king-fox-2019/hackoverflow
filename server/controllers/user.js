@@ -83,11 +83,22 @@ class UserController {
             message: "Tag already exists"
           };
         } else {
-          user.tag.push(tag);
+          User.findOneAndUpdate(
+            {
+              _id: req.params.id
+            },
+            {
+              $push: { tag }
+            },
+            {
+              new: true
+            }
+          );
         }
-        user = user.save();
+      })
+      .then(user => {
         res.status(200).json({
-          message: `Success Add Tag ${tag}`
+          message: "Add tags success"
         });
       })
       .catch(next);
