@@ -5,7 +5,6 @@ const User = require("../models/User");
 class AnswerController {
   static createAnswer(req, res, next) {
     const author = req.decoded._id;
-    console.log(req.decoded);
     const { title, description, question } = req.body;
     const docs = { title, description, question, author };
     let currentAnswer;
@@ -24,7 +23,6 @@ class AnswerController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
   }
@@ -36,7 +34,6 @@ class AnswerController {
     Answer.find(condition)
       .populate("author")
       .then(answers => {
-        console.log(answers);
         const responses = {
           message: "Fetching answer success",
           answers
@@ -44,7 +41,6 @@ class AnswerController {
         res.status(200).json(responses);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
   }
@@ -52,7 +48,6 @@ class AnswerController {
     const id = req.params.id;
     const { title, description } = req.body;
     const update = { title, description };
-    console.log(update);
     Answer.findByIdAndUpdate(id, update)
       .then(() => {
         const responses = {

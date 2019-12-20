@@ -192,7 +192,6 @@ export default new Vuex.Store({
         headers
       })
         .then(({ data }) => {
-          console.log(data);
           commit("SET_USER_QUESTIONS", data.questions);
         })
         .catch(err => {

@@ -16,7 +16,6 @@ class QuestionController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
   }
@@ -119,7 +118,6 @@ class QuestionController {
         res.status(200).json(responses);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
   }

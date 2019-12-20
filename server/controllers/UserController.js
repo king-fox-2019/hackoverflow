@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
 class UserController {
   static signupUser(req, res, next) {
-    console.log("helloooo");
     const { name, username, email, password } = req.body;
     const docs = {
       name,
@@ -13,7 +12,6 @@ class UserController {
       email,
       password
     };
-    console.log(docs);
     User.create(docs)
       .then(user => {
         const payload = {
@@ -32,7 +30,6 @@ class UserController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        console.log(err);
         next(err);
       });
   }

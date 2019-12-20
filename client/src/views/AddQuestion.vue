@@ -52,8 +52,7 @@ export default {
           this.$router.push("/myquestion");
         })
         .catch(err => {
-          console.log(err);
-          Swal.fire("Oops!", "error", "error");
+          Swal.fire("Oops!", `${err.response.data.message}`, "error");
         });
     }
   },
