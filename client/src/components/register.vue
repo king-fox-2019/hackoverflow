@@ -69,7 +69,7 @@
             register() {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:3000/users/register',
+                    url: 'http://35.226.139.9/users/register',
                     data: {
                         name: this.name,
                         email: this.email,

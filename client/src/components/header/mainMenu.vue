@@ -51,7 +51,7 @@
 
                 axios({
                     method: 'get',
-                    url: 'http://localhost:3000/users/',
+                    url: 'http://35.226.139.9/users/',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }

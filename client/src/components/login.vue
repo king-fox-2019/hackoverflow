@@ -55,7 +55,7 @@
             login() {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:3000/users/login',
+                    url: 'http://35.226.139.9/users/login',
                     data: {
                         email: this.email,
                         password: this.password

@@ -37,7 +37,7 @@
             postAnswer() {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:3000/answers/create',
+                    url: 'http://35.226.139.9/answers/create',
                     data: {
                         question: this.answerId,
                         description: this.description

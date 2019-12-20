@@ -22,7 +22,7 @@
             fetchQuestion() {
                 axios({
                     method: 'get',
-                    url: 'http://localhost:3000/questions/',
+                    url: 'http://35.226.139.9/questions/',
                 }).then(response => {
                     console.log(response.data);
                     this.$store.dispatch('listOfQuestions', response.data.data.reverse());

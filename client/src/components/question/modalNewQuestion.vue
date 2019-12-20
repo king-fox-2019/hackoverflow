@@ -57,7 +57,7 @@
             postQuestion() {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:3000/questions/create',
+                    url: 'http://35.226.139.9/questions/create',
                     data: {
                         title: this.title,
                         description: this.description

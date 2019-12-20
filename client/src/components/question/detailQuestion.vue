@@ -46,7 +46,7 @@
             fetchDataDetail() {
                 axios({
                     method: 'get',
-                    url: 'http://localhost:3000/questions/' + this.id,
+                    url: 'http://35.226.139.9/questions/' + this.id,
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }
@@ -63,7 +63,7 @@
             like() {
                 axios({
                     method: 'patch',
-                    url: 'http://localhost:3000/questions/' + this.id + '/like',
+                    url: 'http://35.226.139.9/questions/' + this.id + '/like',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }
@@ -80,7 +80,7 @@
             unLike() {
                 axios({
                     method: 'patch',
-                    url: 'http://localhost:3000/questions/' + this.id + '/unlike',
+                    url: 'http://35.226.139.9/questions/' + this.id + '/unlike',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }
