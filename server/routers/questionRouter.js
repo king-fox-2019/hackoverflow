@@ -9,6 +9,6 @@ router.use(authentication)
 router.patch('/:id', questionAuthorization, QuestionController.updateOne)
 router.patch('/:id/vote', authentication, QuestionController.vote)
 router.post('/', QuestionController.create)
-router.delete('/', questionAuthorization, QuestionController.delete)
+router.delete('/:id', questionAuthorization, QuestionController.delete)
 
 module.exports = router

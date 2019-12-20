@@ -1,11 +1,11 @@
 <template>
-   <div class="flex items-center">
-      <div class="flex flex-col px-2">
-         <i class="fas fa-chevron-up cursor-pointer font-bold text-3xl text-gray-500 hover:text-gray-800" :class="{'text-blue-700': voteFlag == 'up'}"></i>
-         <i class="fas fa-chevron-down cursor-pointer font-bold text-3xl text-gray-500 hover:text-gray-800" :class="{'text-blue-700': voteFlag == 'down'}"></i>
+   <div class="flex items-center my-4" id="question-card">
+      <div class="flex flex-col mx-4" id="vote-counter">
+         <h3 class="font-bold text-3xl text-gray-700">{{question.votes.length}}</h3>
+         <span class="text-gray-700">Total votes</span>
       </div>
-      <div class="px-2">
-         <router-link :to="`/question/${question._id}`" class="text-3xl font-bold text-gray-600 hover:text-gray-800 border-b border-gray-700">{{question.title}}</router-link>
+      <div class="px-2 flex flex-col items-start">
+         <router-link :to="`/question/${question._id}`" class="text-3xl font-bold text-gray-600 hover:text-gray-800 border-b border-gray-700 mb-2">{{question.title}}</router-link>
          <p class="text-gray-700">{{question.description}}</p>
       </div>
    </div>
@@ -36,6 +36,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+   #vote-counter {
+      min-width: 100px;
+   }
 </style>

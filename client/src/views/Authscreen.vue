@@ -26,7 +26,6 @@ export default {
 
    methods: {
       setScreen() {
-         console.log('asdasdasds')
          if(this.$route.name == 'login') {
             this.authPage = 'login'
          }
@@ -36,13 +35,8 @@ export default {
       }
    },
 
-   created() {
-      console.log(this.$route.name)
-   },
-
    watch: {
       $route: function(to, from) {
-         console.log('triggered')
          this.setScreen()
       }
    }

@@ -43,7 +43,7 @@ class QuestionController {
    static async getOne(req, res, next) {
 
       try{
-         const question = await Question.findOne({_id: req.params.id}).populate('answers')
+         const question = await Question.findOne({_id: req.params.id}).populate('answers').sort({updatedAt: 'desc'})
 
          res.status(200).json({question})
       }

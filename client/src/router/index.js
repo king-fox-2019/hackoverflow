@@ -4,6 +4,9 @@ import Home from '../views/Home.vue'
 import Authscreen from  '../views/Authscreen'
 import QuestionDetail from '../views/QuestionDetail'
 import CreateQuestion from '../views/CreateQuestion'
+import CreateAnswer from '../views/CreateAnswer'
+import EditQuestion from '../views/EditQuestion'
+import EditAnswer from '../views/EditAnswer'
 
 Vue.use(VueRouter)
 
@@ -28,10 +31,21 @@ const routes = [
     name: 'CreateQuestion',
     component: CreateQuestion
   },
-  // {
-  //   path: '/answer',
-  //   name:
-  // },
+  {
+    path: '/answer/:questionId',
+    name: 'createAnswer',
+    component: CreateAnswer
+  },
+  {
+    path: '/question/:questionId/edit',
+    name: 'editQuestion',
+    component: EditQuestion
+  },
+  {
+    path: '/answer/:answerId/edit',
+    name: 'editAnswer',
+    component: EditAnswer
+  },
   {
     path: '/',
     name: 'home',
@@ -43,6 +57,23 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+const blacklistedRouteName = [
+  'editQuestion',
+  'editAnswer',
+  'CreateQuestion',
+  'createAnswer'
+]
+
+router.beforeEach((to, from, next) => {
+  if(blacklistedRouteName.includes(to.name)) {
+    if(localStorage.getItem('token') === null) {
+      next(`${from.path}`)
+    }
+    else next()
+  }
+  else next()
 })
 
 export default router

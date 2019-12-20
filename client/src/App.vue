@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav" class="flex justify-between items-center px-16 py-4 bg-green-100 shadow">
-      <router-link to="/" class="font-bold text-gray-700">Hackoverflow</router-link>
+      <router-link to="/" class="font-bold text-gray-600 hover:text-gray-800">Hackoverflow</router-link>
       <div v-if="!isLoggedIn">
         <router-link class="px-4 font-bold text-gray-600 hover:text-gray-800" to="/login">Log in</router-link>
         <router-link class="px-4 font-bold text-gray-600 hover:text-gray-800" to="/register">Register</router-link>

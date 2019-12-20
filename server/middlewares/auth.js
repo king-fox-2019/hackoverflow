@@ -6,13 +6,13 @@ function authentication(req, res, next) {
    try {
       if(!req.headers.token) throw {
          errorCode: 400,
-         message: 'Need authentication'
+         message: 'Invalid authentication: Please log in'
       }
 
       jwt.verify(req.headers.token, process.env.JWT_SECRET, (err, decoded) => {
          if(err) throw {
             code: 400,
-            message: err.name
+            message: 'Invalid authentication: Please log in'
          }
          else {
             req.decoded = decoded

@@ -11,7 +11,7 @@
          <label class="mt-4">Tags</label>
          <input type="text" v-model="tags" class="border-b border-gray-800" placeholder="microsoft,server,azure"/>
 
-         <input type="submit" class="mt-4 rounded cursor-pointer" value="Ask"/>
+         <input type="submit" class="mt-4 rounded cursor-pointer hover:bg-green-300 py-1 font-bold text-gray-600 hover:text-gray-800" value="Ask"/>
       </form>
       
    </div>

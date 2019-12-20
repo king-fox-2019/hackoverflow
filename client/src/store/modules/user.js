@@ -1,4 +1,5 @@
 import axios from '../../../apis/server'
+import router from '../../router/index'
 
 const namespaced = true
 
@@ -16,6 +17,7 @@ const actions = {
    checkLoggedIn({commit}) {
       if(localStorage.getItem('token') === null) {
          commit('CHANGE_USER_LOGIN_STATUS', false)
+         router.push('/')
       }
       else {
          commit('CHANGE_USER_LOGIN_STATUS', true)

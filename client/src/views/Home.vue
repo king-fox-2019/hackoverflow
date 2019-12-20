@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center mt-12">
+  <div class="flex justify-center my-12">
     <div class="border border-gray-500 p-6">
       <question-card v-for="question in questions" :key="question._id" :question="question" />
     </div>

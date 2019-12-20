@@ -7,7 +7,7 @@
          <label class="mt-4">Password</label>
          <input type="password" class="border-b border-gray-800" required v-model="password"/>
 
-         <input type="submit" class="mt-4 rounded cursor-pointer" value="Register"/>
+         <input type="submit" class="mt-4 rounded cursor-pointer hover:bg-green-300 py-1 font-bold text-gray-600 hover:text-gray-800" value="Log in"/>
       </form>
    </div>
 </template>
