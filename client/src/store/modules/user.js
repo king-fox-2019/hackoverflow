@@ -3,7 +3,8 @@ import axios from "../../api/axios";
 export default {
   state: {
     isLogin: false,
-    userInfo: {}
+    userInfo: {},
+    tag: []
   },
   getters: {
     isLogin: state => state.isLogin
@@ -14,9 +15,34 @@ export default {
     },
     SET_USER_INFO(state, payload) {
       state.userInfo = payload;
+    },
+    ADD_USER_TAG(state, payload) {
+      state.tag = payload;
     }
   },
   actions: {
+    addTag({ commit }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "POST",
+          url: "/user/addtag",
+          data: {
+            tag: payload
+          },
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            console.log("===========");
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
     getUserInfo({ commit }) {
       let token = localStorage.getItem("token");
       axios({

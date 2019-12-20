@@ -5,13 +5,17 @@
         <v-col cols="2" style="border-right:0.4px solid rgba(0,0,0,0.5);">
           <v-flex d-flex flex-column justify-center>
             <v-btn depressed to="/">home</v-btn>
-            <v-btn depressed>public</v-btn>
+            <v-btn depressed>Tag</v-btn>
           </v-flex>
         </v-col>
 
         <Question />
         <v-col cols="2" style="border-right:0.4px solid rgba(0,0,0,0.5);">
           <h1>Watch Tag</h1>
+          <v-form @submit.prevent="addTag">
+            <v-text-field label="tag" v-model="tag"></v-text-field>
+            <v-chip color="primary" close="true">javascript</v-chip>
+          </v-form>
         </v-col>
       </v-row>
     </v-container>
@@ -27,7 +31,40 @@ export default {
   components: {
     Question
   },
+  data() {
+    return {
+      tag: ""
+    };
+  },
   methods: {
+    addTag() {
+      this.$store
+        .dispatch("user/addTag", this.tag)
+        .then(data => {
+          this.tag = "";
+          this.$snotify.success(`${data.message}`, {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        })
+        .catch(err => {
+          this.tag = "";
+          let text = "";
+          err.response.data.errors.forEach(element => {
+            text += element + ", ";
+          });
+          this.$snotify.warning(`${text}`, {
+            timeout: 3000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        });
+    },
     fetchAllQuestion() {
       this.$store.dispatch("question/fetchAllQuestion");
     }

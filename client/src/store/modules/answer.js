@@ -15,6 +15,29 @@ export default {
     }
   },
   actions: {
+    editAnswer({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "PUT",
+          url: `/answer/${payload.id}`,
+          data: {
+            desc: payload.desc
+          },
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            dispatch("fetchDetailAnwer", payload.id);
+            dispatch("fetchAnswer", payload.id);
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
     deleteAnswer({ dispatch }, payload) {
       let token = localStorage.getItem("token");
       return new Promise((resolve, reject) => {

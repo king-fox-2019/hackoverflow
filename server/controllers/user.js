@@ -70,6 +70,28 @@ class UserController {
       })
       .catch(next);
   }
+
+  static addTag(req, res, next) {
+    const { tag } = req.body;
+    User.findOne({
+      _id: req.decoded.id
+    })
+      .then(user => {
+        if (user.tag.includes(tag)) {
+          throw {
+            status: 400,
+            message: "Tag already exists"
+          };
+        } else {
+          user.tag.push(tag);
+        }
+        user = user.save();
+        res.status(200).json({
+          message: `Success Add Tag ${tag}`
+        });
+      })
+      .catch(next);
+  }
 }
 
 module.exports = UserController;

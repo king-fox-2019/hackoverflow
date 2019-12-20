@@ -21,6 +21,7 @@ class AnswerController {
     Answer.find({
       questionId: req.params.id
     })
+      .populate("author")
       .then(answer => {
         res.status(200).json(answer);
       })
@@ -97,7 +98,10 @@ class AnswerController {
       }
     )
       .then(answer => {
-        res.status(200).json(answer);
+        res.status(200).json({
+          answer,
+          message: "Succes Update Answer"
+        });
       })
       .catch(next);
   }

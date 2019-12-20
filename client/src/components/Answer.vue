@@ -41,7 +41,7 @@
         </v-btn>
         <v-btn
           style="margin-left:15px; margin-top:20px;"
-          @click="editAnswer(answer._id)"
+          @click="openDialog(answer._id)"
           icon
         >
           <v-icon color="primary">mdi-playlist-edit</v-icon>edit
@@ -55,6 +55,29 @@
         >Post Your Answer</v-btn
       >
     </v-form>
+    <!-- dialog -->
+    <v-dialog v-model="dialogEdit" width="500">
+      <v-card>
+        <v-form ref="formEdit" @submit.prevent="editAnswer">
+          <v-card-title class="headline grey lighten-2" primary-title>
+            Privacy Policy
+          </v-card-title>
+
+          <v-card-text>
+            <wysiwyg v-model="editanswer" />
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text type="submit">
+              Edit Answer
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -64,7 +87,10 @@ export default {
   data() {
     return {
       color: "",
-      answer: ""
+      answer: "",
+      editanswer: "",
+      dialogEdit: false,
+      idEdit: null
     };
   },
   methods: {
@@ -103,6 +129,9 @@ export default {
     },
     resetFormAnswer() {
       this.$refs.formAnswer.reset();
+    },
+    resetFormEdit() {
+      this.$refs.formEdit.reset();
     },
     upVoteAnswer(id) {
       this.$store
@@ -150,6 +179,54 @@ export default {
             position: "leftTop"
           });
         });
+    },
+    openDialog(id) {
+      this.idEdit = id;
+      this.dialogEdit = true;
+    },
+    editAnswer() {
+      let payload = {
+        id: this.idEdit,
+        desc: this.editanswer
+      };
+      this.$store
+        .dispatch("answer/editAnswer", payload)
+        .then(data => {
+          this.dialogEdit = false;
+          this.resetFormEdit();
+          this.$snotify.success(`${data.message}`, {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        })
+        .catch(err => {
+          this.resetFormEdit();
+          let text = "";
+          err.response.data.errors.forEach(element => {
+            text += element + ", ";
+          });
+          this.$snotify.warning(`${text}`, {
+            timeout: 3000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        });
+    }
+  },
+  watch: {
+    dialogEdit(val) {
+      if (!val) {
+        this.resetFormEdit();
+        this.dialogEdit = false;
+      } else {
+        this.$store.dispatch("fetchDetailAnswer", id);
+        this.editanswer = this.detailAnswer.desc;
+      }
     }
   },
   computed: {

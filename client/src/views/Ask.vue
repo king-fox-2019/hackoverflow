@@ -38,7 +38,9 @@
                 />
               </v-col>
             </div>
-            <v-btn type="submit" class="mt-3" depressed color="primary">Review your question</v-btn>
+            <v-btn type="submit" class="mt-3" depressed color="primary"
+              >Review your question</v-btn
+            >
           </v-form>
         </v-col>
       </v-row>

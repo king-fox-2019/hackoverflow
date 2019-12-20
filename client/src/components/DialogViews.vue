@@ -18,7 +18,9 @@
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn color="blue darken-1" text @click="$emit('close-views', false)">Close</v-btn>
+        <v-btn color="blue darken-1" text @click="$emit('close-views', false)"
+          >Close</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -47,5 +49,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

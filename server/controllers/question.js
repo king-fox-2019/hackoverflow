@@ -24,6 +24,7 @@ class QuestionController {
       _id: id
     })
       .populate("views")
+      .populate("author")
       .then(question => {
         res.status(200).json(question);
       })

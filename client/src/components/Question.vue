@@ -11,7 +11,11 @@
       style="border-bottom:0.4px solid rgba(0,0,0,0.5); border-top:none; border-left:none; border-right:none;"
     >
       <h1 v-if="$route.path == '/'">Top Question</h1>
-      <h1 v-if="$route.params.id">{{ detailQuestion.title }}</h1>
+      <div style="display:flex; flex-direction:column;">
+        <h1 v-if="$route.params.id">{{ detailQuestion.title }}</h1>
+        <p v-if="$route.params.id">by: {{ detailQuestion.author.username }}</p>
+      </div>
+
       <v-spacer></v-spacer>
       <v-text-field
         v-if="$route.path == '/'"

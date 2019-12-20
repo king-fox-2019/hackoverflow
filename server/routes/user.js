@@ -1,17 +1,20 @@
-const router = require('express').Router()
-const UserController = require('../controllers/user')
-const { authenticate } = require('../middlewares/auth')
+const router = require("express").Router();
+const UserController = require("../controllers/user");
+const { authenticate } = require("../middlewares/auth");
 
 // register
-router.post('/register', UserController.register)
+router.post("/register", UserController.register);
 
 // login
-router.post('/login', UserController.login)
+router.post("/login", UserController.login);
 
 // get one user
-router.get('/info', authenticate, UserController.getInfo)
+router.get("/info", authenticate, UserController.getInfo);
 
 // get all user
-router.get('/', authenticate ,UserController.getAllUser)
+router.get("/", authenticate, UserController.getAllUser);
 
-module.exports = router
+//add tag
+router.post("/addtag", authenticate, UserController.addTag);
+
+module.exports = router;
