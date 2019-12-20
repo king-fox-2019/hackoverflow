@@ -33,8 +33,8 @@
 <script>
     // import axios from "../config/axios";
     import axios from 'axios'
-    import message from "./message";
-    import router from "../router";
+    import message from "../message";
+    import router from "../../router";
 
     export default {
         name: "modalNewQuestion",

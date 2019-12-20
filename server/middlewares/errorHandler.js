@@ -17,7 +17,7 @@ const errorHandler = (err, req, res, next) => {
             } else if (/title/.test(errMsg)) {
                 errMsg = "Title already registered"
             } else if (/description/.test(errMsg)) {
-                errMsg = "Description already registered"
+                errMsg = "Description is already registered"
             } else {
                 errMsg = "Internal server error pls contact the administrator"
             }

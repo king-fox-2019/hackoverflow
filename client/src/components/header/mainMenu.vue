@@ -28,7 +28,7 @@
 
 <script>
     import axios from "axios";
-    import modalNewQuestion from "../modalNewQuestion";
+    import modalNewQuestion from "../question/modalNewQuestion";
 
     export default {
         name: "mainMenu",

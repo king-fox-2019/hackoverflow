@@ -21,6 +21,7 @@
         <sui-list divided relaxed id="list">
             <answer v-for="answer in dataAnswer" :key="answer._id" :answer="answer"/>
         </sui-list>
+        <add-new-answer :answerId="data._id" @updateAnswers="fetchDataDetail"/>
     </sui-message>
 </template>
 
@@ -28,6 +29,7 @@
     // import axios from "../../config/axios";
     import axios from 'axios'
     import answer from "../answer";
+    import addNewAnswer from "../answer/addNewAnswer";
 
     export default {
         name: "detailQuestion",
@@ -73,14 +75,15 @@
             }
         },
         components: {
-            answer
+            answer,
+            addNewAnswer
         }
     }
 </script>
 
 <style scoped>
 
-    #list{
+    #list {
         padding: 10px;
         background-color: #d6e5fa !important;
     }
