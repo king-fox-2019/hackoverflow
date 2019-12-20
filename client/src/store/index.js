@@ -101,7 +101,10 @@ export default new Vuex.Store({
       axios({
         url: '/thread/',
         method: 'POST',
-        data: dataThread
+        data: dataThread,
+        headers: {
+          token: localStorage.getItem('token')
+        }
       })
         .then(({data}) => {
           console.log(data)
@@ -162,51 +165,71 @@ export default new Vuex.Store({
     },
     upvote(context, payload) {
       const overrideToken = localStorage.getItem('token')
-      axios({
-        url: `/${payload.url}/${payload.id}/upvote`,
-        method: 'PATCH',
-        headers: {
-          token: overrideToken
-        }
-      })
-        .then(({data}) => {
-          if (payload.thread) {
-            context.dispatch('viewThread', payload.thread)
-          } else {
-            context.dispatch('viewThread', payload.id)
+      if (!overrideToken) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You need to login first'
+        })
+      
+      } else {
+
+        axios({
+          url: `/${payload.url}/${payload.id}/upvote`,
+          method: 'PATCH',
+          headers: {
+            token: overrideToken
           }
         })
-        .catch(err => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.response.data.message
+          .then(({data}) => {
+            if (payload.thread) {
+              context.dispatch('viewThread', payload.thread)
+            } else {
+              context.dispatch('viewThread', payload.id)
+            }
           })
-        })
+          .catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+          })
+      }
     },
     downvote(context, payload) {
       const overrideToken = localStorage.getItem('token')
-      axios({
-        url: `/${payload.url}/${payload.id}/downvote`,
-        method: 'PATCH',
-        headers: {
-          token: overrideToken
-        }
-      })
-        .then(({data}) => {
-          if (payload.thread) {
-            context.dispatch('viewThread', payload.thread)
-          } else {
-            context.dispatch('viewThread', payload.id)
+      if (!overrideToken) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You need to login first'
+        })
+      
+      } else {
+
+        axios({
+          url: `/${payload.url}/${payload.id}/downvote`,
+          method: 'PATCH',
+          headers: {
+            token: overrideToken
           }
         })
-        .catch(err => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.response.data.message
+          .then(({data}) => {
+            if (payload.thread) {
+              context.dispatch('viewThread', payload.thread)
+            } else {
+              context.dispatch('viewThread', payload.id)
+            }
           })
-        })
+          .catch(err => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+          })
+      }
     }
   },
   modules: {
