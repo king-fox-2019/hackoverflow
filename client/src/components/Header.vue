@@ -30,6 +30,14 @@
             </li>
 
             <li class="nav-item" v-if="username">
+              <b-link
+                class="nav-link text-light bg-info"
+                :to="{path: '/addQuestion'}"
+                >+ Question</b-link
+              >
+            </li>
+
+            <li class="nav-item" v-if="username">
               <b-link class="nav-link text-info" disabled>{{
                 username
               }}</b-link>
@@ -76,6 +84,7 @@ export default {
   },
   created() {
     this.checkLocalStorage();
+    this.$store.dispatch('fetchAllQuestions');
   },
 };
 </script>

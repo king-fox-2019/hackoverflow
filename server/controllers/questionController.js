@@ -3,6 +3,10 @@ const Question = require('../models/question');
 class QuestionController {
   static getAllQuestions(req, res, next) {
     Question.find()
+      .populate({
+        path: 'owner',
+        select: 'username',
+      })
       .then(function(questions) {
         res.json(questions);
       })
@@ -11,7 +15,17 @@ class QuestionController {
 
   static getDetailQuestion(req, res, next) {
     Question.findById(req.params.questionId)
-      .populate('answers')
+      .populate({
+        path: 'answers',
+        populate: {
+          path: 'owner',
+          select: 'username',
+        },
+      })
+      .populate({
+        path: 'owner',
+        select: 'username',
+      })
       .then(function(question) {
         res.json(question);
       })
@@ -51,6 +65,14 @@ class QuestionController {
             {new: true},
           );
         } else {
+          if (question.votes[0].value == value) {
+            // remove voter
+            return Question.findOneAndUpdate(
+              {_id: questionId},
+              {$pull: {votes: {voter: req.payload.id}}},
+              {new: true},
+            );
+          }
           // update voter
           return Question.findOneAndUpdate(
             {_id: questionId, 'votes.voter': req.payload.id},
