@@ -2,7 +2,8 @@ import axios from "../../api/axios";
 
 export default {
   state: {
-    isLogin: false
+    isLogin: false,
+    userInfo: {}
   },
   getters: {
     isLogin: state => state.isLogin
@@ -10,9 +11,24 @@ export default {
   mutations: {
     SET_USER_LOGIN(state, payload) {
       state.isLogin = payload;
+    },
+    SET_USER_INFO(state, payload) {
+      state.userInfo = payload;
     }
   },
   actions: {
+    getUserInfo({ commit }) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: "/user/info",
+        headers: {
+          token
+        }
+      }).then(({ data }) => {
+        commit("SET_USER_INFO", data);
+      });
+    },
     register({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios({

@@ -39,6 +39,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "Ask" */ "../views/Ask.vue")
   },
   {
+    path: "/editquestion/:id",
+    name: "EditQuestion",
+    component: () =>
+      import(
+        /* webpackChunkName: "EditQuestion" */ "../components/EditQuestion.vue"
+      )
+  },
+  {
     path: "/question/:id",
     name: "Question",
     component: () => import(/* webpackChunkName: "Ask" */ "../views/Home.vue")

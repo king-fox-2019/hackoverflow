@@ -56,7 +56,10 @@ class QuestionController {
       }
     )
       .then(question => {
-        res.status(200).json(question);
+        res.status(200).json({
+          question,
+          message: "Success Update Question"
+        });
       })
       .catch(next);
   }
@@ -127,7 +130,10 @@ class QuestionController {
       _id: req.params.id
     })
       .then(question => {
-        res.status(200).json(question);
+        res.status(200).json({
+          question,
+          message: "Success Delete Question"
+        });
       })
       .catch(next);
   }

@@ -35,12 +35,14 @@ export default {
   created() {
     if (localStorage.getItem("token")) {
       this.$store.commit("user/SET_USER_LOGIN", true);
+      this.$store.dispatch("user/getUserInfo");
     }
     if (this.$route.path == "/") {
       this.fetchAllQuestion();
-    } else if (this.$route.path == `/question/${this.$route.params.id}`) {
+    } else if (this.$route.path == `/`) {
       this.fetchAllQuestion();
       this.$store.dispatch("question/fetchDetailQuestion");
+      this.$store.dispatch("answer/fetchAnswer");
     }
   }
 };

@@ -1,5 +1,9 @@
 <template>
-  <v-col class="py-0" cols="8" style="border-right:0.4px solid rgba(0,0,0,0.5);">
+  <v-col
+    class="py-0"
+    cols="8"
+    style="border-right:0.4px solid rgba(0,0,0,0.5);"
+  >
     <v-row
       class="px-5 py-5"
       d-flex
@@ -9,7 +13,17 @@
       <h1 v-if="$route.path == '/'">Top Question</h1>
       <h1 v-if="$route.params.id">{{ detailQuestion.title }}</h1>
       <v-spacer></v-spacer>
-      <v-btn depressed color="primary" @click="$router.push('/ask')">ask question</v-btn>
+      <v-text-field
+        v-if="$route.path == '/'"
+        v-model="search"
+        label="search"
+        style="width:10px; margin-right:50px;"
+      >
+        <v-input style="width:10px;"></v-input>
+      </v-text-field>
+      <v-btn depressed color="primary" @click="$router.push('/ask')"
+        >ask question</v-btn
+      >
     </v-row>
     <!--  -->
     <div class="detailQuestion" v-if="$route.params.id">
@@ -19,31 +33,63 @@
         flex-row
         style="border-bottom:0.4px solid rgba(0,0,0,0.5);"
       >
-        <v-col cols="3" d-flex flex-direction-row style="display:flex; align-items:center;">
+        <v-col
+          cols="3"
+          d-flex
+          flex-direction-row
+          style="display:flex; align-items:center;"
+        >
           <v-row class="py-auto">
             <v-col class="text-center align-center">
               <v-btn icon id="upvote" @click="upVote">
                 <v-icon>mdi-arrow-up-bold</v-icon>
               </v-btn>
-              <p
-                style="margin-bottom:0px;"
-              >{{ detailQuestion.upvote.length - detailQuestion.downvote.length }}</p>
+              <p :style="color">
+                {{
+                  detailQuestion.upvote.length - detailQuestion.downvote.length
+                }}
+              </p>
               <v-btn icon id="downvote" @click="downVote">
                 <v-icon>mdi-arrow-down-bold</v-icon>
               </v-btn>
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="9" d-flex flex-direction-column class="text-left align-center">
+        <v-col
+          cols="9"
+          d-flex
+          flex-direction-column
+          class="text-left align-center"
+        >
           <pre class="prettyprint" v-html="detailQuestion.desc"></pre>
           <v-chip
             color="primary"
             class="mr-2"
             v-for="(tag, index) in detailQuestion.tags"
             :key="index"
-          >{{ tag }}</v-chip>
+            >{{ tag }}</v-chip
+          >
+          <v-spacer></v-spacer>
+          <v-btn
+            v-if="authorCrud"
+            style="margin-top:20px;"
+            @click="deleteQuestion(detailQuestion._id)"
+            icon
+          >
+            <v-icon color="red">mdi-delete</v-icon>delete
+          </v-btn>
+          <v-btn
+            v-if="authorCrud"
+            style="margin-left:15px; margin-top:20px;"
+            @click="editQuestion(detailQuestion._id)"
+            icon
+          >
+            <v-icon color="primary">mdi-playlist-edit</v-icon>edit
+          </v-btn>
         </v-col>
       </v-row>
+
+      <Answer />
     </div>
 
     <div
@@ -59,10 +105,17 @@
         flex-row
         style="border-bottom:0.4px solid rgba(0,0,0,0.5);"
       >
-        <v-col cols="3" d-flex flex-direction-row style="display:flex; align-items:center;">
+        <v-col
+          cols="3"
+          d-flex
+          flex-direction-row
+          style="display:flex; align-items:center;"
+        >
           <v-row class="py-auto">
             <v-col class="text-center" @click="onDetailQuestion(question._id)">
-              <p id="total">{{ question.upvote.length - question.downvote.length }}</p>
+              <p id="total">
+                {{ question.upvote.length - question.downvote.length }}
+              </p>
               <p id="total">votes</p>
             </v-col>
             <v-col class="text-center" @click="onDetailQuestion(question._id)">
@@ -75,9 +128,22 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="9" d-flex flex-direction-column align-center class="text-left">
-          <h2 id="question-title" @click="onDetailQuestion(question._id)">{{ question.title }}</h2>
-          <v-chip class="mr-2" v-for="(tag, index) in question.tags" :key="index">{{ tag }}</v-chip>
+        <v-col
+          cols="9"
+          d-flex
+          flex-direction-column
+          align-center
+          class="text-left"
+        >
+          <h2 id="question-title" @click="onDetailQuestion(question._id)">
+            {{ question.title }}
+          </h2>
+          <v-chip
+            class="mr-2"
+            v-for="(tag, index) in question.tags"
+            :key="index"
+            >{{ tag }}</v-chip
+          >
         </v-col>
       </v-row>
     </div>
@@ -87,18 +153,70 @@
 
 <script>
 import DialogViews from "../components/DialogViews.vue";
+import Answer from "../components/Answer.vue";
 
 export default {
   name: "Question",
   components: {
-    DialogViews
+    DialogViews,
+    Answer
   },
   data() {
     return {
-      openViews: false
+      openViews: false,
+      search: "",
+      style: "",
+      color: ""
     };
   },
   methods: {
+    editQuestion(id) {
+      this.$store
+        .dispatch("question/fetchDetailQuestion", id)
+        .then(data => {
+          this.$router.push(`/editquestion/${id}`);
+        })
+        .catch(err => {
+          let text = "";
+          err.response.data.errors.forEach(element => {
+            text += element + ", ";
+          });
+          this.$snotify.warning(`${text}`, {
+            timeout: 3000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        });
+    },
+    deleteQuestion(id) {
+      this.$store
+        .dispatch("question/deleteQuestion", id)
+        .then(data => {
+          this.$router.push("/");
+          this.$snotify.success(`${data.message}`, {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        })
+        .catch(err => {
+          let text = "";
+          err.response.data.errors.forEach(element => {
+            text += element + ", ";
+          });
+          this.$snotify.warning(`${text}`, {
+            timeout: 3000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            position: "leftTop"
+          });
+        });
+    },
     fetchViews(id) {
       this.$store
         .dispatch("question/fetchDetailQuestion", id)
@@ -122,7 +240,9 @@ export default {
     onDetailQuestion(id) {
       this.$store
         .dispatch("question/fetchDetailQuestion", id)
-        .then(data => {})
+        .then(data => {
+          this.$store.dispatch("answer/fetchAnswer", id);
+        })
         .catch(err => {
           this.$router.push("/sign/login");
           let text = "";
@@ -147,15 +267,49 @@ export default {
     }
   },
   computed: {
-    dataAllQuestion() {
-      return this.$store.state.question.listQuestion;
+    // dataAllQuestion() {
+    //   return this.$store.state.question.listQuestion;
+    // },
+    authorCrud() {
+      if (this.$store.state.user.userInfo._id == this.detailQuestion.author) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    totalVote() {
+      let votes =
+        this.detailQuestion.upvote.length - this.detailQuestion.downvote.length;
+      if (votes < 0) {
+        this.color = "color:red;";
+        return votes;
+      } else if (votes > 0) {
+        this.color = "color:green;";
+        return votes;
+      } else if (votes == 0) {
+        this.color = "color:black;";
+        return votes;
+      }
     },
     detailQuestion() {
       return this.$store.state.question.detailQuestion;
+    },
+    dataAllQuestion() {
+      if (this.search) {
+        return this.$store.state.question.listQuestion.filter(question => {
+          return question.title
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        });
+      } else {
+        return this.$store.state.question.listQuestion;
+      }
     }
   },
   created() {
     this.$store.dispatch("question/fetchDetailQuestion", this.$route.params.id);
+    this.$store.dispatch("answer/fetchAnswer", this.$route.params.id);
+    this.$store.dispatch("answer/fetchDetailAnswer", this.$route.params.id);
   },
   beforeRouteEnter(to, from, next) {
     if (localStorage.getItem("token")) {

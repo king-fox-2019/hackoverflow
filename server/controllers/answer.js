@@ -9,7 +9,10 @@ class AnswerController {
       questionId: req.params.id
     })
       .then(answer => {
-        res.status(201).json(answer);
+        res.status(201).json({
+          answer,
+          message: "Success Post Answer"
+        });
       })
       .catch(next);
   }
@@ -104,7 +107,10 @@ class AnswerController {
       _id: req.params.id
     })
       .then(answer => {
-        res.status(200).json(answer);
+        res.status(200).json({
+          answer,
+          message: "Success Delete Answer"
+        });
       })
       .catch(next);
   }

@@ -4,28 +4,18 @@
       <v-toolbar-title>
         <v-img src="../../public/logo.png" max-width="40" alt="logo"></v-img>
       </v-toolbar-title>
-      <h2 id="logo-title" style="margin-left:10px;" @click="$router.push('/')">
-        HackOverflow
-      </h2>
+      <h2 id="logo-title" style="margin-left:10px;" @click="$router.push('/')">HackOverflow</h2>
       <v-spacer></v-spacer>
 
       <div v-if="!statusLogin" style="margin-left:15px">
-        <v-btn
-          depressed
-          color="white accent-4"
-          @click="$router.push('/sign/login')"
-        >
+        <v-btn depressed color="white accent-4" @click="$router.push('/sign/login')">
           login
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </div>
 
       <div v-if="!statusLogin" style="margin-left:15px; margin-right:10px;">
-        <v-btn
-          depressed
-          color="white accent-4"
-          @click="$router.push('/sign/register')"
-        >
+        <v-btn depressed color="white accent-4" @click="$router.push('/sign/register')">
           register
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
@@ -47,6 +37,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("user/logout");
+      this.$router.push("/");
       this.$snotify.success(`Success Logout`, {
         timeout: 5000,
         showProgressBar: true,

@@ -15,6 +15,45 @@ export default {
     }
   },
   actions: {
+    editQuestion({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "PUT",
+          url: `/question/${payload.id}`,
+          data: payload.data,
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            dispatch("fetchDetailQuestion", payload.id);
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
+    deleteQuestion({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "DELETE",
+          url: `/question/${payload}`,
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            dispatch("fetchAllQuestion");
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
     fetchDetailQuestion({ commit, dispatch }, payload) {
       let token = localStorage.getItem("token");
       return new Promise((resolve, reject) => {
@@ -102,7 +141,6 @@ export default {
           token
         }
       }).then(({ data }) => {
-        console.log(data);
         dispatch("fetchAllQuestion");
       });
     }
