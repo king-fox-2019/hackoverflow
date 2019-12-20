@@ -1,14 +1,26 @@
 const answer = require('../models/answer');
-const question = require('../controller/question');
+const question = require('../models/question');
 
 class controllerAnswer {
     static create(req, res, next) {
-        answer.create({
-            question: req.body.question,
-            description: req.body.description,
-            user: req._id
+        question.findById(
+            req.body.question
+        ).then(response => {
+            if (!response) throw({code: 400, errmsg: "Question not found"});
+            return answer.create({
+                question: req.body.question,
+                description: req.body.description,
+                user: req._id
+            })
         }).then(response => {
-            question.addAnswer(req.body.question, response._id);
+            return question.findByIdAndUpdate(
+                req.body.question,
+                {
+                    "$push": {
+                        answer: response._id
+                    }
+                })
+        }).then(response => {
             res.status(201).json({
                 message: "Answer successfully created",
                 data: response
@@ -20,7 +32,7 @@ class controllerAnswer {
         answer.find({
             user: req._id
         }).populate(
-            'user',  'name'
+            'user', 'name'
         ).then(response => {
             res.status(201).json({
                 data: response

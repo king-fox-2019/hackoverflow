@@ -1,4 +1,5 @@
 const question = require('../models/question');
+const answer = require('../models/answer');
 
 class controllerQuestion {
     static create(req, res, next) {
@@ -29,7 +30,7 @@ class controllerQuestion {
         ).populate(
             'answer'
         ).populate(
-            'user', 'name'
+            'user'
         ).then(response => {
             res.status(201).json({
                 data: response
@@ -37,28 +38,19 @@ class controllerQuestion {
         }).catch(next)
     }
 
-    static addAnswer(questionID, answerID) {
-        question.findByIdAndUpdate(
-            questionID,
-            {"$push": {
-                    answer: answerID
-                }
-            }).then(response => {
-            console.log(response)
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-
     static delete(req, res, next) {
         question.findByIdAndDelete(
             req.params.id
         ).then(response => {
             if (!response) throw({code: 400, errmsg: "Question not found"});
+            return answer.deleteMany({
+                question: req.params.id
+            })
+        }).then(response => {
             res.status(201).json({
                 message: "Question successfully deleted",
                 data: response
-            })
+            });
         }).catch(next)
     }
 }
