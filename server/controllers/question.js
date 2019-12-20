@@ -9,8 +9,8 @@ class QuestionController {
       })
   }
   static create(req, res, next) {
-    let { content } = req.body
-    Question.create({ content, author: req.loggedUser.id })
+    let { content, title } = req.body
+    Question.create({ content, title, author: req.loggedUser.id })
       .then(question => {
         res.status(201).json(question)
       })

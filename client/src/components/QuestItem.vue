@@ -14,6 +14,7 @@
         Answer
       </div>
       <div class="col-sm-9 p-2">
+        <h4>{{question.title}}</h4>
         <div>
           {{question.content}}
         </div>

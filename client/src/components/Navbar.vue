@@ -41,6 +41,10 @@
       <div class="box">
         <form action="" @submit.prevent="addQuestion" method="post">
           <div class="form-group">
+            <label for="title">title</label>
+            <input required id="title" type="text" class="form-control" v-model="title"/>
+          </div>
+          <div class="form-group">
             <label for="question">Question</label>
             <input required id="question" type="text" class="form-control" v-model="question"/>
           </div>
@@ -58,7 +62,8 @@ export default {
   name: 'Navbar',
   data: function () {
     return {
-      question: ''
+      question: '',
+      title: ''
     }
   },
   methods: {
@@ -70,7 +75,7 @@ export default {
     },
     addQuestion () {
       this.$bvModal.hide('modal-qestion')
-      this.$store.dispatch('addQuestion', this.question)
+      this.$store.dispatch('addQuestion', { question: this.question, title: this.title })
       this.question = ''
     }
   }

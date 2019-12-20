@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const questionSchema = new Schema({
+  title: {
+    type: String,
+    required: [true, 'insert question']
+  },
   content: {
     type: String,
     required: [true, 'insert question']

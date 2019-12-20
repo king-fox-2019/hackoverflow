@@ -72,11 +72,13 @@ export default new Vuex.Store({
       }
     },
     addQuestion (context, payload) {
+      console.log(payload)
       axios({
         method: 'POST',
         url: `/question`,
         data: {
-          content: payload
+          content: payload.question,
+          title: payload.title
         },
         headers: {
           token: localStorage.getItem('token')
