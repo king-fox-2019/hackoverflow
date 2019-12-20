@@ -54,7 +54,7 @@ export default new Vuex.Store({
     register({state,commit}){
       axios({
         method:'post',
-        url:'http://localhost:3000/register',
+        url:'http://34.66.242.14/register',
         data:{
           name:state.username,
           email:state.email,
@@ -77,7 +77,7 @@ export default new Vuex.Store({
     login({state}){
       axios({
         method:'post',
-        url:'http://localhost:3000/login',
+        url:'http://34.66.242.14/login',
         data:{
           email: state.email,
           password: state.password
