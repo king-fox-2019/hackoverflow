@@ -31,8 +31,6 @@
 </template>
 
 <script>
-    // import axios from "../config/axios";
-    import axios from 'axios'
     import message from "../message";
     import router from "../../router";
 
@@ -55,7 +53,7 @@
                 this.$emit('click')
             },
             postQuestion() {
-                axios({
+                this.$axios({
                     method: 'post',
                     url: 'http://35.226.139.9/questions/create',
                     data: {

@@ -31,8 +31,16 @@ const questionSchema = new mongoose.Schema({
     answer: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Answer',
-        count: true
-    }]
+    }],
+    tags: [{
+        type: String,
+        maxlength: [10, 'tag max 10 char']
+    }],
+    status: {
+        type: String,
+        default: "Open"
+
+    }
 }, {
     timestamps:
         {

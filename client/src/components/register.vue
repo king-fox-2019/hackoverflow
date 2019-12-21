@@ -47,9 +47,6 @@
 </template>
 
 <script>
-
-    // import axios from "../config/axios";
-    import axios from 'axios';
     import message from "./message";
     import logo from "./logo";
 
@@ -67,7 +64,7 @@
         },
         methods: {
             register() {
-                axios({
+                this.$axios({
                     method: 'post',
                     url: 'http://35.226.139.9/users/register',
                     data: {

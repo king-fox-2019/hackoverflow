@@ -35,7 +35,6 @@
 </template>
 
 <script>
-    import axios from "axios";
     import message from "./message";
     import router from "../router";
     import logo from "./logo";
@@ -53,9 +52,9 @@
         },
         methods: {
             login() {
-                axios({
+                this.$axios({
                     method: 'post',
-                    url: 'http://35.226.139.9/users/login',
+                    url: '/users/login',
                     data: {
                         email: this.email,
                         password: this.password

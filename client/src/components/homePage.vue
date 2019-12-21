@@ -1,6 +1,19 @@
 <template>
     <div id="homepage">
         <nav-bar/>
+        <sui-header>
+            <sui-menu compact class="sui-menu">
+                <sui-menu-item class="sui-menu">
+                    <sui-label floating
+                               pointing="below"
+                               color="blue">
+                        {{ questions.length }}
+                    </sui-label>
+                    List of Solution
+                </sui-menu-item>
+            </sui-menu>
+        </sui-header>
+        <sui-divider/>
         <sui-list divided relaxed>
             <question v-for="(q,index) in questions" :key="index" :questionData="q"/>
         </sui-list>
@@ -9,8 +22,6 @@
 
 <script>
     import question from "./question/question";
-    // import axios from "../config/axios";
-    import axios from 'axios';
     import navBar from "./header/navBar";
 
     export default {
@@ -20,11 +31,11 @@
         },
         methods: {
             fetchQuestion() {
-                axios({
+                this.$axios({
                     method: 'get',
-                    url: 'http://35.226.139.9/questions/',
+                    url: '/questions/',
                 }).then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     this.$store.dispatch('listOfQuestions', response.data.data.reverse());
                 }).catch(err => [
                     console.log(err.response)

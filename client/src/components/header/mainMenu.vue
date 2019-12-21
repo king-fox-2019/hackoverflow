@@ -27,7 +27,6 @@
 </template>
 
 <script>
-    import axios from "axios";
     import modalNewQuestion from "../question/modalNewQuestion";
 
     export default {
@@ -49,9 +48,9 @@
                     return;
                 }
 
-                axios({
+                this.$axios({
                     method: 'get',
-                    url: 'http://35.226.139.9/users/',
+                    url: '/users/',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }

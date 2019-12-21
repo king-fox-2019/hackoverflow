@@ -11,5 +11,6 @@ router.post('/login', controllerUser.login);
 router.use(checkToken);
 // get current user
 router.get('/', controllerUser.currentUser);
+router.get('/:id', controllerUser.viewUser);
 
 module.exports = router;

@@ -1,124 +1,115 @@
 <template>
     <sui-message id="message">
-        <sui-header>{{data.title}}</sui-header>
-        <small>{{ createdAt}}</small>
-        <sui-card-description>
-            {{ data.description }}
-        </sui-card-description>
-        <hr>
-        <div>
-            <a is="sui-list-description">
-                <sui-icon name="chat"/>
-                {{ dataAnswer.length }}
-                /
-                <a><sui-icon name="thumbs up outline" @click="like"/></a>
-                {{ dataUpVotes.length}}
-                /
-                <a><sui-icon name="thumbs down outline" @click="unLike"/></a>
-                {{ dataDownVotes.length }}
-            </a>
+        <div align="right">
+            <remove v-if="isRemoveable" :questionId="questionData._id"/>
         </div>
-        <sui-list divided relaxed id="list">
-            <answer v-for="answer in dataAnswer" :key="answer._id" :answer="answer"/>
+        <sui-header color="blue">{{questionData.title}}</sui-header>
+        <small>{{ createdAt}}</small>
+        <div id="detail">
+            <like-unlike :data-attributes="numOfAttributes"
+                         @click="fetchDataDetail"/>
+        </div>
+        <sui-divider/>
+        <sui-card-description id="question-description">
+            {{ questionData.description }}
+        </sui-card-description>
+        <sui-divider/>
+        <sui-list divided relaxed>
+            <answer v-for="answer in questionData.answer" :key="answer._id" :answer="answer"/>
         </sui-list>
-        <add-new-answer :answerId="data._id" @updateAnswers="fetchDataDetail"/>
+        <add-new-answer :answerId="questionData._id" @updateAnswers="fetchDataDetail"/>
     </sui-message>
 </template>
 
 <script>
-    // import axios from "../../config/axios";
-    import axios from 'axios'
-    import answer from "../answer";
+    import answer from "../answer/answer";
     import addNewAnswer from "../answer/addNewAnswer";
+    import likeUnlike from "./likeUnlikeQuestion";
+    import remove from "./remove";
 
     export default {
         name: "detailQuestion",
         data() {
             return {
                 id: String,
-                data: Object,
-                dataAnswer: [],
-                dataUpVotes: [],
-                dataDownVotes: []
+                questionData: Object,
+                userData: "",
+                user: Object,
+                numOfAttributes: {
+                    numOfAnswers: 0,
+                    numOfUpVotes: 0,
+                    numOfDownVotes: 0,
+                    user: ""
+                }
             }
         },
         methods: {
             fetchDataDetail() {
-                axios({
+                this.$axios({
                     method: 'get',
-                    url: 'http://35.226.139.9/questions/' + this.id,
+                    url: '/questions/' + this.id,
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }
                 }).then(response => {
-                    // console.log(response.data.data);
-                    this.data = response.data.data;
-                    this.dataAnswer = response.data.data.answer;
-                    this.dataUpVotes = response.data.data.upVotes;
-                    this.dataDownVotes = response.data.data.downVotes;
+                    console.log(response.data);
+                    this.questionData = response.data.data;
+                    this.numOfAttributes.numOfAnswers = response.data.numOfAnswers;
+                    this.numOfAttributes.numOfUpVotes = response.data.numOfUpVotes;
+                    this.numOfAttributes.numOfDownVotes = response.data.numOfDownVotes;
+                    this.numOfAttributes.user = response.data.data.user;
+                    this.user = response.data.data.user;
                 }).catch(err => {
                     console.log(err.response);
                 })
             },
-            like() {
-                axios({
-                    method: 'patch',
-                    url: 'http://35.226.139.9/questions/' + this.id + '/like',
+            currentUser() {
+                this.$axios({
+                    method: 'get',
+                    url: '/users/',
                     headers: {
                         Authorization: 'token ' + this.$cookies.get('token')
                     }
                 }).then(response => {
-                    // console.log(response.data.data);
-                    this.data = response.data.data;
-                    this.dataAnswer = response.data.data.answer;
-                    this.dataUpVotes = response.data.data.upVotes;
-                    this.dataDownVotes = response.data.data.downVotes;
+                    this.userData = response.data.data
                 }).catch(err => {
-                    console.log(err.response);
-                })
-            },
-            unLike() {
-                axios({
-                    method: 'patch',
-                    url: 'http://35.226.139.9/questions/' + this.id + '/unlike',
-                    headers: {
-                        Authorization: 'token ' + this.$cookies.get('token')
-                    }
-                }).then(response => {
-                    // console.log(response.data.data);
-                    this.data = response.data.data;
-                    this.dataAnswer = response.data.data.answer;
-                    this.dataUpVotes = response.data.data.upVotes;
-                    this.dataDownVotes = response.data.data.downVotes;
-                }).catch(err => {
-                    console.log(err.response);
+                    console.log(err.response)
                 })
             }
         },
         mounted() {
             this.id = this.$route.params.id;
             this.fetchDataDetail();
+            this.currentUser();
         },
         computed: {
             createdAt() {
-                let date = new Date(this.data.created_at);
+                let date = new Date(this.questionData.created_at);
                 return date.toLocaleString(
                     "en-US",
                     {timeZone: "Asia/Jakarta"}
                 );
+            },
+            isRemoveable() {
+                return this.userData._id === this.user._id
             }
         },
         components: {
             answer,
-            addNewAnswer
+            addNewAnswer,
+            likeUnlike,
+            remove
         }
     }
 </script>
 
 <style scoped>
+    #question-description {
+        background-color: white;
+        padding: 15px;
+    }
 
-    #list {
-        padding: 10px;
-        background-color: #d6e5fa !important;
+    #detail{
+        float: right;
     }
 </style>

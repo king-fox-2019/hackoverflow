@@ -123,6 +123,22 @@ class controllerUser {
         ).then(response => {
             res.status(200).json({
                 data: {
+                    _id: response._id,
+                    name: response.name,
+                    email: response.email
+                }
+            })
+        }).catch(next)
+    }
+
+    static viewUser(req, res, next){
+        user.findById(
+            req.params.id
+        ).then(response => {
+            if (!response) throw({code: 400, errmsg: "User not found"});
+            res.status(200).json({
+                data: {
+                    _id: response._id,
                     name: response.name,
                     email: response.email
                 }

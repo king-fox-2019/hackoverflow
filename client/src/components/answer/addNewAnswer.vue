@@ -17,8 +17,6 @@
 
 <script>
     import message from "../message";
-    // import axios from "../../config/axios";
-    import axios from 'axios';
 
     export default {
         name: "addNewAnswer",
@@ -35,9 +33,9 @@
         },
         methods: {
             postAnswer() {
-                axios({
+                this.$axios({
                     method: 'post',
-                    url: 'http://35.226.139.9/answers/create',
+                    url: '/answers/create',
                     data: {
                         question: this.answerId,
                         description: this.description
