@@ -40,7 +40,7 @@ class questionVoteController {
     }
 
     static totalVoteUp(req, res, next) {
-
+        
     }
 
     static totalVoteDown(req, res, next) {
