@@ -25,7 +25,7 @@ class controllerUser {
             mail(req.body.email,
                 "Confirmation Code",
                 "Please clink link below to confirm your email : \n" +
-                "http://localhost:3000/users/confirmation?id=" +
+                "http://35.226.139.9/users/confirmation?id=" +
                 response._id + "&code=" + confirmationCode);
 
             // send response to client
