@@ -6,6 +6,7 @@ class controllerQuestion {
         question.create({
             title: req.body.title,
             description: req.body.description,
+            tags: req.body.tags,
             user: req._id
         }).then(response => {
             res.status(201).json({

@@ -2,7 +2,8 @@
     <sui-form @submit.prevent="postQuestion">
         <sui-modal v-model="open">
             <sui-modal-header>
-                New Question <sui-icon name="write"/>
+                New Question
+                <sui-icon name="write"/>
             </sui-modal-header>
             <sui-modal-content>
                 <message :header="msgHeader" :message="msgMessage"
@@ -14,7 +15,8 @@
                 </sui-form-field>
                 <sui-form-field>
                     <label>Description</label>
-                    <textarea maxlength="500" v-model="description" required class="input" tranparent/>
+                    <vue-editor v-model="content"></vue-editor>
+                    <!--                    <textarea maxlength="500" v-model="description" required class="input" tranparent/>-->
                     <small>Max 500 Character</small>
                 </sui-form-field>
             </sui-modal-content>
@@ -32,7 +34,7 @@
 
 <script>
     import message from "../message";
-    import router from "../../router";
+    import {VueEditor, Quill} from 'vue2-editor'
 
     export default {
         name: "modalNewQuestion",
@@ -42,7 +44,8 @@
                 description: null,
                 msgHeader: "msgHeader",
                 msgMessage: "msgMessage",
-                msgVisible: false
+                msgVisible: false,
+                content: ""
             }
         },
         props: {
@@ -58,7 +61,7 @@
                     url: 'http://35.226.139.9/questions/create',
                     data: {
                         title: this.title,
-                        description: this.description
+                        description: this.content
                     },
                     headers: {
                         Authorization: "token " + this.$cookies.get('token')
@@ -81,7 +84,8 @@
             }
         },
         components: {
-            message
+            message,
+            VueEditor
         }
     }
 </script>

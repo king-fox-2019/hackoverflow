@@ -1,16 +1,13 @@
 const errorHandler = (err, req, res, next) => {
-    let errMsg = err.errmsg;
+    // console.log({err})
 
-    // console.log(err);
+    let errMsg = err.errmsg;
 
     if (err.name === "CastError") {
         res.status(400).json({error: err.message});
     } else if (err.name === "ValidationError"){
         res.status(400).json({error: err.message});
     } else if (err.code === 11000){
-
-        console.log(errMsg)
-
         if (/duplicate key/.test(errMsg)){
             if (/email/.test(errMsg)) {
                 errMsg = "Email already registered"
@@ -22,7 +19,6 @@ const errorHandler = (err, req, res, next) => {
                 errMsg = "Internal server error pls contact the administrator"
             }
         }
-
         res.status(400).json({error: errMsg});
     } else {
         res.status(err.code).json({error: errMsg});

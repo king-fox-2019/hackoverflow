@@ -25,7 +25,7 @@ class controllerUser {
             mail(req.body.email,
                 "Confirmation Code",
                 "Please clink link below to confirm your email : \n" +
-                "http://localhost:3000/users/confirmation?id=" +
+                "http://35.226.139.9/users/confirmation?id=" +
                 response._id + "&code=" + confirmationCode);
 
             // send response to client
@@ -117,31 +117,35 @@ class controllerUser {
         }).catch(next)
     }
 
-    static currentUser(req, res, next){
+    static currentUser(req, res, next) {
         user.findById(
             req._id
         ).then(response => {
             res.status(200).json({
-                data: {
-                    _id: response._id,
-                    name: response.name,
-                    email: response.email
-                }
+                data: response
             })
         }).catch(next)
     }
 
-    static viewUser(req, res, next){
+    static viewUser(req, res, next) {
         user.findById(
             req.params.id
         ).then(response => {
             if (!response) throw({code: 400, errmsg: "User not found"});
             res.status(200).json({
-                data: {
-                    _id: response._id,
-                    name: response.name,
-                    email: response.email
-                }
+                data: response
+            })
+        }).catch(next)
+    }
+
+    static addWatchTags(req, res, next) {
+        user.updateOne({
+            _id: req._id
+        }, {
+            watchTags: req.body.watchTags
+        }).then(response => {
+            res.status(200).json({
+                message: "Watch tags successfully added"
             })
         }).catch(next)
     }

@@ -2,8 +2,8 @@
     <sui-list-item>
         <sui-list-icon name="user" color="yellow"/>
         <sui-list-content>
-            <sui-label color="yellow" basic pointing="left">
-                <sui-list-description>
+            <sui-label basic pointing="left" color="yellow">
+                <sui-list-description class="descriptionAnswer" v-html="answer.description">
                     {{ answer.description }}
                 </sui-list-description>
             </sui-label>
@@ -27,5 +27,9 @@
 </script>
 
 <style scoped>
-
+    .descriptionAnswer{
+        padding: 5px;
+        font-size: 14px !important;
+        font-weight: normal !important;
+    }
 </style>

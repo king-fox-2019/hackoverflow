@@ -4,9 +4,10 @@
                  :visible="msgVisible" @dismiss="msgDismiss"/>
         <sui-form-field>
             <label>Answer : </label>
-            <textarea maxlength="500" v-model="description"
-                      required class="input" tranparent
-                      rows="5" cols="10"/>
+            <vue-editor v-model="content"></vue-editor>
+<!--            <textarea maxlength="500" v-model="description"-->
+<!--                      required class="input" tranparent-->
+<!--                      rows="5" cols="10"/>-->
             <small>Max 500 Character</small>
         </sui-form-field>
         <sui-form-field align="right">
@@ -17,6 +18,7 @@
 
 <script>
     import message from "../message";
+    import { VueEditor, Quill } from 'vue2-editor'
 
     export default {
         name: "addNewAnswer",
@@ -25,7 +27,8 @@
                 description: null,
                 msgHeader: null,
                 msgMessage: null,
-                msgVisible: false
+                msgVisible: false,
+                content: ""
             }
         },
         props: {
@@ -38,7 +41,7 @@
                     url: '/answers/create',
                     data: {
                         question: this.answerId,
-                        description: this.description
+                        description: this.content
                     },
                     headers: {
                         Authorization: "token " + this.$cookies.get('token')
@@ -69,7 +72,8 @@
             }
         },
         components: {
-            message
+            message,
+            VueEditor
         }
     }
 </script>

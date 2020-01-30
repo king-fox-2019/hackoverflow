@@ -13,8 +13,7 @@
                 </sui-menu-item>
             </sui-menu>
         </sui-header>
-        <sui-divider/>
-        <sui-list divided relaxed>
+        <sui-list>
             <question v-for="(q,index) in questions" :key="index" :questionData="q"/>
         </sui-list>
     </div>

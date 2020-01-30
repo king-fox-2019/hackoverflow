@@ -10,7 +10,7 @@
                          @click="fetchDataDetail"/>
         </div>
         <sui-divider/>
-        <sui-card-description id="question-description">
+        <sui-card-description id="question-description" v-html="questionData.description">
             {{ questionData.description }}
         </sui-card-description>
         <sui-divider/>

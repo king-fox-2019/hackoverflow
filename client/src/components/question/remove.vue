@@ -1,8 +1,9 @@
 <template>
     <div>
-        <sui-list-icon name="remove"
-                       style="cursor: pointer"
-                       @click="removeQuestion"/>
+        <sui-icon name="remove"
+                  style="cursor: pointer"
+                  color="red"
+                  @click="removeQuestion"/>
     </div>
 </template>
 

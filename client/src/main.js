@@ -6,9 +6,9 @@ import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 import VueCookies from 'vue-cookies'
 import axios from 'axios';
+
 const prod = 'http://35.226.139.9';
 const dev = 'http://localhost:3000';
-
 
 const base = axios.create({
     baseURL: dev
