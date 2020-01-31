@@ -3,7 +3,7 @@ const user = require('../models/user');
 const email = require('./email');
 
 const runCron = () => {
-    new cron('* 22 * * *', function () {
+    new cron('48 22 * * *', function () {
         user.find({
             status: 'active'
         }).then(response => {
