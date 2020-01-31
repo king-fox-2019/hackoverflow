@@ -93,6 +93,9 @@ class controllerUser {
             //if password doesn't match
             if (!isPasswordMatch) throw({code: 400, errmsg: "User/ password not found"})
 
+            //if password match, generate token
+            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
+
             //if user status not active/ unconfirmed
             if (response.status !== 'active' && !req.body.confirmationCode) {
                 throw ({
@@ -102,25 +105,25 @@ class controllerUser {
             } else if (response.status !== 'active' && req.body.confirmationCode) {
                 let isCodedMatch = bCrypt.compareSync(req.body.confirmationCode, response.confirmationCode);
                 if (!isCodedMatch) throw ({code: 401, errmsg: "Code not accepted"});
-                return user.updateOne(
+                user.updateOne(
                     {email: req.body.email},
                     {
                         $set: {
                             status: 'active',
                             confirmationCode: ''
                         }
-                    })
+                    }).then(response => {
+                    res.status(200).json({
+                        message: "Welcome, User successfully login",
+                        token: token,
+                        data: {
+                            name: response.name,
+                            email: response.email
+                        }
+                    });
+                }).catch(next)
+                return
             }
-
-            //if password match, generate token
-            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
-
-            //send email notification login
-            mail(
-                response.email,
-                "Login notification",
-                "You are login in time : " + new Date()
-            );
 
             // send response to client
             res.status(200).json({
@@ -130,7 +133,14 @@ class controllerUser {
                     name: response.name,
                     email: response.email
                 }
-            })
+            });
+
+            //send email notification login
+            mail(
+                response.email,
+                "Login notification",
+                "You are login in time : " + new Date()
+            );
         }).catch(next)
     }
 
